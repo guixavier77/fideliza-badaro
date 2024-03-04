@@ -4,12 +4,14 @@ import User from '../entities/user.entity';
 
 
 class UserDB extends FirestorePipe {
-	public static readonly colName = 'users';
+	public static readonly colName = 'Users';
 	constructor() {
 		super(UserDB.colName);
 	}
 	
-
+	public createCustomId(id: string,data: User): Promise<any> {
+		return this._define(id,data);
+	}
 	public create(data: User): Promise<any> {
 		return this._create(data);
 	}

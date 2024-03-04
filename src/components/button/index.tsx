@@ -6,10 +6,11 @@ interface IButtonStyled {
   bgColor?: string,
   title: string,
   onClick?: () => void
+  type?: "submit" | undefined 
 }
-const ButtonStyled = ({styles,bgColor,textColor,title,onClick}: IButtonStyled) => {
+const ButtonStyled = ({styles,bgColor,textColor,title,onClick,type}: IButtonStyled) => {
   return (
-    <button className={`${bgColor} ${styles} ${textColor} py-3 bg-black text-white rounded-xl font-semibold  `} onClick={onClick}>{title}</button>
+    <button type={type} className={`${bgColor} ${styles} ${textColor} py-3 bg-black text-white rounded-xl font-semibold  `} onClick={onClick}>{title}</button>
   )
 }
 

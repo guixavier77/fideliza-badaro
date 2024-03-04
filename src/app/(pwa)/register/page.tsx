@@ -1,84 +1,178 @@
 'use client'
 import ButtonStyled from "@/components/button";
 import InputStyled from "@/components/input";
-import Logo from "@/components/logo";
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import Loading from "@/components/loading";
+import { auth } from "@/database/firebase/config";
+import UserDB from "@/database/wrappers/user";
+import masks from "@/utils/masks/masks";
+import { ROLE } from "@/utils/types/roles";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
+
+const validate = async (values: any) => {
+  const unmaskCpf = values.cpf.replace(/\D/g, "")
+  const errors: any = {};
+  if (!values.cpf) {
+    errors.cpf = 'Este campo é necessário';
+  } else if (values.cpf.length < 14) {
+    errors.cpf = 'Informe o cpf completo';
+  } else if (!masks.validaCpf(unmaskCpf)) {
+    errors.cpf = 'CPF inválido';
+  }
+  return errors;
+}
 
 
 export default function Login() {
+  const router = useRouter();
+  const [loading, setloading] = useState(false);
+  const [sucessRegister, setsucessRegister] = useState(false);
+  const formik = useFormik({
+    initialValues: {
+      cpf: '',
+      name: '',
+      email: '',
+      phone: '',
+      birthDate: '',
+      password: '',
+      confirmPassword: '',
+      role: ROLE.CUSTOMER
+    },
+    validate,
+    onSubmit: async (values) => {
+      setloading(true);
+      const data = {
+        name: values.name,
+        cpf: masks.unmask(values.cpf),
+        email: values.email,
+        phone: values.phone,
+        birthDate: values.birthDate,
+        role: values.role
+      }
+      try {
+        const emailExists = await fetchSignInMethodsForEmail(auth, values.email);
+        if (emailExists.length > 0) {
+          return;
+        }
+        const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+        const user = userCredential.user;
+        if (user) {
+          await new UserDB().createCustomId(user.uid, data).then(() => console.log('')).catch((e) => console.log(e)).finally(() => setloading(false))
+        }
 
 
-  const handleLogin = () => {
-    console.log('USE')
-  }
+      } catch (error) {
+        console.error('Erro ao registrar usuário:', error);
+        setsucessRegister(false)
+      }
+
+
+    }
+  })
   return (
-    <main className="w-screen flex flex-col justify-evenly relative ">
-      <button className="absolute top-0 left-0"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: '#C90B0B' }} /> </button>
-      <div className="mt-4">
+    <main className="w-screen flex flex-col  relative ">
+      {loading && <Loading text='Carregando...' />}
 
-        <Logo />
-      </div>
-      <div className="flex flex-col gap-5">
-        <InputStyled
-          label="Nome"
-          type="text"
-          placeholder="Exemplo"
-          icon={<PersonOutlineOutlinedIcon style={{ color: '#C90B0B' }} />}
-        />
-        <InputStyled
-          label="E-mail"
-          type="text"
-          placeholder="exemplo@gmail.com"
-          icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
-        />
+      {!loading && <>
+        <button className="absolute top-0 left-0"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: '#C90B0B' }} onClick={() => router.push('/login')} /> </button>
+        <div className="text-center mt-5 pt-5">
+          <PersonOutlineOutlinedIcon />
+          <p className="font-bold uppercase text-lg">Cadastro</p>
+        </div>
+        <form className="flex flex-col " onSubmit={formik.handleSubmit}>
+          <div className="flex flex-col gap-2">
+            <InputStyled
+              id="cpf"
+              onChange={formik.handleChange}
+              value={masks.cpfMask(formik.values.cpf)}
+              label="CPF"
+              type="tel"
+              placeholder="000.000.000-00"
+              icon={<ArticleOutlinedIcon style={{ color: '#C90B0B' }} />}
+            />
+            <InputStyled
+              id="name"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              label="Nome"
+              type="text"
+              placeholder="Exemplo"
+              icon={<PersonOutlineOutlinedIcon style={{ color: '#C90B0B' }} />}
+            />
+            <InputStyled
+              id="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              label="E-mail"
+              type="text"
+              placeholder="exemplo@gmail.com"
+              icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
+            />
 
-        <InputStyled
-          label="Telefone"
-          type="text"
-          placeholder="(00) 00000-0000"
-          icon={<LocalPhoneOutlinedIcon style={{ color: '#C90B0B' }} />}
-        />
+            <InputStyled
+              id="phone"
+              value={masks.phoneMask(formik.values.phone)}
+              onChange={formik.handleChange}
+              label="Telefone"
+              type="text"
+              placeholder="(00) 00000-0000"
+              icon={<LocalPhoneOutlinedIcon style={{ color: '#C90B0B' }} />}
+            />
 
-        <InputStyled
-          label="Data de Nascimento"
-          type="text"
-          placeholder="DD/MM/YYYY"
-          icon={<CalendarMonthOutlinedIcon style={{ color: '#C90B0B' }} />}
-        />
+            <InputStyled
+              id="birthDate"
+              value={masks.dateMask(formik.values.birthDate)}
+              onChange={formik.handleChange}
+              label="Data de Nascimento"
+              type="tel"
+              placeholder="DD/MM/YYYY"
+              icon={<CalendarMonthOutlinedIcon style={{ color: '#C90B0B' }} />}
+            />
 
-        <InputStyled
-          label="Senha"
-          type="password"
-          placeholder="***********"
-          icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
-        />
+            <InputStyled
+              id="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
 
-        <InputStyled
-          label="Senha"
-          type="password"
-          placeholder="***********"
-          icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
-        />
+              label="Senha"
+              type="password"
+              placeholder="***********"
+              icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
+            />
+
+          </div>
+
+          <div className="mt-5 py-5">
+            <ButtonStyled
+              type="submit"
+              styles="w-full"
+              bgColor='bg-red'
+              title="Cadastrar"
+            />
+
+          </div>
 
 
-      </div>
 
 
-      <div className="flex flex-col gap-4 ">
-        <ButtonStyled
-          onClick={handleLogin}
-          styles="w-full"
-          bgColor='bg-red'
-          title="Cadastrar"
-        />
 
-      </div>
+
+        </form>
+
+      </>}
+
+
     </main>
   )
 }
