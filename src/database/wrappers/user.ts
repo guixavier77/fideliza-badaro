@@ -1,4 +1,4 @@
-import { QueryConstraint, Unsubscribe, where, query, getDocs } from 'firebase/firestore';
+import { QueryConstraint, Unsubscribe, where, query, getDocs, limit } from 'firebase/firestore';
 import FirestorePipe from '../utils/pipe';
 import User from '../entities/user.entity';
 
@@ -8,9 +8,10 @@ class UserDB extends FirestorePipe {
 	constructor() {
 		super(UserDB.colName);
 	}
-	
-	public createCustomId(id: string,data: User): Promise<any> {
-		return this._define(id,data);
+
+
+	public createCustomId(id: string, data: User): Promise<any> {
+		return this._define(id, data);
 	}
 	public create(data: User): Promise<any> {
 		return this._create(data);

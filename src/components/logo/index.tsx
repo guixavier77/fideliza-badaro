@@ -1,11 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-const Logo = () => {
+const Logo = ({ type, styles }: any) => {
+
+  const textColorClass = type === 'white' ? 'text-white' : 'text-black';
+  const className = `text-4xl font-bold text-center ${textColorClass} ${styles}`;
   return (
     <div>
-      <h1 className='text-black text-4xl font-bold text-center '>Fideliza<span className='text-red'>Badaro</span></h1>
+      <h1 className={className}>
+        Fideliza<span className="text-red">Badaro</span>
+      </h1>
     </div>
-  )
-}
+  );
+};
 
-export default Logo
+export default Logo;

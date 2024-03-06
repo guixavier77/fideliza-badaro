@@ -7,6 +7,12 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    borderRadius: {
+      '40': '40px',
+      'full': '100%',
+      '20': '20px',
+      'xl': '12px',
+    },
     screens: {
       d: '1140px',
       t: { min: '768px', max: '1139px' },
@@ -17,8 +23,11 @@ const config: Config = {
       red: '#C90B0B',
       black: '#1D1D1D',
       gray: '#D9D9D9',
-      darkGray: '#6D6D6D'
-    }
+      darkGray: '#6D6D6D',
+      light: '#EDEDED',
+      yellow: '#FFE500'
+    },
+    
 
   },
   plugins: [],

@@ -34,7 +34,7 @@ const validate = async (values: any) => {
 }
 
 
-export default function Login() {
+export default function Register() {
   const router = useRouter();
   const [loading, setloading] = useState(false);
   const [sucessRegister, setsucessRegister] = useState(false);
@@ -68,7 +68,7 @@ export default function Login() {
         const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
         const user = userCredential.user;
         if (user) {
-          await new UserDB().createCustomId(user.uid, data).then(() => console.log('')).catch((e) => console.log(e)).finally(() => setloading(false))
+          await new UserDB().createCustomId(user.uid, data).then(() => router.push('/login')).catch((e) => console.log(e)).finally(() => setloading(false))
         }
 
 
@@ -81,11 +81,11 @@ export default function Login() {
     }
   })
   return (
-    <main className="w-screen flex flex-col  relative ">
+    <main className="w-screen flex flex-col p-4 relative ">
       {loading && <Loading text='Carregando...' />}
 
       {!loading && <>
-        <button className="absolute top-0 left-0"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: '#C90B0B' }} onClick={() => router.push('/login')} /> </button>
+        <button className="absolute top-2 left-2"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: '#C90B0B' }} onClick={() => router.push('/login')} /> </button>
         <div className="text-center mt-5 pt-5">
           <PersonOutlineOutlinedIcon />
           <p className="font-bold uppercase text-lg">Cadastro</p>
@@ -144,7 +144,6 @@ export default function Login() {
               id="password"
               value={formik.values.password}
               onChange={formik.handleChange}
-
               label="Senha"
               type="password"
               placeholder="***********"

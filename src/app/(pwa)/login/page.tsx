@@ -3,19 +3,20 @@ import ButtonStyled from "@/components/button";
 import InputStyled from "@/components/input";
 import Loading from "@/components/loading";
 import Logo from "@/components/logo";
-import { app, auth } from "@/database/firebase/config";
-import UserDB from "@/database/wrappers/user";
+import { auth } from "@/database/firebase/config";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useFormik } from "formik";
-import email from "next-auth/providers/email";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
 
-export default function Register() {
+export default function Login() {
+  const {data} = useSession();
+  console.log(data);
   const router = useRouter();
   const [loading, setloading] = useState(false);
   const formik = useFormik({
@@ -28,7 +29,11 @@ export default function Register() {
       console.log(values);
 
       try {
-        signInWithEmailAndPassword(auth, values.email, values.password)
+        signIn('credentials', { 
+            email: values.email, 
+            password: values.password,
+            redirect: false,
+          })
           .then(() => {
             router.push('/home')
           })
@@ -46,7 +51,7 @@ export default function Register() {
     }
   })
   return (
-    <form onSubmit={formik.handleSubmit} className="w-screen flex flex-col justify-evenly ">
+    <form onSubmit={formik.handleSubmit} className="w-screen flex flex-col justify-evenly p-4 h-screen ">
       {loading && <Loading text="Autenticando..." />}
       {!loading && <>
         <div>
@@ -59,7 +64,6 @@ export default function Register() {
               id="email"
               value={formik.values.email}
               onChange={formik.handleChange}
-
               label="E-mail"
               type="text"
               placeholder="exemplo@gmail.com"
@@ -76,7 +80,7 @@ export default function Register() {
               icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
             />
           </div>
-          <button className="text-end mt-2 text-black font-bold text-sm" onClick={() => router.push('/accountRecovery')}>Esqueci minha senha</button>
+          <button  type="button"  className="text-end mt-2 text-black font-bold text-sm" onClick={() => router.push('/accountRecovery')}>Esqueci minha senha</button>
         </div>
         <div className="flex flex-col gap-4 ">
           <ButtonStyled
@@ -85,8 +89,9 @@ export default function Register() {
             bgColor='bg-red'
             title="Entrar"
           />
+          
           <ButtonStyled
-            type={undefined}
+            type="button"
             onClick={() => router.push('/register')}
             styles="w-full"
             title="Cadastre-se"

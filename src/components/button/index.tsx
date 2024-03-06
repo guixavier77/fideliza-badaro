@@ -6,7 +6,7 @@ interface IButtonStyled {
   bgColor?: string,
   title: string,
   onClick?: () => void
-  type?: "submit" | undefined 
+  type: "submit" | "button" | undefined
 }
 const ButtonStyled = ({styles,bgColor,textColor,title,onClick,type}: IButtonStyled) => {
   return (

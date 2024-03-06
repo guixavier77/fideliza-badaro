@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer components {
   .center {
-    @apply container mx-auto max-w-[390px] h-screen p-4 flex overflow-hidden   ;
+    @apply mx-auto h-screen flex overflow-hidden max-w-[400px];
   }
 }
