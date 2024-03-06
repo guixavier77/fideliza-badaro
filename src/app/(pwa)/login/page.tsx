@@ -54,7 +54,7 @@ export default function Login() {
 
   console.log(error);
   return (
-    <form onSubmit={formik.handleSubmit} className="w-screen flex flex-col justify-evenly p-4 h-screen ">
+    <form onSubmit={formik.handleSubmit} className="w-screen flex flex-col justify-evenly p-4 h-screen  ">
       {loading && <Loading text="Autenticando..." />}
       {!loading && <>
         <div>

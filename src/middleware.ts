@@ -12,9 +12,11 @@ export default function middleware(request: NextRequest) {
       return NextResponse.redirect(signInURL)
     }
   }
-  if(token && request.nextUrl.pathname === '/'){
+  if(request.nextUrl.pathname === '/'){
     return NextResponse.redirect(homeURL)
-
+  }
+  if(request.nextUrl.pathname === '/register'){
+    return NextResponse.redirect(homeURL)
   }
 }
 export const config = {
