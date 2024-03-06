@@ -1,9 +1,15 @@
 import React from 'react'
 import Logo from '../logo'
-import PersonIcon from '@mui/icons-material/Person';
-import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 const HeaderHome = () => {
+  const router = useRouter();
+  const handleLogout = () => {
+    router.push('/login')
+    signOut();
+  }
   return (
     <div className='bg-black h-32 w-screen px-6 py-2 '>
       <div className='flex justify-between items-center'>
@@ -12,8 +18,8 @@ const HeaderHome = () => {
           <p className='text-white font-bold '>Olá, <span className='font-extralight'>Guilherme</span></p>
         </div>
 
-        <button>
-          <PersonOutlineOutlined style={{ color: '#FFFFFF', fontSize: 48 }} />
+        <button onClick={handleLogout}>
+          <LogoutOutlinedIcon style={{ color: '#FFFFFF', fontSize: 48, rotate: '180deg' }} />
         </button>
 
       </div>

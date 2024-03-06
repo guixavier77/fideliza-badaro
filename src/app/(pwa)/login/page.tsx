@@ -15,41 +15,44 @@ import { useState } from "react";
 
 
 export default function Login() {
-  const {data} = useSession();
-  console.log(data);
+  const { data } = useSession();
   const router = useRouter();
   const [loading, setloading] = useState(false);
+  const [error, setError] = useState('');
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     onSubmit: async (values) => {
+
       setloading(true);
       console.log(values);
 
       try {
-        signIn('credentials', { 
-            email: values.email, 
-            password: values.password,
-            redirect: false,
-          })
-          .then(() => {
+        signIn('credentials', {
+          email: values.email,
+          password: values.password,
+          redirect: false,
+        })
+          .then((e) => {
+            console.log(e, 'AQUI FEZ LOGIN');
             router.push('/home')
           })
-          .catch(error => console.log(error))
+          .catch((error) => {
+            setError('Opa, algo está errado, tente novamente.')
+          })
           .finally(() => {
             setloading(false);
           })
-
-
       } catch (error) {
+        setError('Opa, algo está errado, tente novamente.')
         console.error(error);
       }
-
-
     }
   })
+
+  console.log(error);
   return (
     <form onSubmit={formik.handleSubmit} className="w-screen flex flex-col justify-evenly p-4 h-screen ">
       {loading && <Loading text="Autenticando..." />}
@@ -80,7 +83,10 @@ export default function Login() {
               icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
             />
           </div>
-          <button  type="button"  className="text-end mt-2 text-black font-bold text-sm" onClick={() => router.push('/accountRecovery')}>Esqueci minha senha</button>
+          <button type="button" className="text-end mt-2 text-black font-bold text-sm" onClick={() => router.push('/accountRecovery')}>Esqueci minha senha</button>
+
+
+          {error && <p className="text-center text-red font-semibold">{error}</p>}
         </div>
         <div className="flex flex-col gap-4 ">
           <ButtonStyled
@@ -89,7 +95,7 @@ export default function Login() {
             bgColor='bg-red'
             title="Entrar"
           />
-          
+
           <ButtonStyled
             type="button"
             onClick={() => router.push('/register')}

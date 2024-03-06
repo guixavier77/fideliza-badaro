@@ -5,6 +5,7 @@ import {auth} from '../../../../database/firebase/config'
 import UserDB from "@/database/wrappers/user";
 const { admin } = require('../../../../database/firebase/admin');
 const authAdmin = admin.auth();
+import Cookie from 'js-cookie'
 
 interface Credentials {
 	email: string;
@@ -37,9 +38,7 @@ const handler = NextAuth({
 				password: { label: "password", type: "password" },
 			},
 			async authorize(credentials, req) {
-				console.log(credentials, ' credenciais aqui')
 				const { email, password } = credentials as Credentials
-				console.log(email, ' TA AQAUI')
 				try {
 					const { user } = await signInWithEmailAndPassword(auth, email, password);
 					if (!user) return null;
@@ -86,8 +85,6 @@ const handler = NextAuth({
 				console.log(user);
 				try {
 					const userDoc = await new UserDB().get(user.id);
-
-
 					if (userDoc) {
 						token.user = userDoc;
 						user = userDoc;
@@ -103,7 +100,7 @@ const handler = NextAuth({
 	},
 	pages: {
 		signIn: "/login",
-		error: "/",
+		error: "/login",
 		// error: "/auth-pages/sign-up",
 	},
 
