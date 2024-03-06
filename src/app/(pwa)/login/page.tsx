@@ -25,29 +25,29 @@ export default function Login() {
       password: '',
     },
     onSubmit: async (values) => {
-
+      setError('');
       setloading(true);
       console.log(values);
 
-      try {
-        signIn('credentials', {
+      if (values.email && values.password) {
+        console.log('CAIU AQ')
+        const res = await signIn('credentials', {
           email: values.email,
           password: values.password,
           redirect: false,
-        })
-          .then((e) => {
-            console.log(e, 'AQUI FEZ LOGIN');
-            router.push('/home')
-          })
-          .catch((error) => {
-            setError('Opa, algo está errado, tente novamente.')
-          })
-          .finally(() => {
-            setloading(false);
-          })
-      } catch (error) {
-        setError('Opa, algo está errado, tente novamente.')
-        console.error(error);
+        });
+        console.log(res);
+        if (res?.ok) {
+          setloading(false);
+          router.push('/home');
+        } else {
+          setloading(false);
+          console.log('resposta login: ', res);
+          setError('Opa, algo está errado, tente novamente.');
+
+        }
+      } else {
+        setError('Email e senha precisam ser preenchidos.');
       }
     }
   })
@@ -83,10 +83,10 @@ export default function Login() {
               icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
             />
           </div>
+          {error && <p className="text-center text-red font-semibold text-sm">{error}</p>}
           <button type="button" className="text-end mt-2 text-black font-bold text-sm" onClick={() => router.push('/accountRecovery')}>Esqueci minha senha</button>
 
 
-          {error && <p className="text-center text-red font-semibold">{error}</p>}
         </div>
         <div className="flex flex-col gap-4 ">
           <ButtonStyled
