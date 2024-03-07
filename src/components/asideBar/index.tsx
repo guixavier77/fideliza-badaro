@@ -9,6 +9,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { TABS_DASH } from '@/utils/types/tabs';
 import { useTab } from '@/contexts/tabContext';
+import { DefaultContext } from '@/contexts/defaultContext';
+import style from 'styled-jsx/style';
 
 const tabs = [
   {
@@ -46,13 +48,14 @@ const tabs = [
 ]
 
 const AsideBar = () => {
+  const { user } = useContext(DefaultContext)
   const { tabDashSelected, setTabDashSelected } = useTab();
-  console.log(tabDashSelected)
+
 
   return (
-    <div className='bg-black h-screen w-[200px]'>
+    <div className='bg-black h-screen pt-7 flex flex-col justify-between shadow-xl col-start-1 col-end-3 row-start-1 row-end-13 '> 
       <div>
-        <h1 className=' flex flex-col text-4xl font-bold text-center text-white  leading-5 py-5 '>
+        <h1 className=' flex flex-col text-4xl font-bold text-center text-white  leading-5 '>
           Fideliza<span className="text-red text-3xl ">Badaro</span>
         </h1>
         <div className='flex px-4 justify-center flex-col py-5 mt-5'>
@@ -72,6 +75,23 @@ const AsideBar = () => {
             </button>
           ))}
 
+        </div>
+
+      </div>
+
+
+      <div className='p-3  flex flex-row items-center gap-2 self-start '>
+        <div className='bg-red w-12 h-12 rounded-full flex justify-center items-center'>
+
+          <PersonIcon style={{
+            fontSize: 36,
+            color: '#FFFFFF',
+          }} />
+        </div>
+
+        <div>
+          <p className='text-white font-bold text-sm'>{user?.name}</p>
+          <p className='text-white font-light text-sm'>Administrador</p>
         </div>
 
       </div>

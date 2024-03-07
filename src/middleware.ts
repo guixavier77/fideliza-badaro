@@ -11,6 +11,9 @@ export default function middleware(request: NextRequest) {
     if (request.nextUrl.pathname === '/home') {
       return NextResponse.redirect(signInURL)
     }
+    // if (request.nextUrl.pathname === '/dashboard') {
+    //   return NextResponse.redirect(signInURL)
+    // }
   }
   if(request.nextUrl.pathname === '/'){
     return NextResponse.redirect(homeURL)
@@ -20,5 +23,5 @@ export default function middleware(request: NextRequest) {
   }
 }
 export const config = {
-  matcher: ['/','/home', '/dashboard/:path*']
+  matcher: ['/','/home', '/dashboard']
 }
