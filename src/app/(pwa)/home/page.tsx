@@ -1,15 +1,13 @@
 'use client'
-import PointsAnimation from '@/components/animations/points'
-import BottomNavigation from '@/components/bottonNavigation'
-import HeaderHome from '@/components/headerHome'
-import HomeContent from '@/components/content/HomeContent'
+import BottomNavigation from '@/components/AppComponents/bottonNavigation'
+import HistoryContent from '@/components/AppComponents/content/HistoryContent'
+import HomeContent from '@/components/AppComponents/content/HomeContent'
+import ProfileContent from '@/components/AppComponents/content/ProfileContent'
+import QrCodeContent from '@/components/AppComponents/content/QrCodeContent'
+import WalletContent from '@/components/AppComponents/content/WalletContent'
+import HeaderHome from '@/components/AppComponents/headerHome'
 import { useTab } from '@/contexts/tabContext'
 import { TABS } from '@/utils/types/tabs'
-import React from 'react'
-import WalletContent from '@/components/content/WalletContent'
-import QrCodeContent from '@/components/content/QrCodeContent'
-import HistoryContent from '@/components/content/HistoryContent'
-import ProfileContent from '@/components/content/ProfileContent'
 
 const Home = () => {
   const { tabSelected } = useTab();

@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from '../logo'
+import Logo from '../../logo'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
@@ -18,7 +18,7 @@ const HeaderHome = () => {
           <p className='text-white font-bold '>Olá, <span className='font-extralight'>Guilherme</span></p>
         </div>
 
-        <button onClick={handleLogout}>
+        <button onClick={handleLogout} className=''>
           <LogoutOutlinedIcon style={{ color: '#FFFFFF', fontSize: 48, rotate: '180deg' }} />
         </button>
 

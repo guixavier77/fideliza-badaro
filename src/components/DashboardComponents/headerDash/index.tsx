@@ -10,7 +10,7 @@ const HeaderDash = () => {
 
       <h1 className='text-white font-bold text-4xl '>{TABS_DASH_PTBR[tabDashSelected]}</h1>
 
-      <p >SAIR</p>
+     
     </div>
   )
 }

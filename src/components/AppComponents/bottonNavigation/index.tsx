@@ -7,6 +7,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import { TABS } from '@/utils/types/tabs';
 import { useTab } from '@/contexts/tabContext';
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 
 const styleIcons = {
   fontSize: 48,
@@ -27,7 +28,7 @@ const tabs = [
   },
   {
     name: 'QR Code',
-    icon: <QrCodeIcon style={styleIcons} />,
+    icon: <QrCodeScannerIcon style={styleIcons} />,
     value: TABS.QRCODE,
 
   },
@@ -52,8 +53,8 @@ const BottomNavigation = () => {
     <div className='w-screen h-20 bg-white z-10 absolute bottom-0 shadow-lg'>
       <div className='flex h-full items-center justify-between px-4'>
         {tabs.map((tab, index) => (
-          <button key={index} className={`${tabSelected === tab.value ? 'mb-4' : ''} flex items-center flex-col`} onClick={() => setTabSelected(tab.value)}>
-            <div className={`${tabSelected === tab.value ? 'bg-red rounded-full w-16 h-16 flex justify-center items-center' : ''}`}>
+          <button key={index} className={`${tabSelected === tab.value ? 'mb-4' : ''} flex items-center flex-col `} onClick={() => setTabSelected(tab.value)}>
+            <div className={`${tabSelected === tab.value ? 'bg-red rounded-full w-16 h-16 flex justify-center items-center' : ''} transition-colors duration-300 ease-in`}>
               {React.cloneElement(tab.icon, {
                 style: {
                   fontSize: 48, 

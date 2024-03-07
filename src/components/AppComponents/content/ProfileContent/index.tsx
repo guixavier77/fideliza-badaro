@@ -11,9 +11,7 @@ import { useSession } from 'next-auth/react';
 import React, { useContext, useEffect } from 'react';
 
 const ProfileContent = ({ hidden }: any) => {
-  ;
   const { user } = useContext(DefaultContext);
-  console.log(user);
   const stylesInput = 'bg-white border-none shadow-sm py-3'
   useEffect(() => {
     formik.setValues({

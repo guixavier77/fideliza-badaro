@@ -38,12 +38,12 @@ export default function Login() {
         });
         console.log(res);
         if (res?.ok) {
-          setloading(false);
           router.push('/home');
-        } else {
           setloading(false);
+        } else {
           console.log('resposta login: ', res);
           setError('Opa, algo está errado, tente novamente.');
+          setloading(false);
 
         }
       } else {

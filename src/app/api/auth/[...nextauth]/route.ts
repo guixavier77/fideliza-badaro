@@ -1,11 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { SessionOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import {auth} from '../../../../database/firebase/config'
+import { auth } from '../../../../database/firebase/config'
 import UserDB from "@/database/wrappers/user";
 const { admin } = require('../../../../database/firebase/admin');
 const authAdmin = admin.auth();
-import Cookie from 'js-cookie'
+
 
 interface Credentials {
 	email: string;
@@ -52,20 +52,17 @@ const handler = NextAuth({
 		})
 	],
 	session: {
-		secret: 'segredo4321', //process.env.NEXTAUTH_SECRET,
+		secret: process.env.NEXTAUTH_SECRET,
 		jwt: true,
-    maxAge: 30 * 24 * 60 * 60, 
-  },
+		maxAge: 30 * 24 * 60 * 60,
+	} as Partial<SessionOptions>,
 
 
 	callbacks: {
 		async signIn({ user, account, profile }: any) {
 			try {
-				// Verificar se o usuário já existe no Firebase Authentication
-				console.log('CAI AQUI')
 				const userRecord = await authAdmin.getUserByEmail(user.email);
 				if (userRecord) {
-					// console.log('Usuário já existe no Firebase Authentication');
 					return true;
 				} else {
 					return false;
@@ -77,7 +74,6 @@ const handler = NextAuth({
 		},
 		async session({ session, token, user }: any) {
 			session.token = token;
-
 			return session
 		},
 		async jwt({ token, user, profile, account }: any) {

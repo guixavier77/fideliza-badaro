@@ -9,8 +9,6 @@ export const DefaultContext = createContext<DefaultContextInterface>({} as any)
 export default function DefaultProvider({ children }: any) {
   const { data: session } = useSession();
   let userSession: any = session;
-
-  console.log(userSession);
   const [user, setuser] = useState<any>(null);
 
   useEffect(() => {

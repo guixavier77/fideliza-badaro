@@ -1,6 +1,6 @@
 'use client'
 import React, { useContext } from 'react'
-import Logo from '../logo'
+import Logo from '../../logo'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonIcon from '@mui/icons-material/Person';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -53,7 +53,7 @@ const AsideBar = () => {
 
 
   return (
-    <div className='bg-black h-screen pt-7 flex flex-col justify-between shadow-xl col-start-1 col-end-3 row-start-1 row-end-13 '> 
+    <div className='bg-black h-screen pt-7 flex flex-col justify-between shadow-xl col-start-1 col-end-3 row-start-1 row-end-13 '>
       <div>
         <h1 className=' flex flex-col text-4xl font-bold text-center text-white  leading-5 '>
           Fideliza<span className="text-red text-3xl ">Badaro</span>

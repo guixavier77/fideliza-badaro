@@ -1,5 +1,4 @@
-import React from 'react'
-import PointsAnimation from '../../animations/points'
+import PointsAnimation from '../../../animations/points'
 
 const HomeContent = ({hidden}) => {
   return (

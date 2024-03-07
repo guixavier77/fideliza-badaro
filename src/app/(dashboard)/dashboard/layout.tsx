@@ -1,11 +1,12 @@
-import AsideBar from '@/components/asideBar'
+
+import AsideBar from '@/components/DashboardComponents/asideBar'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-
-import './globals.css'
+import ContentDash from '@/components/DashboardComponents/contentDash'
+import FooterDash from '@/components/DashboardComponents/footerDash'
+import HeaderDash from '@/components/DashboardComponents/headerDash'
 import { Providers } from '@/contexts/providers/provider'
-import HeaderDash from '@/components/headerDash'
-import FooterDash from '@/components/footerDash'
+import './globals.css'
 
 
 
@@ -20,18 +21,17 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
+  
 }) {
   return (
     <html lang="en">
       <body className={`${inter.className} w-screen h-screen overflow-hidden  grid grid-cols-12 grid-rows-12`}>
         <Providers>
-          <HeaderDash/>
+          <HeaderDash />
           <AsideBar />
-          <FooterDash/>
+          <FooterDash />
+          <ContentDash />
 
-          <div className='col-start-4 col-end-13 row-start-2 row-end-13'>
-
-          </div>
 
           {children}
         </Providers>
