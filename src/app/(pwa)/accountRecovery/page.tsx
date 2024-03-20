@@ -23,6 +23,7 @@ export default function AccountRecovery() {
     onSubmit: async (values) => {
       setloading(true);
 
+      console.log(values);
       try {
         sendPasswordResetEmail(auth, values.email)
           .then(() => console.log('kk'))

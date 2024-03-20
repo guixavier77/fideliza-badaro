@@ -1,7 +1,9 @@
 import React from 'react'
-import GroupIcon from '@mui/icons-material/Group';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import GraphicDash from '../components/GraphicDash';
 const DashboardContent = ({ hidden }: any) => {
-  console.log(hidden, 'aqui')
   const CardDash = ({ icon, title, value }: any) => {
     return (
       <div className='bg-black py-4 flex rounded-20 px-6 w-64'>
@@ -23,9 +25,13 @@ const DashboardContent = ({ hidden }: any) => {
   return (
     <div hidden={hidden}>
       <div className='flex  justify-between '>
-        <CardDash title="Clientes" value="390" icon={<GroupIcon />} />
-        <CardDash title="Resgates" value="390" icon={<GroupIcon />} />
-        <CardDash title="Pontos" value="390" icon={<GroupIcon />} />
+        <CardDash title="Clientes" value="390" icon={<PeopleOutlineIcon />} />
+        <CardDash title="Resgates" value="390" icon={<CardGiftcardIcon />} />
+        <CardDash title="Pontos" value="390" icon={<MonetizationOnOutlinedIcon />} />
+      </div>
+
+      <div>
+        <GraphicDash/>
       </div>
     </div>
   )

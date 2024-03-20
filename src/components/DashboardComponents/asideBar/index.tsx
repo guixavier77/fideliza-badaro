@@ -10,7 +10,7 @@ import QrCodeIcon from '@mui/icons-material/QrCode';
 import { TABS_DASH } from '@/utils/types/tabs';
 import { useTab } from '@/contexts/tabContext';
 import { DefaultContext } from '@/contexts/defaultContext';
-import style from 'styled-jsx/style';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 
 const tabs = [
   {
@@ -23,6 +23,11 @@ const tabs = [
     icon: <PersonIcon />,
     value: TABS_DASH.USERS,
 
+  },
+  {
+    name: 'Prêmios',
+    icon: <CardGiftcardIcon />,
+    value: TABS_DASH.PROMOTIONS,
   },
   {
     name: 'Promoções',
@@ -43,8 +48,8 @@ const tabs = [
     name: 'QR Code',
     icon: <QrCodeIcon />,
     value: TABS_DASH.QRCODE
-
-  }
+  },
+ 
 ]
 
 const AsideBar = () => {
