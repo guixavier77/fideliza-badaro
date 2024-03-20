@@ -1,9 +1,12 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import Add from '@mui/icons-material/Add';
 import ModalUsers from '../../modals/ModalUsers';
 import CardUser from '../../cardUser';
 import { Alert } from '@mui/material';
+import UserDB from '@/database/wrappers/user';
+import { orderBy } from 'firebase/firestore';
+import User from '@/database/entities/user.entity';
 
 const TABS = [
   {
@@ -23,10 +26,34 @@ const TABS = [
 const UsersContent = ({ hidden }: any) => {
   const [tab, setTab] = useState('all');
   const [openUsers, setopenUsers] = useState(false);
+  const [users, setUsers] = useState<User[]>([])
+  const [usersFilter, setUsersFilter] = useState<User[]>([])
+
+  useEffect(() => {
+    const onSubscribe = new UserDB().on(setUsers, orderBy('name', 'asc'));
+    return () => {
+      onSubscribe();
+    };
+  }, [hidden])
+
+
+  useEffect(() => {
+    if (tab === 'all') {
+      setUsersFilter(users);
+    } else if (tab === 'active') {
+      setUsersFilter(users.filter(user => user.status));
+    } else {
+      setUsersFilter(users.filter(user => !user.status));
+
+    }
+  }, [users, tab])
+
+
+
+
   const onPressItem = (item: any) => {
     setTab(item);
   }
-
   const handleOpenUsers = useCallback(() => {
     setopenUsers(true);
   }, []);
@@ -50,8 +77,12 @@ const UsersContent = ({ hidden }: any) => {
         </button>
       </div>
 
-      <div className='mt-10'>
-        <CardUser />
+      <div className='mt-10 flex flex-col gap-4'>
+        {usersFilter.map((user) =>
+          <>
+            <CardUser user={user} />
+          </>
+        )}
       </div>
 
       <ModalUsers

@@ -8,7 +8,7 @@ import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Modal } from '@mui/material';
 import { useFormik } from 'formik';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import SelectStyled from '@/components/select';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import api from '@/services/api';
@@ -27,6 +27,7 @@ const functions = [
 ]
 
 const ModalUsers = ({ open, setIsClose, usersData }: any) => {
+  const [loading, setloading] = useState(false);
 
   const options = useMemo(() => functions.map(item => ({ value: item.value, text: item.name })), [functions])
 
@@ -37,13 +38,15 @@ const ModalUsers = ({ open, setIsClose, usersData }: any) => {
       name: '',
       email: '',
       password: '',
-      role: ROLE.CASHIER
+      role: ROLE.CASHIER,
+      active: true,
     },
     onSubmit: async (values) => {
-
-      api.post('users', values).then((e) => console.log(e)).catch((e) => console.log(e));
-
-
+      setloading(true);
+      api.post('users', values).then().catch((e) => console.log(e)).finally(() => {
+        setloading(false)
+        setIsClose();
+      });
     }
   })
   return (
@@ -112,6 +115,7 @@ const ModalUsers = ({ open, setIsClose, usersData }: any) => {
               title="Cancelar"
             />
 
+  
             <ButtonStyled
               type="submit"
               styles="w-full"

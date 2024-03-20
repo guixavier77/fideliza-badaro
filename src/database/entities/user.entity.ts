@@ -8,6 +8,7 @@ export default interface User extends DefaultEntityType {
   email: string,
   birthDate: string,
   role: 'admin' | 'customer',
-  password: string 
+  password: string,
+  status: boolean,
 
 }
