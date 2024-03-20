@@ -11,7 +11,6 @@ import QrCodeContent from './QrCode'
 
 const ContentDash = () => {
   const {tabDashSelected} = useTab();
-  console.log(tabDashSelected !== TABS_DASH.DASH)
   return (
     <div  className='col-start-4 col-end-12 row-start-2 row-end-13 mt-14 '>
 

@@ -24,11 +24,11 @@ const tabs = [
     value: TABS_DASH.USERS,
 
   },
-  {
-    name: 'Prêmios',
-    icon: <CardGiftcardIcon />,
-    value: TABS_DASH.PROMOTIONS,
-  },
+  // {
+  //   name: 'Prêmios',
+  //   icon: <CardGiftcardIcon />,
+  //   value: TABS_DASH.PROMOTIONS,
+  // },
   {
     name: 'Promoções',
     icon: <MonetizationOnIcon />,
@@ -49,7 +49,7 @@ const tabs = [
     icon: <QrCodeIcon />,
     value: TABS_DASH.QRCODE
   },
- 
+
 ]
 
 const AsideBar = () => {

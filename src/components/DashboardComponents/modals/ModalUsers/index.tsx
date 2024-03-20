@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import { useMemo } from 'react';
 import SelectStyled from '@/components/select';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import api from '@/services/api';
 
 
 const functions = [
@@ -40,7 +41,7 @@ const ModalUsers = ({ open, setIsClose, usersData }: any) => {
     },
     onSubmit: async (values) => {
 
-      console.log(values);
+      api.post('users', values).then((e) => console.log(e)).catch((e) => console.log(e));
 
 
     }

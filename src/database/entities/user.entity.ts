@@ -7,5 +7,7 @@ export default interface User extends DefaultEntityType {
   phone:  string,
   email: string,
   birthDate: string,
-  role: 'admin' | 'customer' 
+  role: 'admin' | 'customer',
+  password: string 
+
 }

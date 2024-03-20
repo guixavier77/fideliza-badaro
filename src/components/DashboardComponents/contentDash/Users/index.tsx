@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react'
 import Add from '@mui/icons-material/Add';
 import ModalUsers from '../../modals/ModalUsers';
 import CardUser from '../../cardUser';
+import { Alert } from '@mui/material';
 
 const TABS = [
   {
@@ -28,11 +29,11 @@ const UsersContent = ({ hidden }: any) => {
 
   const handleOpenUsers = useCallback(() => {
     setopenUsers(true);
-  },[]);
+  }, []);
 
   const handleCloseUsers = useCallback(() => {
     setopenUsers(false);
-  },[]);
+  }, []);
   return (
     <div hidden={hidden}>
       <div className='w-full flex justify-between gap-4' >
@@ -45,7 +46,7 @@ const UsersContent = ({ hidden }: any) => {
           </div>
         </div>
         <button onClick={handleOpenUsers} className='bg-black px-3 rounded-20  text-white shadow-xl'>
-          <Add style={{fontSize: 52, color: '#C90B0B' }} />
+          <Add style={{ fontSize: 52, color: '#C90B0B' }} />
         </button>
       </div>
 
@@ -53,7 +54,7 @@ const UsersContent = ({ hidden }: any) => {
         <CardUser />
       </div>
 
-      <ModalUsers 
+      <ModalUsers
         open={openUsers}
         setIsClose={handleCloseUsers}
       />
