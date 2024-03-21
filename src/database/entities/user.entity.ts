@@ -10,5 +10,6 @@ export default interface User extends DefaultEntityType {
   role: 'admin' | 'customer',
   password: string,
   status: boolean,
+  storeId: string,
 
 }

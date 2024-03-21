@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 import Add from '@mui/icons-material/Add';
 import ModalUsers from '../../modals/ModalUsers';
-import CardUser from '../../cardUser';
+import CardUser from '../../cards/cardUser';
 import { Alert } from '@mui/material';
 import UserDB from '@/database/wrappers/user';
 import { orderBy } from 'firebase/firestore';

@@ -6,36 +6,44 @@ import RequestException from "@/utils/requestException";
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/database/entities/user.entity";
 import masks from "@/utils/masks/masks";
+import StoreDB from "@/database/wrappers/store";
+import Store from "@/database/entities/store.entity";
 
-
-function validateCreate(body: User) {
-  if (!body.cpf) throw new RequestException(400, 'Campo cpf ausente');
+function validateCreate(body: any) {
   if (!body.name) throw new RequestException(400, 'Campo name ausente');
+  if (!body.cnpj) throw new RequestException(400, 'Campo cnpj ausente');
   if (!body.email) throw new RequestException(400, 'Campo email ausente');
-  if (!body.password) throw new RequestException(400, 'Campo senha ausente');
-  if (!body.role) throw new RequestException(400, 'Campo role ausente');
-  if (!body.storeId) throw new RequestException(400, 'Campo storeId ausente');
+  if (!body.phone) throw new RequestException(400, 'Campo phone ausente');
+  if (!body.cep) throw new RequestException(400, 'Campo cep ausente');
+  if (!body.uf) throw new RequestException(400, 'Campo uf ausente');
+  if (!body.city) throw new RequestException(400, 'Campo cidade ausente');
+  if (!body.neighborhood) throw new RequestException(400, 'Campo bairro ausente');
+  if (!body.street) throw new RequestException(400, 'Campo rua ausente');
 }
 
-async function create(body: User) {
+async function create(body: Store) {
   try {
-    const data: Omit<User, "id" | "phone" | "birthDate" | "password" | "created_at"> = {
+    const data = {
       name: body.name,
-      cpf: masks.unmask(body.cpf),
+      cnpj: masks.unmask(body.cnpj),
       email: body.email,
-      role: body.role,
-      storeId: body.storeId,
+      phone: body.phone,
+      address: {
+        cep: body.cep,
+        uf: body.uf,
+        city: body.city,
+        neighborhood: body.neighborhood,
+        street: body.street,
+        number: body.number,
+      },
       status: true,
     };
-    const userCredential = await createUserWithEmailAndPassword(auth, body.email, body.password);
-    const user = userCredential.user;
 
-    if (user) {
-      await new UserDB().createCustomId(user.uid, data);
-    }
+    new StoreDB().create(data);
+  
   } catch (error) {
-    console.error('Erro ao criar usuário:', error);
-    throw new RequestException(500, 'Erro ao criar usuário');
+    console.error('Erro ao criar loja:', error);
+    throw new RequestException(500, 'Erro ao criar loja');
   }
 }
 export async function POST(request: NextRequest) {
@@ -43,7 +51,7 @@ export async function POST(request: NextRequest) {
     const body: User = await request.json();
     validateCreate(body);
     await create(body);
-    return Response.json({ success: true, message: 'Usuário criado com sucesso' });
+    return Response.json({ success: true, message: 'Loja criada com sucesso' });
   } catch (error) {
     if (error instanceof RequestException) {
       return new Response(error.message, { status: error.status });

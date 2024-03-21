@@ -6,14 +6,12 @@ import ArticleOutlined from '@mui/icons-material/ArticleOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { CircularProgress, Modal } from '@mui/material';
+import { Modal } from '@mui/material';
 import { useFormik } from 'formik';
-import { useMemo, useState, useEffect, useContext } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import SelectStyled from '@/components/select';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import api from '@/services/api';
-import { DefaultContext } from '@/contexts/defaultContext';
-import StoreIcon from '@mui/icons-material/Store';
 
 
 const functions = [
@@ -28,37 +26,32 @@ const functions = [
   },
 ]
 
-const ModalUsers = ({ open, setIsClose, userData }: any) => {
-  const { stores } = useContext(DefaultContext);
+const ModalPromotions = ({ open, setIsClose, data }: any) => {
   const [loading, setloading] = useState(false);
-
-  const optionsStores = useMemo(() => stores?.map(store => ({ value: store.id, text: store.name })), [stores])
 
   const options = useMemo(() => functions.map(item => ({ value: item.value, text: item.name })), [functions])
 
   useEffect(() => {
     if (!open) return formik.resetForm();
-    if (userData) {
+    if (data) {
       const {
         name,
         cpf,
         email,
         password,
         role,
-        active,
-        storeId,
-      } = userData;
+        active
+      } = data;
       formik.setValues({
         name: name,
         cpf: cpf,
         email: email,
         password: password,
         role: role,
-        active,
-        storeId,
+        active
       });
     }
-  }, [userData, open])
+  }, [data, open])
 
 
   const formik = useFormik({
@@ -67,16 +60,15 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       name: '',
       email: '',
       password: '',
-      storeId: '',
       role: ROLE.CASHIER,
       active: true,
     },
     onSubmit: async (values) => {
-      setloading(true);
-      api.post('users', values).then().catch((e) => console.log(e)).finally(() => {
-        setloading(false)
-        setIsClose();
-      });
+      // setloading(true);
+      // api.post('users', values).then().catch((e) => console.log(e)).finally(() => {
+      //   setloading(false)
+      //   setIsClose();
+      // });
     }
   })
   return (
@@ -86,17 +78,9 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       className="flex justify-center items-center"
     >
       <div className='bg-white rounded-20 w-1/3 p-4'>
-        <p className='font-semibold text-xl text-center uppercase pb-5'>Cadastro de usuário</p>
+        <p className='font-semibold text-xl text-center uppercase pb-5'>Cadastro de promoção</p>
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
-          <InputStyled
-            id="cpf"
-            onChange={formik.handleChange}
-            value={masks.cpfMask(formik.values.cpf)}
-            label="CPF"
-            type="tel"
-            placeholder="000.000.000-00"
-            icon={<ArticleOutlined style={{ color: '#C90B0B' }} />}
-          />
+      
           <InputStyled
             id="name"
             onChange={formik.handleChange}
@@ -110,7 +94,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
             id="email"
             value={formik.values.email}
             onChange={formik.handleChange}
-            disabled={userData}
+            disabled={data}
             label="E-mail"
             type="text"
             placeholder="exemplo@gmail.com"
@@ -124,7 +108,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
             label="Senha"
             type="password"
             placeholder="***********"
-            disabled={userData}
+            disabled={data}
             icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
           />
 
@@ -137,15 +121,6 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
             options={options}
           />
 
-          <SelectStyled
-            label="Loja"
-            icon={<StoreIcon style={{ color: '#C90B0B' }} />}
-            value={formik.values.storeId}
-            onChange={formik.handleChange}
-            id="storeId"
-            options={optionsStores}
-          />
-
 
           <div className='flex gap-5 pt-5'>
             <ButtonStyled
@@ -155,24 +130,13 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
               bgColor='bg-red'
               title="Cancelar"
             />
-            {loading ?
-              <ButtonStyled
-                bgColor='bg-darkGray'
-                textColor='text-white'
-                type="submit"
-                styles="w-full"
-                title='Cadastrando...'
-                icon={<CircularProgress style={{ width: 20, height: 20, color: '#FFFFFF' }} />}
-
-              /> :
-              <ButtonStyled
-                type="submit"
-                styles="w-full"
-                title="Cadastrar"
-              />
-            }
 
 
+            <ButtonStyled
+              type="submit"
+              styles="w-full"
+              title="Cadastrar"
+            />
           </div>
         </form>
       </div>
@@ -180,4 +144,4 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
   )
 }
 
-export default ModalUsers
+export default ModalPromotions

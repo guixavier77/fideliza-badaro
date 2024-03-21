@@ -11,6 +11,8 @@ import { TABS_DASH } from '@/utils/types/tabs';
 import { useTab } from '@/contexts/tabContext';
 import { DefaultContext } from '@/contexts/defaultContext';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import StoreIcon from '@mui/icons-material/Store';
+import { ROLE } from '@/utils/types/roles';
 
 const tabs = [
   {
@@ -19,16 +21,23 @@ const tabs = [
     value: TABS_DASH.DASH,
   },
   {
+    name: 'Lojas',
+    icon: <StoreIcon />,
+    value: TABS_DASH.STORE,
+    role: ROLE.SUPERADMIN
+
+  },
+  {
     name: 'Usuários',
     icon: <PersonIcon />,
     value: TABS_DASH.USERS,
 
   },
-  // {
-  //   name: 'Prêmios',
-  //   icon: <CardGiftcardIcon />,
-  //   value: TABS_DASH.PROMOTIONS,
-  // },
+  {
+    name: 'Prêmios',
+    icon: <CardGiftcardIcon />,
+    value: TABS_DASH.AWARDS,
+  },
   {
     name: 'Promoções',
     icon: <MonetizationOnIcon />,

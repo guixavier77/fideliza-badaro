@@ -2,48 +2,27 @@ import UserDB from '@/database/wrappers/user';
 import { TABS_FILTER } from '@/utils/types/tabs';
 import Add from '@mui/icons-material/Add';
 import { orderBy } from 'firebase/firestore';
-import { User } from 'next-auth';
+import User from '@/database/entities/user.entity';
 import React, { useCallback, useEffect, useState } from 'react'
 import CardPromotion from '../../cards/cardAwards';
 import ModalPromotions from '../../modals/ModalPromotions';
+import ModalAwards from '../../modals/ModalAwards';
 
-const ReewardsContent = ({ hidden }: any) => {
+const AwardsContent = ({ hidden }: any) => {
   const [tab, setTab] = useState('all');
-  const [openUsers, setopenUsers] = useState(false);
-  const [users, setUsers] = useState<User[]>([])
-  const [usersFilter, setUsersFilter] = useState<User[]>([])
-
-  useEffect(() => {
-    const onSubscribe = new UserDB().on(setUsers, orderBy('name', 'asc'));
-    return () => {
-      onSubscribe();
-    };
-  }, [hidden])
-
-
-  useEffect(() => {
-    if (tab === 'all') {
-      setUsersFilter(users);
-    } else if (tab === 'active') {
-      setUsersFilter(users.filter(user => user.status));
-    } else {
-      setUsersFilter(users.filter(user => !user.status));
-
-    }
-  }, [users, tab])
-
-
-
+  const [openModal, setopenModal] = useState(false);
+  const [data, setdata] = useState();
+  const [dataFilter, setdatafilter] = useState();
 
   const onPressItem = (item: any) => {
     setTab(item);
   }
-  const handleOpenUsers = useCallback(() => {
-    setopenUsers(true);
+  const handleOpenModal = useCallback(() => {
+    setopenModal(true);
   }, []);
 
-  const handleCloseUsers = useCallback(() => {
-    setopenUsers(false);
+  const handleCloseModal = useCallback(() => {
+    setopenModal(false);
   }, []);
   return (
     <div hidden={hidden}>
@@ -56,26 +35,26 @@ const ReewardsContent = ({ hidden }: any) => {
 
           </div>
         </div>
-        <button onClick={handleOpenUsers} className='bg-black px-3 rounded-20  text-white shadow-xl'>
+        <button onClick={handleOpenModal} className='bg-black px-3 rounded-20  text-white shadow-xl'>
           <Add style={{ fontSize: 52, color: '#C90B0B' }} />
         </button>
       </div>
 
       <div className='mt-10 flex flex-col gap-4'>
-        {usersFilter.map((user) =>
+        {/* {usersFilter.map((user) =>
           <>
             <CardPromotion promotion={user} />
           </>
-        )}
+        )} */}
       </div>
 
-      <ModalPromotions
-        open={openUsers}
-        setIsClose={handleCloseUsers}
+      <ModalAwards
+        open={openModal}
+        setIsClose={handleCloseModal}
       />
 
     </div>
   )
 }
 
-export default ReewardsContent
+export default AwardsContent

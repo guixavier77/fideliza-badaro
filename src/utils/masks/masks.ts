@@ -49,8 +49,20 @@ export default {
       .replace(/(\d{2})(\d)/, '$1:$2')
       .replace(/(\d{2})\d+?$/, '$1');
   },
-  moneyMask: (value = 0) => {
+  moneyMask: (value: any) => {
     return `R$ ${String(value.toFixed(2)).replace('.', ',')}`;
+  },
+
+  maskMoney(value: any) {
+    // Remove todos os caracteres que não sejam dígitos
+    const cleanValue = value.replace(/\D/g, '');
+    
+    // Se o valor estiver vazio ou não for um número, retorna vazio
+    if (!cleanValue || isNaN(cleanValue)) return '';
+    
+    // Converte o valor para número e formata como moeda
+    const formattedValue = Number(cleanValue) / 100; // Divide por 100 para converter centavos
+    return formattedValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   },
 
   validaCpf: (cpf: string) => {
