@@ -1,18 +1,40 @@
-import UserDB from '@/database/wrappers/user';
 import { TABS_FILTER } from '@/utils/types/tabs';
 import Add from '@mui/icons-material/Add';
-import { orderBy } from 'firebase/firestore';
-import User from '@/database/entities/user.entity';
-import React, { useCallback, useEffect, useState } from 'react'
-import CardPromotion from '../../cards/cardAwards';
-import ModalPromotions from '../../modals/ModalPromotions';
+import { useCallback, useContext, useState, useEffect } from 'react';
 import ModalAwards from '../../modals/ModalAwards';
+import AwardDB from '@/database/wrappers/award';
+import { DefaultContext } from '@/contexts/defaultContext';
+import Award from '@/database/entities/award.entity';
+import { orderBy } from 'firebase/firestore';
+import user from '@/database/wrappers/user';
+import CardAwards from '../../cards/cardAwards';
 
 const AwardsContent = ({ hidden }: any) => {
+  const { storeSelected } = useContext(DefaultContext)
   const [tab, setTab] = useState('all');
   const [openModal, setopenModal] = useState(false);
-  const [data, setdata] = useState();
-  const [dataFilter, setdatafilter] = useState();
+  const [data, setdata] = useState<Award[]>();
+  const [dataFilter, setdatafilter] = useState<Award[]>();
+  useEffect(() => {
+    if(!storeSelected) return;
+    const onSubscribe = new AwardDB(storeSelected).on(setdata, orderBy('name', 'asc'));
+    return () => {
+      onSubscribe();
+    };
+  }, [hidden, storeSelected])
+
+
+  useEffect(() => {
+    if (tab === 'all') {
+      setdatafilter(data);
+    } else if (tab === 'active') {
+      setdatafilter(data.filter(data => data.status));
+    } else {
+      setdatafilter(data.filter(data => !data.status));
+
+    }
+  }, [data, tab])
+
 
   const onPressItem = (item: any) => {
     setTab(item);
@@ -41,11 +63,11 @@ const AwardsContent = ({ hidden }: any) => {
       </div>
 
       <div className='mt-10 flex flex-col gap-4'>
-        {/* {usersFilter.map((user) =>
+        {dataFilter?.map((data) =>
           <>
-            <CardPromotion promotion={user} />
+            <CardAwards award={data} />
           </>
-        )} */}
+        )}
       </div>
 
       <ModalAwards

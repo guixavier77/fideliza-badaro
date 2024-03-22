@@ -55,6 +55,7 @@ const handler = NextAuth({
 		secret: process.env.NEXTAUTH_SECRET,
 		jwt: true,
 		maxAge: 30 * 24 * 60 * 60,
+		updateAge: 24 * 60 * 60, // Atualiza o cookie de sessão a cada 24 horas
 	} as Partial<SessionOptions>,
 
 
@@ -73,7 +74,7 @@ const handler = NextAuth({
 			}
 		},
 		async session({ session, token, user }: any) {
-			session.token = token;
+			session.token = token; // Armazena os dados do token na sessão
 			return session
 		},
 		async jwt({ token, user, profile, account }: any) {
@@ -82,13 +83,12 @@ const handler = NextAuth({
 				try {
 					const userDoc = await new UserDB().get(user.id);
 					if (userDoc) {
-						token.user = userDoc;
-						user = userDoc;
+						token.user = userDoc; 
+						token.uid = user.id; 
 					}
 				} catch (error) {
 					console.error('Erro ao obter os dados do usuário do Firestore:', error);
 				}
-				token = { ...token, ...user }
 			}
 			return token
 		},
@@ -103,7 +103,8 @@ const handler = NextAuth({
 })
 export const authOptions = {
 
-}
+};
+
 
 
 export { handler as GET, handler as POST }

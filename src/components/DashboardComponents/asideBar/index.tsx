@@ -104,7 +104,7 @@ const AsideBar = () => {
         </div>
 
         <div>
-          <p className='text-white font-bold text-sm'>{user?.name}</p>
+          <p className='text-white font-bold text-sm'>{user?.name?.substring(0,17)}</p>
           <p className='text-white font-light text-sm'>Administrador</p>
         </div>
 

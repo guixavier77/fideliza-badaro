@@ -14,6 +14,7 @@ import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 
 
 
+
 const ModalAwards = ({ open, setIsClose, data }: any) => {
   const [loading, setloading] = useState(false);
   const { storeSelected } = useContext(DefaultContext);
@@ -55,6 +56,7 @@ const ModalAwards = ({ open, setIsClose, data }: any) => {
         image: values.image
       }
 
+      console.log(values.image);
       console.log(data);
       api.post('awards', data).then().catch((e) => console.log(e)).finally(() => {
         setloading(false)

@@ -22,6 +22,7 @@ async function create(body: any) {
       image_url: body.image_url
     };
 
+    console.log(data)
     new AwardDB(body.storeId).create(data);
 
   } catch (error) {

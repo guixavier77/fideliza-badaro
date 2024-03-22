@@ -1,8 +1,11 @@
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server";
+
+import { getToken } from "next-auth/jwt"
+import { ROLE } from "./utils/types/roles";
 
 export default async function middleware(request: NextRequest) {
   const token = request.cookies.get('next-auth.session-token')?.value;
+  const decodedToken = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   const signInURL = new URL('/login', request.url)
   const homeURL = new URL('/home', request.url)
   if (!token) {
@@ -12,17 +15,25 @@ export default async function middleware(request: NextRequest) {
     if (request.nextUrl.pathname === '/home') {
       return NextResponse.redirect(signInURL)
     }
-    // if (request.nextUrl.pathname === '/dashboard') {
-    //   return NextResponse.redirect(signInURL)
-    // }
+    if (request.nextUrl.pathname === '/dashboard') {
+      return NextResponse.redirect(signInURL)
+    }
   }
-  if(request.nextUrl.pathname === '/'){
-    return NextResponse.redirect(homeURL)
-  }
-  if(request.nextUrl.pathname === '/register'){
-    return NextResponse.redirect(homeURL)
+  if (token) {
+    if (request.nextUrl.pathname === '/') {
+      return NextResponse.redirect(homeURL)
+    }
+    if (request.nextUrl.pathname === '/register') {
+      return NextResponse.redirect(homeURL)
+    }
+    if (request.nextUrl.pathname === '/login') {
+      return NextResponse.redirect(homeURL)
+    }
+    if (request.nextUrl.pathname === '/dashboard' && decodedToken?.user?.role === ROLE.CUSTOMER || decodedToken?.user?.role === ROLE.CASHIER) {
+      return NextResponse.redirect(homeURL)
+    }
   }
 }
 export const config = {
-  matcher: ['/','/home', '/dashboard']
+  matcher: ['/', '/login', '/register', '/home', '/dashboard']
 }

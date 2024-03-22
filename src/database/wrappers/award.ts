@@ -20,6 +20,7 @@ class AwardDB extends FirestorePipe {
 			await this.saveFile(data);
 			return await this._create(data);
 		} catch (error: any) {
+			console.log(error);
 			if (data.image_ref) {
 				await this.deleteFile(data.image_ref)
 			}
