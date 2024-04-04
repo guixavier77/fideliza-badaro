@@ -1,14 +1,8 @@
-import User from '@/database/entities/user.entity'
-import React, { useState, useCallback } from 'react'
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import masks from '@/utils/masks/masks';
-import { ROLE_PTBR } from '@/utils/types/roles';
-import ModalPromotions from '../../modals/ModalPromotions';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import Store from '@/database/entities/store.entity';
-import CardPromotion from '../cardAwards';
+import masks from '@/utils/masks/masks';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
+import { useCallback, useState } from 'react';
 import ModalStores from '../../modals/ModalStores';
 
 

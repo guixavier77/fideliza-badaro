@@ -107,7 +107,7 @@ const AsideBar = () => {
 
         <div>
           <p className='text-white font-bold text-sm'>{user?.name?.substring(0, 17)}</p>
-          <p className='text-white font-light text-sm'>{ROLE_PTBR[user?.role]}</p>
+          <p className='text-white font-light text-sm'>{ROLE_PTBR[user?.role || 0]}</p>
         </div>
 
       </div>

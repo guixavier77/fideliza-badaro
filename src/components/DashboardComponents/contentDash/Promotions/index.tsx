@@ -1,39 +1,39 @@
-import UserDB from '@/database/wrappers/user';
-import { TABS } from '@/utils/types/tabs';
+import { DefaultContext } from '@/contexts/defaultContext';
+import Promotion from '@/database/entities/promotion';
+import PromotionsDB from '@/database/wrappers/promotion';
+import { TABS_FILTER } from '@/utils/types/tabs';
 import Add from '@mui/icons-material/Add';
 import { orderBy } from 'firebase/firestore';
-import User from '@/database/entities/user.entity';
-import React, { useCallback, useEffect, useState } from 'react'
-import CardUser from '../../cards/cardUser';
-import ModalUsers from '../../modals/ModalUsers';
-import { TABS_FILTER } from '@/utils/types/tabs';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import CardPromotion from '../../cards/cardPromotion';
 import ModalPromotions from '../../modals/ModalPromotions';
-import CardPromotion from '../../cards/cardAwards';
 
 const PromotionsContent = ({ hidden }: any) => {
   const [tab, setTab] = useState('all');
-  const [openUsers, setopenUsers] = useState(false);
-  const [users, setUsers] = useState<User[]>([])
-  const [usersFilter, setUsersFilter] = useState<User[]>([])
+  const { storeSelected } = useContext(DefaultContext);
+  const [openPromotion, setopenPromotion] = useState(false);
+  const [promotions, setPromotions] = useState<Promotion[]>([])
+  const [promotionsFilter, setPromotionsFilter] = useState<Promotion[]>([])
 
   useEffect(() => {
-    const onSubscribe = new UserDB().on(setUsers, orderBy('name', 'asc'));
+    if (!storeSelected && hidden) return;
+    const onSubscribe = new PromotionsDB(storeSelected).on(setPromotions, orderBy('name', 'asc'));
     return () => {
       onSubscribe();
     };
-  }, [hidden])
+  }, [storeSelected, hidden])
 
 
   useEffect(() => {
     if (tab === 'all') {
-      setUsersFilter(users);
+      setPromotionsFilter(promotions);
     } else if (tab === 'active') {
-      setUsersFilter(users.filter(user => user.status));
+      setPromotionsFilter(promotions.filter(user => user.active));
     } else {
-      setUsersFilter(users.filter(user => !user.status));
+      setPromotionsFilter(promotions.filter(user => !user.active));
 
     }
-  }, [users, tab])
+  }, [promotions, tab])
 
 
 
@@ -42,11 +42,11 @@ const PromotionsContent = ({ hidden }: any) => {
     setTab(item);
   }
   const handleOpenUsers = useCallback(() => {
-    setopenUsers(true);
+    setopenPromotion(true);
   }, []);
 
-  const handleCloseUsers = useCallback(() => {
-    setopenUsers(false);
+  const handleClosePromotion = useCallback(() => {
+    setopenPromotion(false);
   }, []);
   return (
     <div hidden={hidden}>
@@ -64,17 +64,17 @@ const PromotionsContent = ({ hidden }: any) => {
         </button>
       </div>
 
-      <div className='mt-10 flex flex-col gap-4'>
-        {/* {usersFilter.map((user) =>
+      <div className='mt-10 flex flex-row gap-4'>
+        {promotionsFilter.map((promotion) =>
           <>
-            <CardPromotion promotion={user} />
+            <CardPromotion promotion={promotion} />
           </>
-        )} */}
+        )}
       </div>
 
       <ModalPromotions
-        open={openUsers}
-        setIsClose={handleCloseUsers}
+        open={openPromotion}
+        setIsClose={handleClosePromotion}
       />
 
     </div>

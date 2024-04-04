@@ -1,10 +1,11 @@
 
 'use client'
+import Award from '@/database/entities/award.entity';
 import Store from '@/database/entities/store.entity';
-import User from '@/database/entities/user.entity';
+import AwardDB from '@/database/wrappers/award';
 import StoreDB from '@/database/wrappers/store';
 import DefaultContextInterface from '@/interfaces/default.interface';
-import { orderBy, where } from 'firebase/firestore';
+import { orderBy } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import { createContext, useEffect, useState } from 'react';
 export const DefaultContext = createContext<DefaultContextInterface>({} as any)
@@ -13,9 +14,10 @@ export default function DefaultProvider({ children }: any) {
   const { data: session } = useSession();
   let userSession: any = session;
   const [user, setuser] = useState<any>(null);
-  const [stores, setstores] = useState<any>(null);
+  const [stores, setstores] = useState<Store[]>([]);
   const [storeSelected, setstoreSelected] = useState<string>('');
-  const [store, setstore] = useState<Store>();
+  const [store, setstore] = useState<Store | null>(null);
+  const [awardsDicionary, setawardsDicionary] = useState<Award>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,6 +61,20 @@ export default function DefaultProvider({ children }: any) {
 
 
 
+  useEffect(() => {
+    if (!storeSelected) return;
+    const onSubscribe = new AwardDB(storeSelected).on((awards) => {
+      const awardsDicionary: any = {}
+      awards.forEach((award) => {
+        console.log(award);
+        awardsDicionary[award.id] = award;
+      })
+      setawardsDicionary(awardsDicionary);
+    })
+    return () => {
+      onSubscribe();
+    };
+  }, [storeSelected])
 
   return (
     <DefaultContext.Provider value={{
@@ -66,7 +82,8 @@ export default function DefaultProvider({ children }: any) {
       stores,
       store,
       storeSelected,
-      setstoreSelected
+      setstoreSelected,
+      awardsDicionary
     }}>
       {children}
     </DefaultContext.Provider>

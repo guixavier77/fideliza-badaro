@@ -4,20 +4,19 @@ import SelectStyled from '@/components/select';
 import { DefaultContext } from '@/contexts/defaultContext';
 import Award from '@/database/entities/award.entity';
 import AwardDB from '@/database/wrappers/award';
-import { ROLE, ROLE_PTBR } from '@/utils/types/roles';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
+
 import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
-import { Modal } from '@mui/material';
+import { CircularProgress, Modal } from '@mui/material';
 import { useFormik } from 'formik';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import FlagIcon from '@mui/icons-material/Flag';
+import api from '@/services/api';
 
 const ModalPromotions = ({ open, setIsClose, data }: any) => {
   const { storeSelected } = useContext(DefaultContext)
-  const [awards, setawards] = useState<Award | null>(null);
+  const [awards, setawards] = useState<Award[]>();
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     if (!storeSelected) return;
@@ -56,11 +55,19 @@ const ModalPromotions = ({ open, setIsClose, data }: any) => {
       active: true,
     },
     onSubmit: async (values) => {
-      // setloading(true);
-      // api.post('users', values).then().catch((e) => console.log(e)).finally(() => {
-      //   setloading(false)
-      //   setIsClose();
-      // });
+      setloading(true);
+      const data = {
+        name: values.name,
+        points: values.points,
+        awardId: values.award,
+        storeId: storeSelected,
+      }
+
+      console.log(data)
+      api.post('promotions', data).then().catch((e) => console.log(e)).finally(() => {
+        setloading(false)
+        setIsClose();
+      });
     }
   })
   return (
@@ -113,11 +120,23 @@ const ModalPromotions = ({ open, setIsClose, data }: any) => {
             />
 
 
-            <ButtonStyled
-              type="submit"
-              styles="w-full"
-              title="Cadastrar"
-            />
+            {loading ?
+              <ButtonStyled
+                bgColor='bg-darkGray'
+                textColor='text-white'
+                type="submit"
+                styles="w-full"
+                title='Cadastrando...'
+                icon={<CircularProgress style={{ width: 20, height: 20, color: '#FFFFFF' }} />}
+
+              /> :
+              <ButtonStyled
+                type="submit"
+                styles="w-full"
+                title="Cadastrar"
+              />
+
+            }
           </div>
         </form>
       </div>
