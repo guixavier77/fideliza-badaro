@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 
 import Add from '@mui/icons-material/Add';
 import ModalUsers from '../../modals/ModalUsers';
 import CardUser from '../../cards/cardUser';
 import { Alert } from '@mui/material';
 import UserDB from '@/database/wrappers/user';
-import { orderBy } from 'firebase/firestore';
+import { orderBy, where } from 'firebase/firestore';
 import User from '@/database/entities/user.entity';
+import { DefaultContext } from '@/contexts/defaultContext';
 
 const TABS = [
   {
@@ -24,17 +25,19 @@ const TABS = [
 ]
 
 const UsersContent = ({ hidden }: any) => {
+  const { storeSelected } = useContext(DefaultContext);
   const [tab, setTab] = useState('all');
   const [openUsers, setopenUsers] = useState(false);
   const [users, setUsers] = useState<User[]>([])
   const [usersFilter, setUsersFilter] = useState<User[]>([])
 
   useEffect(() => {
-    const onSubscribe = new UserDB().on(setUsers, orderBy('name', 'asc'));
+    if (!hidden && !storeSelected) return;
+    const onSubscribe = new UserDB().on(setUsers, orderBy('name', 'asc'), where('storeId', '==', storeSelected));
     return () => {
       onSubscribe();
     };
-  }, [hidden])
+  }, [hidden, storeSelected])
 
 
   useEffect(() => {

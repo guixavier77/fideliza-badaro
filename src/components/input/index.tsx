@@ -19,7 +19,7 @@ const InputStyled = ({disabled, label, type, icon, placeholder, value, onChange,
     <div className='flex flex-col '>
       {label && <label className='mb-1 text-darkGray text-sm'>{label}</label>}
       <div className={`${styles ? styles : ''} bg-none border border-gray border-solid outline-none rounded-xl p-2 flex items-center justify-between ${disabled ? 'bg-gray' : ''}`}>
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-4 w-full'>
           {icon}
           <input disabled={disabled} id={id} value={value} onChange={onChange} type={type} className={`${disabled ? 'text-darkGray bg-gray' : ''} ${stylesInput ? stylesInput : ''} outline-none text-black font-semibold`} placeholder={placeholder} />
 

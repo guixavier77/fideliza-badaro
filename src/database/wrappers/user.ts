@@ -1,6 +1,8 @@
 import { QueryConstraint, Unsubscribe, where, query, getDocs, limit } from 'firebase/firestore';
 import FirestorePipe from '../utils/pipe';
 import User from '../entities/user.entity';
+import { getFirestore } from 'firebase/firestore';
+
 
 
 class UserDB extends FirestorePipe {
@@ -8,7 +10,6 @@ class UserDB extends FirestorePipe {
 	constructor() {
 		super(UserDB.colName);
 	}
-
 
 	public createCustomId(id: string, data: User): Promise<any> {
 		return this._define(id, data);
@@ -36,6 +37,23 @@ class UserDB extends FirestorePipe {
 	public on(listener: (data: User[]) => void, ...params: QueryConstraint[]): Unsubscribe {
 		return this._on(listener, ...params);
 	}
+
+
+	async getByEmail(email: string): Promise<User | null> {
+		const snapshot = await getDocs(query(this.colRef, where('email', '==', email)))
+
+		if (snapshot.empty)
+			return null;
+
+		const doc: any = snapshot.docs[0];
+		return {
+			id: doc.id,
+			...doc.data(),
+		}
+	}
+
+
+
 }
 
 export default UserDB;

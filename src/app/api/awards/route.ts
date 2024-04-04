@@ -1,8 +1,5 @@
 // api/user.ts
-import Award from "@/database/entities/award.entity";
-import Store from "@/database/entities/store.entity";
 import AwardDB from "@/database/wrappers/award";
-import StoreDB from "@/database/wrappers/store";
 import RequestException from "@/utils/requestException";
 import { NextRequest } from "next/server";
 
@@ -22,7 +19,7 @@ async function create(body: any) {
       image_url: body.image_url
     };
 
-    console.log(data)
+
     new AwardDB(body.storeId).create(data);
 
   } catch (error) {

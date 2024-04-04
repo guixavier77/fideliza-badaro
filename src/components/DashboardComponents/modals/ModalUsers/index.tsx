@@ -29,7 +29,7 @@ const functions = [
 ]
 
 const ModalUsers = ({ open, setIsClose, userData }: any) => {
-  const { stores } = useContext(DefaultContext);
+  const { stores, storeSelected,user } = useContext(DefaultContext);
   const [loading, setloading] = useState(false);
 
   const optionsStores = useMemo(() => stores?.map(store => ({ value: store.id, text: store.name })), [stores])
@@ -67,7 +67,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       name: '',
       email: '',
       password: '',
-      storeId: '',
+      storeId: storeSelected,
       role: ROLE.CASHIER,
       active: true,
     },
@@ -137,14 +137,17 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
             options={options}
           />
 
-          <SelectStyled
-            label="Loja"
-            icon={<StoreIcon style={{ color: '#C90B0B' }} />}
-            value={formik.values.storeId}
-            onChange={formik.handleChange}
-            id="storeId"
-            options={optionsStores}
-          />
+          {user?.role === ROLE.SUPERADMIN &&
+            <SelectStyled
+              label="Loja"
+              icon={<StoreIcon style={{ color: '#C90B0B' }} />}
+              value={formik.values.storeId}
+              onChange={formik.handleChange}
+              id="storeId"
+              options={optionsStores}
+            />
+
+          }
 
 
           <div className='flex gap-5 pt-5'>

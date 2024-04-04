@@ -30,7 +30,7 @@ const StoresContent = ({ hidden }: any) => {
 
 
   useEffect(() => {
-    if(!stores) return
+    if (!stores) return
     if (tab === 'all') {
       setStoresFilter(stores);
     } else if (tab === 'active') {
@@ -39,7 +39,6 @@ const StoresContent = ({ hidden }: any) => {
       setStoresFilter(stores.filter(store => !store.status));
     }
   }, [stores, tab])
-
 
 
 

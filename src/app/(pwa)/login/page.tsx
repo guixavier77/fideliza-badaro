@@ -3,6 +3,8 @@ import ButtonStyled from "@/components/button";
 import InputStyled from "@/components/input";
 import Loading from "@/components/loading";
 import Logo from "@/components/logo";
+import UserDB from "@/database/wrappers/user";
+import { ROLE } from "@/utils/types/roles";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useFormik } from "formik";
@@ -23,9 +25,9 @@ export default function Login() {
       password: '',
     },
     onSubmit: async (values) => {
-      setError('');
       setloading(true);
-      console.log(values);
+      setError('');
+      const user = await new UserDB().getByEmail(values.email);
 
       if (values.email && values.password) {
         console.log('CAIU AQ')
@@ -34,15 +36,15 @@ export default function Login() {
           password: values.password,
           redirect: false,
         });
-        console.log(res);
-        if (res?.ok) {
+        if (res?.ok && user?.role === ROLE.CUSTOMER || user?.role === ROLE.CASHIER) {
           router.push('/home');
           setloading(false);
+        } else if (res?.ok && user?.role === ROLE.ADMIN || user?.role === ROLE.SUPERADMIN) {
+          router.push('/redirectScreen')
+          setloading(false);
         } else {
-          console.log('resposta login: ', res);
           setError('Opa, algo está errado, tente novamente.');
           setloading(false);
-
         }
       } else {
         setError('Email e senha precisam ser preenchidos.');

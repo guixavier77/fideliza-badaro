@@ -1,53 +1,47 @@
 import ButtonStyled from '@/components/button';
 import InputStyled from '@/components/input';
-import masks from '@/utils/masks/masks';
+import SelectStyled from '@/components/select';
+import { DefaultContext } from '@/contexts/defaultContext';
+import Award from '@/database/entities/award.entity';
+import AwardDB from '@/database/wrappers/award';
 import { ROLE, ROLE_PTBR } from '@/utils/types/roles';
-import ArticleOutlined from '@mui/icons-material/ArticleOutlined';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Modal } from '@mui/material';
 import { useFormik } from 'formik';
-import { useMemo, useState, useEffect } from 'react';
-import SelectStyled from '@/components/select';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import api from '@/services/api';
-
-
-const functions = [
-  {
-    name: ROLE_PTBR[ROLE.ADMIN],
-    value: ROLE.ADMIN
-  },
-  {
-    name: ROLE_PTBR[ROLE.CASHIER],
-    value: ROLE.CASHIER
-
-  },
-]
+import { useContext, useEffect, useMemo, useState } from 'react';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import FlagIcon from '@mui/icons-material/Flag';
 
 const ModalPromotions = ({ open, setIsClose, data }: any) => {
-  const [loading, setloading] = useState(false);
+  const { storeSelected } = useContext(DefaultContext)
+  const [awards, setawards] = useState<Award | null>(null);
 
-  const options = useMemo(() => functions.map(item => ({ value: item.value, text: item.name })), [functions])
+  useEffect(() => {
+    if (!storeSelected) return;
+    const onSubscribe = new AwardDB(storeSelected).on(setawards);
+    return () => {
+      onSubscribe();
+    };
+  }, [storeSelected])
+
+  const options = useMemo(() => awards?.map(item => ({ value: item.id, text: item.name })), [awards])
 
   useEffect(() => {
     if (!open) return formik.resetForm();
     if (data) {
       const {
         name,
-        cpf,
-        email,
-        password,
-        role,
+        points,
+        award,
         active
       } = data;
       formik.setValues({
         name: name,
-        cpf: cpf,
-        email: email,
-        password: password,
-        role: role,
+        points: points,
+        award: award,
         active
       });
     }
@@ -56,11 +50,9 @@ const ModalPromotions = ({ open, setIsClose, data }: any) => {
 
   const formik = useFormik({
     initialValues: {
-      cpf: '',
       name: '',
-      email: '',
-      password: '',
-      role: ROLE.CASHIER,
+      points: '',
+      award: '',
       active: true,
     },
     onSubmit: async (values) => {
@@ -80,7 +72,6 @@ const ModalPromotions = ({ open, setIsClose, data }: any) => {
       <div className='bg-white rounded-20 w-1/3 p-4'>
         <p className='font-semibold text-xl text-center uppercase pb-5'>Cadastro de promoção</p>
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
-      
           <InputStyled
             id="name"
             onChange={formik.handleChange}
@@ -90,35 +81,25 @@ const ModalPromotions = ({ open, setIsClose, data }: any) => {
             placeholder="Exemplo"
             icon={<PersonOutlineOutlined style={{ color: '#C90B0B' }} />}
           />
-          <InputStyled
-            id="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            disabled={data}
-            label="E-mail"
-            type="text"
-            placeholder="exemplo@gmail.com"
-            icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
-          />
-
-          <InputStyled
-            id="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            label="Senha"
-            type="password"
-            placeholder="***********"
-            disabled={data}
-            icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
-          />
 
           <SelectStyled
-            label="Função"
-            icon={<AccountBoxIcon style={{ color: '#C90B0B' }} />}
-            value={formik.values.role}
+            label="Prêmios"
+            icon={<CardGiftcardIcon style={{ color: '#C90B0B' }} />}
+            value={formik.values.award}
             onChange={formik.handleChange}
-            id="role"
+            id="award"
             options={options}
+          />
+
+          <InputStyled
+            id="points"
+            onChange={formik.handleChange}
+            value={formik.values.points}
+            label="Pontos"
+            type="number"
+            stylesInput='w-full'
+            placeholder="Ex: 5"
+            icon={<FlagIcon style={{ color: '#C90B0B' }} />}
           />
 
 
