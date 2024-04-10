@@ -12,7 +12,6 @@ interface ISelectStyled {
   options?: any
 }
 const SelectStyled = ({ label, icon, value, onChange, id, styles, options }: ISelectStyled) => {
-  console.log(options);
   return (
     <div className='flex flex-col '>
       {label && <label className='mb-1 text-darkGray text-sm'>{label}</label>}
@@ -21,7 +20,7 @@ const SelectStyled = ({ label, icon, value, onChange, id, styles, options }: ISe
           {icon}
           <select name={id} value={value} onChange={onChange} className=" w-full text-black font-semibold appearance-none outline-none bg-transparent px-2">
             {options?.map((item: any) => (
-              <option  value={item.value}>{item.text}</option>
+              <option value={item.value}>{item.text}</option>
             ))}
           </select>
           <div className='absolute right-0 pointer-events-none'>

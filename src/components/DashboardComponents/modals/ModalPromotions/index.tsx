@@ -13,7 +13,7 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import FlagIcon from '@mui/icons-material/Flag';
 import api from '@/services/api';
 
-const ModalPromotions = ({ open, setIsClose, data }: any) => {
+const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
   const { storeSelected } = useContext(DefaultContext)
   const [awards, setawards] = useState<Award[]>();
   const [loading, setloading] = useState(false);
@@ -30,28 +30,35 @@ const ModalPromotions = ({ open, setIsClose, data }: any) => {
 
   useEffect(() => {
     if (!open) return formik.resetForm();
-    if (data) {
+    if (!promotionEdit && options && options?.length > 0) {
+      formik.setValues({
+        name: '',
+        points: '',
+        active: true,
+        awardId: options[0].value,
+      })
+    }
+    if (promotionEdit) {
       const {
         name,
         points,
-        award,
+        awardId,
         active
-      } = data;
+      } = promotionEdit;
       formik.setValues({
         name: name,
         points: points,
-        award: award,
+        awardId: awardId,
         active
       });
     }
-  }, [data, open])
-
+  }, [promotionEdit, open])
 
   const formik = useFormik({
     initialValues: {
       name: '',
       points: '',
-      award: '',
+      awardId: '',
       active: true,
     },
     onSubmit: async (values) => {
@@ -59,17 +66,28 @@ const ModalPromotions = ({ open, setIsClose, data }: any) => {
       const data = {
         name: values.name,
         points: values.points,
-        awardId: values.award,
+        awardId: values.awardId,
         storeId: storeSelected,
+        promotionId: promotionEdit ? promotionEdit.id : null,
       }
 
-      console.log(data)
-      api.post('promotions', data).then().catch((e) => console.log(e)).finally(() => {
-        setloading(false)
-        setIsClose();
-      });
+
+      if (promotionEdit) {
+        api.put('promotions', data).then().catch((e) => console.log(e)).finally(() => {
+          setloading(false)
+          setIsClose();
+        });
+      } else {
+        api.post('promotions', data).then().catch((e) => console.log(e)).finally(() => {
+          setloading(false)
+          setIsClose();
+        });
+
+      }
     }
   })
+
+
   return (
     <Modal
       open={open}
@@ -92,9 +110,9 @@ const ModalPromotions = ({ open, setIsClose, data }: any) => {
           <SelectStyled
             label="Prêmios"
             icon={<CardGiftcardIcon style={{ color: '#C90B0B' }} />}
-            value={formik.values.award}
+            value={formik.values.awardId}
             onChange={formik.handleChange}
-            id="award"
+            id="awardId"
             options={options}
           />
 

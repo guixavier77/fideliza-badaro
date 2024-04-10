@@ -13,6 +13,7 @@ import { DefaultContext } from '@/contexts/defaultContext';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import StoreIcon from '@mui/icons-material/Store';
 import { ROLE, ROLE_PTBR } from '@/utils/types/roles';
+import ButtonStyled from '@/components/button';
 
 const tabs = [
   {
@@ -96,21 +97,24 @@ const AsideBar = () => {
       </div>
 
 
-      <div className='p-3  flex flex-row items-center gap-2 self-start '>
-        <div className='bg-red w-12 h-12 rounded-full flex justify-center items-center'>
+      <div className=''>
+        <div className='p-3  flex flex-row items-center gap-2 self-start '>
+          <div className='bg-red w-12 h-12 rounded-full flex justify-center items-center'>
 
-          <PersonIcon style={{
-            fontSize: 36,
-            color: '#FFFFFF',
-          }} />
+            <PersonIcon style={{
+              fontSize: 36,
+              color: '#FFFFFF',
+            }} />
+          </div>
+
+          <div>
+            <p className='text-white font-bold text-sm'>{user?.name?.substring(0, 17)}</p>
+            <p className='text-white font-light text-sm'>{ROLE_PTBR[user?.role || 0]}</p>
+          </div>
+
         </div>
-
-        <div>
-          <p className='text-white font-bold text-sm'>{user?.name?.substring(0, 17)}</p>
-          <p className='text-white font-light text-sm'>{ROLE_PTBR[user?.role || 0]}</p>
-        </div>
-
       </div>
+
 
 
 

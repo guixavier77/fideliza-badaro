@@ -12,31 +12,32 @@ import Money from '@/utils/masks/money';
 import Image from 'next/image';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import AwardDB from '@/database/wrappers/award';
+import award from '@/database/wrappers/award';
 
 
 
 
-const ModalAwards = ({ open, setIsClose, data }: any) => {
+const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
   const [loading, setloading] = useState(false);
   const { storeSelected } = useContext(DefaultContext);
 
   useEffect(() => {
     if (!open) return formik.resetForm();
-    if (data) {
+    if (awardEdit) {
       const {
         name,
         price,
         image_url
-      } = data;
+      } = awardEdit;
       formik.setValues({
         name: name,
-        price: price,
+        price: price.toString(),
         image: null,
         image_url: image_url,
 
       });
     }
-  }, [data, open])
+  }, [awardEdit, open])
 
 
   const formik = useFormik({
@@ -57,10 +58,18 @@ const ModalAwards = ({ open, setIsClose, data }: any) => {
         status: true,
       }
 
-      new AwardDB(storeSelected).create(data).then().catch((e) => console.log(e)).finally(() => {
-        setloading(false)
-        setIsClose();
-      });
+      if (awardEdit) {
+        new AwardDB(storeSelected).update(awardEdit.id, data).then().catch((e) => console.log(e)).finally(() => {
+          setloading(false)
+          setIsClose();
+        });
+      } else {
+
+        new AwardDB(storeSelected).create(data).then().catch((e) => console.log(e)).finally(() => {
+          setloading(false)
+          setIsClose();
+        });
+      }
 
     }
   })
@@ -137,14 +146,14 @@ const ModalAwards = ({ open, setIsClose, data }: any) => {
                 textColor='text-white'
                 type="submit"
                 styles="w-full"
-                title='Cadastrando...'
+                title={`${awardEdit ? 'Atualizando...' : 'Cadastrando...'}`}
                 icon={<CircularProgress style={{ width: 20, height: 20, color: '#FFFFFF' }} />}
 
               /> :
               <ButtonStyled
                 type="submit"
                 styles="w-full"
-                title="Cadastrar"
+                title={`${awardEdit ? 'Atualizar' : 'Cadastrar'}`}
               />
 
             }

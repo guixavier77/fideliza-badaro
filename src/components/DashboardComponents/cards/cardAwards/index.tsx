@@ -9,9 +9,9 @@ import Money from '@/utils/masks/money';
 
 const CardAwards = ({ award }: any) => {
   const [openEdit, setopenEdit] = useState(false);
-  const [userSelected, setuserSelected] = useState<User>()
+  const [awardSelected, setawardSelected] = useState<User>()
   const handleOpenEditUser = useCallback((user: User) => {
-    setuserSelected(user);
+    setawardSelected(user);
     setopenEdit(true);
   }, []);
 
@@ -36,7 +36,7 @@ const CardAwards = ({ award }: any) => {
       <ModalAwards
         open={openEdit}
         setIsClose={handleCloseEditUser}
-        userData={userSelected}
+        awardEdit={awardSelected}
 
       />
     </div>

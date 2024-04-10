@@ -16,21 +16,21 @@ const AwardsContent = ({ hidden }: any) => {
   const [data, setdata] = useState<Award[]>();
   const [dataFilter, setdatafilter] = useState<Award[]>();
   useEffect(() => {
-    if(!storeSelected) return;
+    if (!storeSelected) return;
     const onSubscribe = new AwardDB(storeSelected).on(setdata, orderBy('name', 'asc'));
     return () => {
       onSubscribe();
     };
-  }, [hidden, storeSelected])
+  }, [storeSelected])
 
 
   useEffect(() => {
     if (tab === 'all') {
       setdatafilter(data);
     } else if (tab === 'active') {
-      setdatafilter(data.filter(data => data.status));
+      setdatafilter(data?.filter(data => data.status));
     } else {
-      setdatafilter(data.filter(data => !data.status));
+      setdatafilter(data?.filter(data => !data.status));
 
     }
   }, [data, tab])

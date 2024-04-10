@@ -32,24 +32,24 @@ const UsersContent = ({ hidden }: any) => {
   const [usersFilter, setUsersFilter] = useState<User[]>([])
 
   useEffect(() => {
-    if (!hidden && !storeSelected) return;
-    const onSubscribe = new UserDB().on(setUsers, orderBy('name', 'asc'), where('storeId', '==', storeSelected));
+    if (!storeSelected) return;
+    const onSubscribe = new UserDB().on(setUsers, orderBy('name', 'asc'));
     return () => {
       onSubscribe();
     };
-  }, [hidden, storeSelected])
+  }, [storeSelected])
+
 
 
   useEffect(() => {
     if (tab === 'all') {
-      setUsersFilter(users);
+      setUsersFilter(users.filter(user => user.storeId === storeSelected));
     } else if (tab === 'active') {
-      setUsersFilter(users.filter(user => user.status));
+      setUsersFilter(users.filter(user => user.status && user.storeId === storeSelected));
     } else {
-      setUsersFilter(users.filter(user => !user.status));
-
+      setUsersFilter(users.filter(user => !user.status && user.storeId === storeSelected));
     }
-  }, [users, tab])
+  }, [storeSelected, users, tab])
 
 
 
