@@ -69,7 +69,7 @@ const StoresContent = ({ hidden }: any) => {
       </div>
 
       <div className='mt-10 flex flex-col gap-4'>
-        {storesFilter?.map((store) =>
+        {storesFilter?.map((store: Store) =>
           <>
             <CardStore store={store} />
           </>

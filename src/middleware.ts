@@ -5,7 +5,7 @@ import { ROLE } from "./utils/types/roles";
 
 export default async function middleware(request: NextRequest) {
   const token = request.cookies.get('next-auth.session-token')?.value;
-  const decodedToken = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+  const decodedToken: any = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   const signInURL = new URL('/login', request.url)
   const homeURL = new URL('/home', request.url)
   if (!token) {

@@ -6,8 +6,13 @@ import { useCallback, useState } from 'react';
 import ModalStores from '../../modals/ModalStores';
 
 
+interface CardStoreProps {
+  store: Store;
+}
 
-const CardStore = ({ store }: Store) => {
+
+
+const CardStore: React.FC<CardStoreProps> = ({ store }) => {
   const [openEdit, setopenEdit] = useState(false);
   const [dataSelected, setdataSelected] = useState<Store>()
   const handleOpenEditData = useCallback((data: Store) => {

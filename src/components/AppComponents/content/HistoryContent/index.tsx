@@ -1,8 +1,13 @@
-import React from 'react'
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationAnimation from '@/components/animations/notifications';
+import React from 'react';
 
-const HistoryContent = ({ hidden }: any) => {
+interface HistoryContentProps {
+  hidden: boolean;
+}
+
+
+
+const HistoryContent: React.FC<HistoryContentProps> = ({ hidden }) => {
   return (
     <div hidden={hidden}>
       <h1 className='text-black text-3xl font-bold text-center mb-3'>Histórico</h1>

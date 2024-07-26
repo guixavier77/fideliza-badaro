@@ -1,6 +1,11 @@
 import PointsAnimation from '../../../animations/points'
 
-const HomeContent = ({hidden}) => {
+interface ProfileContentProps {
+  hidden: boolean;
+}
+
+
+const HomeContent: React.FC<ProfileContentProps> = ({ hidden }) => {
   return (
     <div hidden={hidden}>
       <h1 className='text-black text-3xl font-bold'>Acumule pontos <br /> e troque por <br /> benefícios</h1>

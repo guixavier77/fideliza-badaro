@@ -52,7 +52,7 @@ export default function Register() {
     validate,
     onSubmit: async (values) => {
       setloading(true);
-      const data = {
+      const data: any = {
         name: values.name,
         cpf: masks.unmask(values.cpf),
         email: values.email,

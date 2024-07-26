@@ -50,7 +50,7 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
     },
     onSubmit: async (values) => {
       setloading(true);
-      const data = {
+      const data: any = {
         name: values.name,
         price: Number(masks.unmask(values.price)),
         image_url: values.image_url,
@@ -75,13 +75,13 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
   })
 
 
-  const handleImage = useCallback((e) => {
+  const handleImage = useCallback((e: any) => {
     const [file] = Array.from(e.target.files)
 
     formik.setValues({
       ...formik.values,
-      image: file,
-      image_url: URL.createObjectURL(file)
+      image: file as any,
+      image_url: URL.createObjectURL(file as any)
     })
   }, [formik.values])
   return (

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
 import { QrReader } from "react-qr-reader";
+interface QrCodeContentProps {
+  hidden: boolean;
+}
 
-const QrCodeContent = ({hidden}) => {
+const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
   const [selected, setSelected] = useState("environment");
   const [startScan, setStartScan] = useState(false);
   const [loadingScan, setLoadingScan] = useState(false);
   const [data, setData] = useState("");
 
-  const handleScan = async (scanData) => {
+  const handleScan = async (scanData: any) => {
     setLoadingScan(true);
     console.log(`loaded data data`, scanData);
     if (scanData && scanData !== "") {
@@ -19,7 +22,7 @@ const QrCodeContent = ({hidden}) => {
       // setPrecScan(scanData);
     }
   };
-  const handleError = (err) => {
+  const handleError = (err: any) => {
     console.error(err);
   };
   return (
@@ -37,12 +40,8 @@ const QrCodeContent = ({hidden}) => {
       >
         {startScan ? "Stop Scan" : "Start Scan"}
       </button>
-      {startScan && (
+      {/* {startScan && (
         <>
-          <select onChange={(e) => setSelected(e.target.value)}>
-            <option value={"environment"}>Back Camera</option>
-            <option value={"user"}>Front Camera</option>
-          </select>
           <QrReader
             facingMode={selected}
             delay={1000}
@@ -52,7 +51,7 @@ const QrCodeContent = ({hidden}) => {
             style={{ width: "300px" }}
           />
         </>
-      )}
+      )} */}
       {loadingScan && <p>Loading</p>}
       {data !== "" && <p>{data}</p>}
     </div>

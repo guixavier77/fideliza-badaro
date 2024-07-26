@@ -11,7 +11,7 @@ class UserDB extends FirestorePipe {
 		super(UserDB.colName);
 	}
 
-	public createCustomId(id: string, data: User): Promise<any> {
+	public createCustomId(id: string, data: any): Promise<any> {
 		return this._define(id, data);
 	}
 	public create(data: User): Promise<any> {

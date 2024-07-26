@@ -10,7 +10,11 @@ import { useFormik } from 'formik';
 import { useSession } from 'next-auth/react';
 import React, { useContext, useEffect } from 'react';
 
-const ProfileContent = ({ hidden }: any) => {
+interface ProfileContentProps {
+  hidden: boolean;
+}
+
+const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
   const { user } = useContext(DefaultContext);
   const stylesInput = 'bg-white border-none shadow-sm py-3'
   useEffect(() => {

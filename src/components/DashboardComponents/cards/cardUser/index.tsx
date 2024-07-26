@@ -7,7 +7,12 @@ import { ROLE_PTBR } from '@/utils/types/roles';
 import ModalUsers from '../../modals/ModalUsers';
 import Person from '@mui/icons-material/Person';
 
-const CardUser = ({ user }: User) => {
+
+interface CardUserProps {
+  user: User;
+}
+
+const CardUser: React.FC<CardUserProps> = ({ user }) => {
   const [openEdit, setopenEdit] = useState(false);
   const [userSelected, setuserSelected] = useState<User>()
   const handleOpenEditUser = useCallback((user: User) => {
@@ -22,7 +27,7 @@ const CardUser = ({ user }: User) => {
     <div className='bg-white shadow-lg rounded-40 py-2 px-4'>
       <div className='flex items-center'>
         <div className={`${user.status ? 'bg-green' : 'bg-red'} mr-2 flex justify-normal items-center rounded-xl p-1`}>
-          <Person style={{ fontSize: 32, color: '#FFFFFF'}} />
+          <Person style={{ fontSize: 32, color: '#FFFFFF' }} />
         </div>
         <div className='grid grid-cols-12 gap-x-4 items-center w-full pl-2'>
           <p className='font-bold col-span-3 text-left'>{user.name}</p>

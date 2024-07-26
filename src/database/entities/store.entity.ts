@@ -14,6 +14,6 @@ export default interface Store extends DefaultEntityType {
     street: string,
     number: string,
   },
-  status: boolena,
+  status: boolean,
 
 }

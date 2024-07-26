@@ -21,9 +21,9 @@ function validateCreate(body: any) {
   if (!body.street) throw new RequestException(400, 'Campo rua ausente');
 }
 
-async function create(body: Store) {
+async function create(body: any) {
   try {
-    const data = {
+    const data: any = {
       name: body.name,
       cnpj: masks.unmask(body.cnpj),
       email: body.email,

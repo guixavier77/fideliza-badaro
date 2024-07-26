@@ -11,7 +11,7 @@ function validateCreate(body: any) {
 
 async function create(body: any) {
   try {
-    const data = {
+    const data: any = {
       name: body.name,
       active: true,
       points: body.points,
@@ -53,7 +53,7 @@ function validateUpdate(body: any) {
 
 async function update(body: any) {
   try {
-    const data = {
+    const data: any = {
       name: body.name,
       active: true,
       points: body.points,

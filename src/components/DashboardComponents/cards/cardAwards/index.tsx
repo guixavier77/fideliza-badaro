@@ -5,17 +5,22 @@ import ModalAwards from '../../modals/ModalAwards';
 import Image from 'next/image';
 import masks from '@/utils/masks/masks';
 import Money from '@/utils/masks/money';
+import Award from '@/database/entities/award.entity';
 
 
-const CardAwards = ({ award }: any) => {
+interface CardAwardProps {
+  award: Award;
+}
+
+const CardAwards: React.FC<CardAwardProps> = ({ award }) => {
   const [openEdit, setopenEdit] = useState(false);
-  const [awardSelected, setawardSelected] = useState<User>()
-  const handleOpenEditUser = useCallback((user: User) => {
-    setawardSelected(user);
+  const [awardSelected, setawardSelected] = useState<Award>()
+  const handleOpenEditAward = useCallback((award: Award) => {
+    setawardSelected(award);
     setopenEdit(true);
   }, []);
 
-  const handleCloseEditUser = useCallback(() => {
+  const handleCloseEditAward = useCallback(() => {
     setopenEdit(false);
   }, []);
   return (
@@ -29,13 +34,13 @@ const CardAwards = ({ award }: any) => {
           <div className='col-span-2 flex'>
             <p className={`${award?.status ? 'bg-green' : 'bg-red'} rounded-20 text-white px-3 py-1 `}>{`${award?.status ? 'Ativo' : 'Inativo'}`}</p>
           </div>
-          <button onClick={() => handleOpenEditUser(award)} className='col-start-12 col-span-1 text-right'><ModeEditOutlineIcon /></button>
+          <button onClick={() => handleOpenEditAward(award)} className='col-start-12 col-span-1 text-right'><ModeEditOutlineIcon /></button>
         </div>
       </div>
 
       <ModalAwards
         open={openEdit}
-        setIsClose={handleCloseEditUser}
+        setIsClose={handleCloseEditAward}
         awardEdit={awardSelected}
 
       />

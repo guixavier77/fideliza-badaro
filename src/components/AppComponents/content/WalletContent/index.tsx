@@ -1,8 +1,11 @@
 import React from 'react'
 import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
 
+interface WalletContentProps {
+  hidden: boolean;
+}
 
-const WalletContent = ({ hidden }) => {
+const WalletContent: React.FC<WalletContentProps> = ({ hidden }) => {
   return (
     <div hidden={hidden}>
       <h1 className='text-black text-3xl font-bold text-center mb-5'>Pontos</h1>

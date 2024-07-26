@@ -63,7 +63,7 @@ const AwardsContent = ({ hidden }: any) => {
       </div>
 
       <div className='mt-10 flex flex-col gap-4'>
-        {dataFilter?.map((data) =>
+        {dataFilter?.map((data: Award) =>
           <>
             <CardAwards award={data} />
           </>

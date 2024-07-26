@@ -41,7 +41,7 @@ export const TABS_DASH_PTBR = {
   [TABS_DASH.QRCODE]: 'QR Code',
   [TABS_DASH.AWARDS]: 'Prêmios',
 }
-export const ROLE_PTBR = {
+export const TABS_PTBR = {
   [TABS.HOME]: 'Ínicio',
   [TABS.WALLET]: 'Carteira',
   [TABS.QRCODE]: 'QR Code',

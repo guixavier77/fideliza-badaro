@@ -11,7 +11,7 @@ function validateCreate(body: any) {
 
 async function create(body: any) {
   try {
-    const data = {
+    const data: any = {
       name: body.name,
       status: true,
       price: body.price,
