@@ -1,15 +1,16 @@
-import ButtonStyled from '@/components/button';
-import InputStyled from '@/components/input';
+import ButtonStyled from '@/components/GlobalComponents/button';
+import InputStyled from '@/components/GlobalComponents/input';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 import { CircularProgress, Modal } from '@mui/material';
 import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import masks from '@/utils/masks/masks';
 import LocalPhoneOutlined from '@mui/icons-material/LocalPhoneOutlined';
 import BusinessIcon from '@mui/icons-material/Business';
 import api from '@/services/api';
+import apiViaCep from '@/services/apiViaCep';
 
 const ModalStores = ({ open, setIsClose, data }: any) => {
   const [loading, setloading] = useState(false);
@@ -48,8 +49,6 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
     }
   }, [data, open])
 
-
-
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -86,6 +85,35 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
       });
     }
   })
+
+
+  const getCepData = useCallback(async (cep: string) => {
+    const unmaskCep = masks.unmask(cep);
+    const response = await apiViaCep.get(`${unmaskCep}/json`);
+    if (response) {
+      formik.setValues({
+        ...formik.values,
+        uf: response.data?.uf,
+        city: response.data?.localidade,
+        neighborhood: response.data?.bairro,
+        street: response.data?.logradouro,
+      })
+    }
+    console.log(data);
+  }, [])
+
+  useEffect(() => {
+    if (formik.values.cep.length < 10 && !data) {
+      formik.setValues({
+        ...formik.values,
+        uf: '',
+        city: '',
+        neighborhood: '',
+        street: '',
+      })
+    }
+    if (formik.values.cep.length === 10) getCepData(formik.values.cep)
+  }, [data, formik.values.cep, getCepData])
   return (
     <Modal
       open={open}
@@ -101,7 +129,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
             value={formik.values.name}
             label="Nome"
             type="text"
-            placeholder="Loja"
+            placeholder="Nome da Loja"
             icon={<StoreOutlinedIcon style={{ color: '#C90B0B' }} />}
           />
 
@@ -111,7 +139,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
             value={masks.cnpjMask(formik.values.cnpj)}
             label="CNPJ"
             type="text"
-            placeholder="Exemplo"
+            placeholder="00.000.000/0000-00"
             icon={<ArticleOutlinedIcon style={{ color: '#C90B0B' }} />}
           />
           <InputStyled
@@ -134,12 +162,12 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
             icon={<LocalPhoneOutlined style={{ color: '#C90B0B' }} />}
           />
 
-          <p className='font-semibold text-xl text-left uppercase'>Endereço</p>
+          <p className='font-semibold text-xl text-left'>Endereço</p>
           <div className='flex gap-4' >
             <InputStyled
               // stylesInput='w-3/4'
               id="cep"
-              value={formik.values.cep}
+              value={masks.cepMask(formik.values.cep)}
               onChange={formik.handleChange}
               label="CEP"
               type="text"
@@ -189,7 +217,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
               onChange={formik.handleChange}
               label="Rua"
               type="text"
-              placeholder="0000-000"
+              placeholder="Rua"
               icon={<BusinessIcon style={{ color: '#C90B0B' }} />}
             />
 

@@ -1,38 +1,60 @@
-import React, { useState } from 'react';
-import { Scanner } from '@yudiel/react-qr-scanner';
-import ButtonStyled from '@/components/button';
+import React, { useEffect, useState } from 'react';
 
-const QrCodeContent = ({ hidden }) => {
-  const [cameraPermissionGranted, setCameraPermissionGranted] = useState(false);
+import { QrReader } from "react-qr-reader";
 
-  const requestCameraPermission = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      // Se a permissão for concedida, atualize o estado
-      setCameraPermissionGranted(true);
-      // Encerrar a stream para liberar a câmera
-      stream.getTracks().forEach(track => track.stop());
-    } catch (error) {
-      // Se ocorrer um erro ao solicitar a permissão, trate-o aqui
-      console.error('Erro ao solicitar permissão de câmera:', error);
+const QrCodeContent = ({hidden}) => {
+  const [selected, setSelected] = useState("environment");
+  const [startScan, setStartScan] = useState(false);
+  const [loadingScan, setLoadingScan] = useState(false);
+  const [data, setData] = useState("");
+
+  const handleScan = async (scanData) => {
+    setLoadingScan(true);
+    console.log(`loaded data data`, scanData);
+    if (scanData && scanData !== "") {
+      console.log(`loaded >>>`, scanData);
+      setData(scanData);
+      setStartScan(false);
+      setLoadingScan(false);
+      // setPrecScan(scanData);
     }
   };
-
+  const handleError = (err) => {
+    console.error(err);
+  };
   return (
-    <div hidden={hidden}>
-      <h1 className='text-black text-3xl font-bold text-center'>QRCODE</h1>
-      {!cameraPermissionGranted && (
-        <ButtonStyled title="Permitir acesso a câmera" onClick={requestCameraPermission} />
-      )}
-      {cameraPermissionGranted && (
-        <div className='mt-4'>
-          <Scanner
-            enabled={true}
-            onResult={(text, result) => console.log(text, result)}
-            onError={(error) => console.log(error?.message)}
+    <div className="App" hidden={hidden}>
+      <h1>Hello CodeSandbox</h1>
+      <h2>
+        Last Scan:
+        {selected}
+      </h2>
+
+      <button
+        onClick={() => {
+          setStartScan(!startScan);
+        }}
+      >
+        {startScan ? "Stop Scan" : "Start Scan"}
+      </button>
+      {startScan && (
+        <>
+          <select onChange={(e) => setSelected(e.target.value)}>
+            <option value={"environment"}>Back Camera</option>
+            <option value={"user"}>Front Camera</option>
+          </select>
+          <QrReader
+            facingMode={selected}
+            delay={1000}
+            onError={handleError}
+            onScan={handleScan}
+            // chooseDeviceId={()=>selected}
+            style={{ width: "300px" }}
           />
-        </div>
+        </>
       )}
+      {loadingScan && <p>Loading</p>}
+      {data !== "" && <p>{data}</p>}
     </div>
   );
 };

@@ -1,8 +1,8 @@
 'use client'
-import ButtonStyled from "@/components/button";
-import InputStyled from "@/components/input";
-import Loading from "@/components/loading";
-import Logo from "@/components/logo";
+import ButtonStyled from "@/components/GlobalComponents/button";
+import InputStyled from "@/components/GlobalComponents/input";
+import Loading from "@/components/GlobalComponents/loading";
+import Logo from "@/components/GlobalComponents/logo";
 import UserDB from "@/database/wrappers/user";
 import { ROLE } from "@/utils/types/roles";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -54,7 +54,7 @@ export default function Login() {
 
   console.log(error);
   return (
-    <form onSubmit={formik.handleSubmit} className="w-screen flex flex-col justify-evenly p-4 h-screen  ">
+    <form onSubmit={formik.handleSubmit} className="w-screen mx-auto flex flex-col justify-evenly p-4 h-screen  ">
       {loading && <Loading text="Autenticando..." />}
       {!loading && <>
         <div>

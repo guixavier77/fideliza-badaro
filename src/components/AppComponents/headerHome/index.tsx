@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from '../../logo'
+import Logo from '../../GlobalComponents/logo'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';

@@ -1,5 +1,5 @@
-import ButtonStyled from '@/components/button';
-import InputStyled from '@/components/input';
+import ButtonStyled from '@/components/GlobalComponents/button';
+import InputStyled from '@/components/GlobalComponents/input';
 import { DefaultContext } from '@/contexts/defaultContext';
 import api from '@/services/api';
 import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';

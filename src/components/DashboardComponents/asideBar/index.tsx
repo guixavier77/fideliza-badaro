@@ -1,6 +1,6 @@
 'use client'
 import React, { useContext } from 'react'
-import Logo from '../../logo'
+import Logo from '../../GlobalComponents/logo'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonIcon from '@mui/icons-material/Person';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -13,7 +13,7 @@ import { DefaultContext } from '@/contexts/defaultContext';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import StoreIcon from '@mui/icons-material/Store';
 import { ROLE, ROLE_PTBR } from '@/utils/types/roles';
-import ButtonStyled from '@/components/button';
+import ButtonStyled from '@/components/GlobalComponents/button';
 
 const tabs = [
   {

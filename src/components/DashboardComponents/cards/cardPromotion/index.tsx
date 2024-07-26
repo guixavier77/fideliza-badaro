@@ -1,5 +1,5 @@
 
-import ButtonStyled from '@/components/button';
+import ButtonStyled from '@/components/GlobalComponents/button';
 import { DefaultContext } from '@/contexts/defaultContext';
 import Money from '@/utils/masks/money';
 import FlagIcon from '@mui/icons-material/Flag';

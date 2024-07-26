@@ -1,5 +1,5 @@
-import ButtonStyled from '@/components/button';
-import InputStyled from '@/components/input';
+import ButtonStyled from '@/components/GlobalComponents/button';
+import InputStyled from '@/components/GlobalComponents/input';
 import masks from '@/utils/masks/masks';
 import { ROLE, ROLE_PTBR } from '@/utils/types/roles';
 import ArticleOutlined from '@mui/icons-material/ArticleOutlined';
@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { CircularProgress, Modal } from '@mui/material';
 import { useFormik } from 'formik';
 import { useMemo, useState, useEffect, useContext } from 'react';
-import SelectStyled from '@/components/select';
+import SelectStyled from '@/components/GlobalComponents/select';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import api from '@/services/api';
 import { DefaultContext } from '@/contexts/defaultContext';

@@ -1,6 +1,6 @@
-import ButtonStyled from '@/components/button';
-import InputStyled from '@/components/input';
-import SelectStyled from '@/components/select';
+import ButtonStyled from '@/components/GlobalComponents/button';
+import InputStyled from '@/components/GlobalComponents/input';
+import SelectStyled from '@/components/GlobalComponents/select';
 import { DefaultContext } from '@/contexts/defaultContext';
 import Award from '@/database/entities/award.entity';
 import AwardDB from '@/database/wrappers/award';
@@ -137,24 +137,25 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
               title="Cancelar"
             />
 
-
             {loading ?
               <ButtonStyled
                 bgColor='bg-darkGray'
                 textColor='text-white'
                 type="submit"
                 styles="w-full"
-                title='Cadastrando...'
+                title={`${promotionEdit ? 'Atualizando...' : 'Cadastrando...'}`}
                 icon={<CircularProgress style={{ width: 20, height: 20, color: '#FFFFFF' }} />}
 
               /> :
               <ButtonStyled
                 type="submit"
                 styles="w-full"
-                title="Cadastrar"
+                title={`${promotionEdit ? 'Atualizar' : 'Cadastrar'}`}
               />
 
             }
+
+          
           </div>
         </form>
       </div>

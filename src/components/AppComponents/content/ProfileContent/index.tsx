@@ -1,4 +1,4 @@
-import InputStyled from '@/components/input';
+import InputStyled from '@/components/GlobalComponents/input';
 import { DefaultContext } from '@/contexts/defaultContext';
 import masks from '@/utils/masks/masks';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';

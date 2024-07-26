@@ -16,12 +16,12 @@ const PromotionsContent = ({ hidden }: any) => {
   const [promotionsFilter, setPromotionsFilter] = useState<Promotion[]>([])
 
   useEffect(() => {
-    if (!storeSelected && hidden) return;
+    if (!storeSelected) return;
     const onSubscribe = new PromotionsDB(storeSelected).on(setPromotions, orderBy('name', 'asc'));
     return () => {
       onSubscribe();
     };
-  }, [storeSelected, hidden])
+  }, [storeSelected])
 
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 'use client'
-import ButtonStyled from "@/components/button";
-import InputStyled from "@/components/input";
-import Loading from "@/components/loading";
+import ButtonStyled from "@/components/GlobalComponents/button";
+import InputStyled from "@/components/GlobalComponents/input";
+import Loading from "@/components/GlobalComponents/loading";
 import { auth } from "@/database/firebase/config";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';

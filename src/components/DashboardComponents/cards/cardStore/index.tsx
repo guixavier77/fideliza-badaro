@@ -28,7 +28,7 @@ const CardStore = ({ store }: Store) => {
           <p className='font-bold col-span-3 text-left'>{store.name}</p>
           <p className='font-light col-span-3'>{masks.cnpjMask(store.cnpj)}</p>
           <p className='font-light col-span-3'>{store.email}</p>
-          <p className='font-light col-span-2'>{store.phone}</p>
+          <p className='font-light col-span-2'>{masks.phoneMask(store.phone)}</p>
 
           <button onClick={() => handleOpenEditData(store)} className='col-start-12 col-span-1 text-right'><ModeEditOutlineIcon /></button>
         </div>

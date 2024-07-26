@@ -1,7 +1,7 @@
 'use client'
-import ButtonStyled from '@/components/button';
-import Loading from '@/components/loading';
-import Logo from '@/components/logo';
+import ButtonStyled from '@/components/GlobalComponents/button';
+import Loading from '@/components/GlobalComponents/loading';
+import Logo from '@/components/GlobalComponents/logo';
 import { DefaultContext } from '@/contexts/defaultContext';
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from 'react';
