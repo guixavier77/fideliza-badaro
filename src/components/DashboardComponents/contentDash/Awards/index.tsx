@@ -1,13 +1,12 @@
-import { TABS_FILTER } from '@/utils/types/tabs';
-import Add from '@mui/icons-material/Add';
-import { useCallback, useContext, useState, useEffect } from 'react';
-import ModalAwards from '../../modals/ModalAwards';
-import AwardDB from '@/database/wrappers/award';
 import { DefaultContext } from '@/contexts/defaultContext';
 import Award from '@/database/entities/award.entity';
+import AwardDB from '@/database/wrappers/award';
+import { TABS_FILTER } from '@/utils/types/tabs';
+import Add from '@mui/icons-material/Add';
 import { orderBy } from 'firebase/firestore';
-import user from '@/database/wrappers/user';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import CardAwards from '../../cards/cardAwards';
+import ModalAwards from '../../modals/ModalAwards';
 
 const AwardsContent = ({ hidden }: any) => {
   const { storeSelected } = useContext(DefaultContext)

@@ -1,13 +1,12 @@
 'use client'
-import React from 'react';
-import HomeIcon from '@mui/icons-material/Home';
-import WalletIcon from '@mui/icons-material/Wallet';
-import QrCodeIcon from '@mui/icons-material/QrCode';
-import HistoryIcon from '@mui/icons-material/History';
-import PersonIcon from '@mui/icons-material/Person';
-import { TABS } from '@/utils/types/tabs';
 import { useTab } from '@/contexts/tabContext';
+import { TABS } from '@/utils/types/tabs';
+import HistoryIcon from '@mui/icons-material/History';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
+import WalletIcon from '@mui/icons-material/Wallet';
+import React from 'react';
 
 const styleIcons = {
   fontSize: 48,

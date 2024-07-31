@@ -1,8 +1,8 @@
+import UserDB from "@/database/wrappers/user";
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import NextAuth, { SessionOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../../database/firebase/config'
-import UserDB from "@/database/wrappers/user";
+import { auth } from '../../../../database/firebase/config';
 const { admin } = require('../../../../database/firebase/admin');
 const authAdmin = admin.auth();
 
@@ -104,4 +104,4 @@ const handler = NextAuth({
 
 
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

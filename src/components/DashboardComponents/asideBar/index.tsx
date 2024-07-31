@@ -1,19 +1,17 @@
 'use client'
-import React, { useContext } from 'react'
-import Logo from '../../GlobalComponents/logo'
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PersonIcon from '@mui/icons-material/Person';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import GroupIcon from '@mui/icons-material/Group';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import QrCodeIcon from '@mui/icons-material/QrCode';
-import { TABS_DASH } from '@/utils/types/tabs';
-import { useTab } from '@/contexts/tabContext';
 import { DefaultContext } from '@/contexts/defaultContext';
-import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
-import StoreIcon from '@mui/icons-material/Store';
+import { useTab } from '@/contexts/tabContext';
 import { ROLE, ROLE_PTBR } from '@/utils/types/roles';
-import ButtonStyled from '@/components/GlobalComponents/button';
+import { TABS_DASH } from '@/utils/types/tabs';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import GroupIcon from '@mui/icons-material/Group';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import PersonIcon from '@mui/icons-material/Person';
+import QrCodeIcon from '@mui/icons-material/QrCode';
+import StoreIcon from '@mui/icons-material/Store';
+import React, { useContext } from 'react';
 
 const tabs = [
   {

@@ -1,11 +1,11 @@
 // api/user.ts
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import User from "@/database/entities/user.entity";
 import { auth } from "@/database/firebase/config";
 import UserDB from "@/database/wrappers/user";
-import RequestException from "@/utils/requestException";
-import { NextRequest, NextResponse } from "next/server";
-import User from "@/database/entities/user.entity";
 import masks from "@/utils/masks/masks";
+import RequestException from "@/utils/requestException";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { NextRequest } from "next/server";
 
 
 function validateCreate(body: User) {

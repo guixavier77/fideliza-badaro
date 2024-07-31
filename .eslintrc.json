@@ -5,5 +5,5 @@
   ],
   "rules": {
     "prettier/prettier": "off"
-  },
+  }
 }

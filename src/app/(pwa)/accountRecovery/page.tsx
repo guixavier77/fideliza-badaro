@@ -9,7 +9,6 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 
 

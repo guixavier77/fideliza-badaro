@@ -15,7 +15,6 @@ import { useState } from "react";
 
 
 export default function Login() {
-  const { data } = useSession();
   const router = useRouter();
   const [loading, setloading] = useState(false);
   const [error, setError] = useState('');

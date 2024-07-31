@@ -1,11 +1,10 @@
-import User from '@/database/entities/user.entity'
-import React, { useState, useCallback } from 'react'
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import User from '@/database/entities/user.entity';
 import masks from '@/utils/masks/masks';
 import { ROLE_PTBR } from '@/utils/types/roles';
-import ModalUsers from '../../modals/ModalUsers';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import Person from '@mui/icons-material/Person';
+import React, { useCallback, useState } from 'react';
+import ModalUsers from '../../modals/ModalUsers';
 
 
 interface CardUserProps {

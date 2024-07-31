@@ -1,13 +1,9 @@
 // api/user.ts
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/database/firebase/config";
-import UserDB from "@/database/wrappers/user";
-import RequestException from "@/utils/requestException";
-import { NextRequest, NextResponse } from "next/server";
 import User from "@/database/entities/user.entity";
-import masks from "@/utils/masks/masks";
 import StoreDB from "@/database/wrappers/store";
-import Store from "@/database/entities/store.entity";
+import masks from "@/utils/masks/masks";
+import RequestException from "@/utils/requestException";
+import { NextRequest } from "next/server";
 
 function validateCreate(body: any) {
   if (!body.name) throw new RequestException(400, 'Campo name ausente');

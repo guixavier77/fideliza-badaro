@@ -1,7 +1,6 @@
-import { QueryConstraint, Unsubscribe, where, query, getDocs, limit } from 'firebase/firestore';
-import FirestorePipe from '../utils/pipe';
+import { QueryConstraint, Unsubscribe, getDocs, query, where } from 'firebase/firestore';
 import User from '../entities/user.entity';
-import { getFirestore } from 'firebase/firestore';
+import FirestorePipe from '../utils/pipe';
 
 
 

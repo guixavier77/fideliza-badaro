@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { QrReader } from "react-qr-reader";
 interface QrCodeContentProps {
   hidden: boolean;
 }

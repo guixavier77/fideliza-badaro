@@ -5,7 +5,7 @@ import Money from '@/utils/masks/money';
 import FlagIcon from '@mui/icons-material/Flag';
 import MonetizationOn from '@mui/icons-material/MonetizationOn';
 import Image from 'next/image';
-import { useCallback, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import ModalPromotions from '../../modals/ModalPromotions';
 
 

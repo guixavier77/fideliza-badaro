@@ -1,11 +1,9 @@
-import User from '@/database/entities/user.entity';
+import Award from '@/database/entities/award.entity';
+import Money from '@/utils/masks/money';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import Image from 'next/image';
 import { useCallback, useState } from 'react';
 import ModalAwards from '../../modals/ModalAwards';
-import Image from 'next/image';
-import masks from '@/utils/masks/masks';
-import Money from '@/utils/masks/money';
-import Award from '@/database/entities/award.entity';
 
 
 interface CardAwardProps {

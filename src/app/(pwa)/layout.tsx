@@ -20,9 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} overflow-hidden center`}>
         <Providers>
-         
-            {children}
-          
+
+          {children}
+
 
         </Providers>
 
