@@ -42,6 +42,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
         {startScan ? "Stop Scan" : "Start Scan"}
       </button>
 
+
           <p> TESTE DO DEPLOY</p>
           <QrReader
             facingMode={selected}
