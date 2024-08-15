@@ -51,8 +51,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
             style={{ width: "300px" }}
           />
 
-        
-      )}
+      
     </div>
   );
 };
