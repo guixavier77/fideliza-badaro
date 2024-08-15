@@ -30,13 +30,13 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
 
   return (
     <div className="App" hidden={hidden}>
-
+      <h1 className='text-black text-3xl font-bold text-center'>QR Code</h1>
       <p>{data ? data : ''}</p>
       <QrReader
         constraints={{facingMode: "environment"}}
-        scanDelay={1000}
-        onResult={(result, error,codeReader ) => {
-          setData(codeReader)
+        scanDelay={5000}
+        onResult={(result, error ) => {
+          if(result) setData(result)
         }}
         
       />
