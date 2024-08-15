@@ -1,18 +1,21 @@
 'use client'
+import { DefaultContext } from '@/contexts/defaultContext';
 import { useTab } from '@/contexts/tabContext';
+import { ROLE } from '@/utils/types/roles';
 import { TABS } from '@/utils/types/tabs';
 import HistoryIcon from '@mui/icons-material/History';
 import HomeIcon from '@mui/icons-material/Home';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import PersonIcon from '@mui/icons-material/Person';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import WalletIcon from '@mui/icons-material/Wallet';
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
 
 const styleIcons = {
   fontSize: 48,
   color: '#1D1D1D'
 }
-const tabs = [
+const tabsCommomUser = [
   {
     name: 'Ínicio',
     icon: <HomeIcon style={styleIcons} />,
@@ -45,13 +48,29 @@ const tabs = [
 ];
 
 
-const BottomNavigation = () => {
-  const { tabSelected, setTabSelected } = useTab();
+const tabsAdminOrCashier = [
+  {
+    name: 'Promoções',
+    icon: <MonetizationOnIcon style={styleIcons} />,
+    value: TABS.PROMOTIONS,
+  },
+  {
+    name: 'Perfil',
+    icon: <PersonIcon style={styleIcons} />,
+    value: TABS.PROFILE,
+  }
+];
 
+
+
+const BottomNavigation = () => {
+  const {user} = useContext(DefaultContext);
+  const { tabSelected, setTabSelected } = useTab();
+  const renderTabs = useMemo(() => user?.role === ROLE.CUSTOMER ? tabsCommomUser : tabsAdminOrCashier ,[user]) 
   return (
     <div className='w-screen h-20 bg-white z-10 absolute bottom-0 shadow-lg'>
       <div className='flex h-full items-center justify-between px-4'>
-        {tabs.map((tab, index) => (
+        {renderTabs.map((tab, index) => (
           <button key={index} className={`${tabSelected === tab.value ? 'mb-4' : ''} flex items-center flex-col `} onClick={() => setTabSelected(tab.value)}>
             <div className={`${tabSelected === tab.value ? 'bg-red rounded-full w-16 h-16 flex justify-center items-center' : ''} transition-colors duration-300 ease-in`}>
               {React.cloneElement(tab.icon, {

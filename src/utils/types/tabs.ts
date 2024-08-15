@@ -4,6 +4,7 @@ export const TABS = {
   QRCODE: 'qrcode',
   HISTORY: 'history',
   PROFILE: 'profile',
+  PROMOTIONS: 'promotions',
 }
 export const TABS_FILTER = [
   {

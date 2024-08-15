@@ -1,10 +1,11 @@
 'use client'
 import BottomNavigation from '@/components/AppComponents/bottonNavigation'
-import HistoryContent from '@/components/AppComponents/content/HistoryContent'
-import HomeContent from '@/components/AppComponents/content/HomeContent'
-import ProfileContent from '@/components/AppComponents/content/ProfileContent'
-import QrCodeContent from '@/components/AppComponents/content/QrCodeContent'
-import WalletContent from '@/components/AppComponents/content/WalletContent'
+import AppPromotionsContent from '@/components/AppComponents/contentAdminUser/PromotionsContent'
+import HistoryContent from '@/components/AppComponents/contentCommonUser/HistoryContent'
+import HomeContent from '@/components/AppComponents/contentCommonUser/HomeContent'
+import ProfileContent from '@/components/AppComponents/contentCommonUser/ProfileContent'
+import QrCodeContent from '@/components/AppComponents/contentCommonUser/QrCodeContent'
+import WalletContent from '@/components/AppComponents/contentCommonUser/WalletContent'
 import HeaderHome from '@/components/AppComponents/headerHome'
 import { useTab } from '@/contexts/tabContext'
 import { TABS } from '@/utils/types/tabs'
@@ -21,6 +22,8 @@ const Home = () => {
         <QrCodeContent hidden={tabSelected !== TABS.QRCODE} />
         <HistoryContent hidden={tabSelected !== TABS.HISTORY} />
         <ProfileContent hidden={tabSelected !== TABS.PROFILE} />
+
+        <AppPromotionsContent  hidden={tabSelected !== TABS.PROMOTIONS} />
       </div>
 
       <BottomNavigation />

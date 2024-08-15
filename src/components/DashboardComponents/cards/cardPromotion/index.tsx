@@ -5,13 +5,30 @@ import Money from '@/utils/masks/money';
 import FlagIcon from '@mui/icons-material/Flag';
 import MonetizationOn from '@mui/icons-material/MonetizationOn';
 import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { useContext, useState ,useEffect} from 'react';
 import ModalPromotions from '../../modals/ModalPromotions';
+import Award from '@/database/entities/award.entity';
+import AwardDB from '@/database/wrappers/award';
 
 
 
 const CardPromotion = ({ promotion }: any) => {
-  const { awardsDicionary } = useContext(DefaultContext);
+  const {storeSelected} = useContext(DefaultContext);
+  const [awardsDicionary, setawardsDicionary] = useState<Award>();
+
+  useEffect(() => {
+    if (!storeSelected) return;
+    const onSubscribe = new AwardDB(storeSelected).on((awards) => {
+      const awardsDicionary: any = {}
+      awards.forEach((award) => {
+        awardsDicionary[award.id] = award;
+      })
+      setawardsDicionary(awardsDicionary);
+    })
+    return () => {
+      onSubscribe();
+    };
+  }, [storeSelected])
   const [openEdit, setOpenEdit] = useState(false);
   return (
     <div className='bg-white shadow-lg rounded-20 w-60'>
