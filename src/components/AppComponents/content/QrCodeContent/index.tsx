@@ -45,12 +45,19 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
 
           <p> TESTE DO DEPLOY</p>
           <QrReader
-            facingMode={selected}
-            delay={1000}
-            onError={handleError}
-            onScan={handleScan}
-            style={{ width: "300px" }}
-          />
+          constraints={{facingMode: "user"}}
+          scanDelay={1000}
+          onResult={(result, error) => {
+            if (!!result) {
+              console.log(result);
+            }
+
+            if (!!error) {
+              console.info(error);
+            }
+          }}
+        
+      />
 
       
     </div>
