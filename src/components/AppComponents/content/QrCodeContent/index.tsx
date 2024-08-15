@@ -30,32 +30,19 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
 
   return (
     <div className="App" hidden={hidden}>
-      <h1>Hello CodeSandbox</h1>
-      <h2>Last Scan: {data || "No scan yet"}</h2>
 
-      <button
-        onClick={() => {
-          setStartScan(!startScan);
-          setLoadingScan(false);
+      <QrReader
+        constraints={{facingMode: "environment"}}
+        scanDelay={1000}
+        onResult={(result, error) => {
+          if (!!result) {
+            console.log(result);
+          }
+
+          if (!!error) {
+            console.info(error);
+          }
         }}
-      >
-        {startScan ? "Stop Scan" : "Start Scan"}
-      </button>
-
-
-          <p> TESTE DO DEPLOY</p>
-          <QrReader
-          constraints={{facingMode: "user"}}
-          scanDelay={1000}
-          onResult={(result, error) => {
-            if (!!result) {
-              console.log(result);
-            }
-
-            if (!!error) {
-              console.info(error);
-            }
-          }}
         
       />
 
