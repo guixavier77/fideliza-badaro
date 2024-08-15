@@ -1,46 +1,33 @@
 import React, { useState } from 'react';
 import {QrReader} from "react-qr-reader";
+import { useRouter } from "next/navigation";
+import {QRCodeSVG} from 'qrcode.react';
 
 interface QrCodeContentProps {
   hidden: boolean;
 }
 
 const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
-  const [selected, setSelected] = useState("environment");
-  const [startScan, setStartScan] = useState(false);
-  const [loadingScan, setLoadingScan] = useState(false);
+  const router = useRouter();
   const [data, setData] = useState<any>(null);
 
-  const handleError = (err: any) => {
-    console.error(err);
-    setLoadingScan(false);
-  };
-
-  const handleScan = async (scanData: any) => {
-    setLoadingScan(true);
-    console.log(`loaded data data`, scanData);
-    if (scanData && scanData !== "") {
-      console.log(`loaded >>>`, scanData);
-      setData(scanData);
-      setStartScan(false);
-      setLoadingScan(false);
-      // setPrecScan(scanData);
-    }
-  };
 
   return (
-    <div className="App" hidden={hidden}>
-      <h1 className='text-black text-3xl font-bold text-center'>QR Code</h1>
+    <div hidden={hidden}>
+      <h1 className='text-black text-3xl font-bold text-center mb-10'>QR Code</h1>
+      <p className='text-black text-2xl font-light text-center'>Faça a leitura do QR Code</p>
 
-      <p>{data ? data?.text : ''}</p>
       <QrReader
         constraints={{facingMode: "environment"}}
-        scanDelay={5000}
+        scanDelay={2000}
         onResult={(result, error ) => {
-          if(result) setData(result)
+          if(result) router.push((result as any)?.text);
         }}
-        
+        className='mt-auto'
+      
       />
+      
+        <p>{data ? data?.text : ''}</p>
 
       
     </div>
