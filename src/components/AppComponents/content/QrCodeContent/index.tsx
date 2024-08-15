@@ -42,8 +42,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
         {startScan ? "Stop Scan" : "Start Scan"}
       </button>
 
-      {startScan && (
-        <>
+          <p> TESTE DO DEPLOY</p>
           <QrReader
             facingMode={selected}
             delay={1000}
@@ -51,8 +50,8 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
             onScan={handleScan}
             style={{ width: "300px" }}
           />
-          {loadingScan && <p>Loading...</p>}
-        </>
+
+        
       )}
     </div>
   );
