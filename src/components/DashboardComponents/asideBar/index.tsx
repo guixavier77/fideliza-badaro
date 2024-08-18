@@ -76,7 +76,7 @@ const AsideBar = () => {
             (tab.value !== TABS_DASH.STORE || user?.role === ROLE.SUPERADMIN) && (
               <button
                 key={tab.value}
-                className={`button ${tabDashSelected === tab.value ? 'bg-red py-2 rounded-40' : ''} pl-2 flex gap-5 items-center mb-5 transition-colors duration-300 ease-in`}
+                className={`button ${tabDashSelected === tab.value ? 'bg-red py-2 ' : 'bg-none'} rounded-40 pl-2 flex gap-5 items-center mb-5 transition-colors duration-500 ease-in`}
                 onClick={() => setTabDashSelected(tab.value)}
               >
                 {React.cloneElement(tab.icon, {

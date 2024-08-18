@@ -13,6 +13,9 @@ import React, { useContext, useMemo } from 'react';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+
 
 
 const styleIcons = {
@@ -54,9 +57,14 @@ const tabsCommomUser = [
 
 const tabsAdminOrCashier = [
   {
-    name: 'QR Code',
-    icon: <QrCodeIcon style={styleIcons} />,
-    value: TABS.PROMOTIONS,
+    name: 'Ínicio',
+    icon: <HomeIcon style={styleIcons} />,
+    value: TABS.HOMEADMIN,
+  },
+  {
+    name: 'Pontos',
+    icon: <MonetizationOnIcon style={styleIcons} />,
+    value: TABS.LAUNCHERPOINTS,
   },
   {
     name: 'Resgates',
@@ -82,7 +90,7 @@ const BottomNavigation = () => {
       <div className='flex h-full items-center justify-between px-4'>
         {renderTabs.map((tab, index) => (
           <button key={index} className={`${tabSelected === tab.value ? 'mb-4' : ''} flex items-center flex-col `} onClick={() => setTabSelected(tab.value)}>
-            <div className={`${tabSelected === tab.value ? 'bg-red rounded-full w-16 h-16 flex justify-center items-center' : ''} transition-colors duration-300 ease-in`}>
+            <div className={`${tabSelected === tab.value ? 'bg-red  w-16 h-16 flex justify-center items-center' : ''} transition-colors duration-500 ease-in rounded-full`}>
               {React.cloneElement(tab.icon, {
                 style: {
                   fontSize: 48, 

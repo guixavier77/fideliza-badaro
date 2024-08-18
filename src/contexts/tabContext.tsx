@@ -8,8 +8,8 @@ const TabContext = createContext<any>(null);
 
 export const TabProvider = ({ children }: any) => {
 	const {user} = useContext(DefaultContext)
-	const [tabSelected, setTabSelected] = useState<any>(user?.role === ROLE.CUSTOMER ? TABS.HOME : TABS.PROMOTIONS);
-	const [tabDashSelected, setTabDashSelected] = useState<any>(TABS_DASH.DASH)
+	const [tabSelected, setTabSelected] = useState<String>(user?.role === ROLE.CUSTOMER ? TABS.HOME : TABS.HOMEADMIN);
+	const [tabDashSelected, setTabDashSelected] = useState<String>(TABS_DASH.DASH)
 
 	return <TabContext.Provider value={{ tabSelected, setTabSelected, tabDashSelected,setTabDashSelected }}>{children}</TabContext.Provider>;
 };

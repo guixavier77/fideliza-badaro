@@ -1,12 +1,14 @@
 export const TABS = {
   HOME: 'home',
+  HOMEADMIN: 'homeAdmin',
   WALLET: 'wallet',
   QRCODE: 'qrcode',
   HISTORY: 'history',
   PROFILE: 'profile',
-  PROMOTIONS: 'promotions',
+  QRCODEGENERATOR: 'qrCodeGenerator',
   DELIVEREDREWARDS: 'deliveryRewards',
   NOTIFICATIONS: 'notifications',
+  LAUNCHERPOINTS: 'launcherPoints',
 }
 export const TABS_PTBR = {
   [TABS.HOME]: 'Ínicio',
