@@ -4,10 +4,13 @@ import { getToken } from "next-auth/jwt"
 import { ROLE } from "./utils/types/roles";
 
 export default async function middleware(request: NextRequest) {
+  const homeURL = new URL('/home', request.url)
+  if (request.nextUrl.pathname === '/') {
+        return NextResponse.redirect(homeURL)
+    }
   // const token = request.cookies.get('next-auth.session-token')?.value;
   // const decodedToken: any = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   // const signInURL = new URL('/login', request.url)
-  // const homeURL = new URL('/home', request.url)
   // if (!token) {
   //   if (request.nextUrl.pathname === '/') {
   //     return NextResponse.redirect(signInURL)

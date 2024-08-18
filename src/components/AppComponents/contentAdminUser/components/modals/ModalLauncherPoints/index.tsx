@@ -39,6 +39,11 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
     setGenerateQrCode(false);
   },[])
 
+  const onLauncherBack = useCallback(() => {
+    setLauncherByCpf(false);
+    setGenerateQrCode(false);
+  },[])
+
   return (
     <Modal
       open={open}
@@ -104,6 +109,14 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
                   styles="w-full"
                   bgColor='bg-red'
                   title="Confirmar"
+              />
+
+              <ButtonStyled
+                  onClick={onLauncherBack}
+                  type="button"
+                  styles="w-full"
+                  bgColor='bg-black'
+                  title="Voltar"
               />
             </div>
           </>
