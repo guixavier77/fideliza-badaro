@@ -102,12 +102,12 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
               />
 
             </div>
-            <div className='flex flex-col mt-5'>
+            <div className='flex flex-col mt-5 gap-4'>
               <ButtonStyled
                   onClick={onGenerateQrCode}
                   type="button"
                   styles="w-full"
-                  bgColor='bg-red'
+                  bgColor='bg-black'
                   title="Confirmar"
               />
 
@@ -115,7 +115,7 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
                   onClick={onLauncherBack}
                   type="button"
                   styles="w-full"
-                  bgColor='bg-black'
+                  bgColor='bg-red'
                   title="Voltar"
               />
             </div>
@@ -135,11 +135,11 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
             </div>
             <div className='flex flex-col mt-5'>
               <ButtonStyled
-                  onClick={setIsClose}
+                  onClick={onLauncherBack}
                   type="button"
                   styles="w-full"
                   bgColor='bg-red'
-                  title="Cancelar"
+                  title="Voltar"
               />
             </div>
           </>
