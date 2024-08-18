@@ -1,6 +1,8 @@
 'use client'
 import BottomNavigation from '@/components/AppComponents/bottonNavigation'
+import AppNotificationsContent from '@/components/AppComponents/contentAdminUser/NotificationsContent'
 import AppPromotionsContent from '@/components/AppComponents/contentAdminUser/PromotionsContent'
+import AppRewardsContent from '@/components/AppComponents/contentAdminUser/RewardsContent'
 import HistoryContent from '@/components/AppComponents/contentCommonUser/HistoryContent'
 import HomeContent from '@/components/AppComponents/contentCommonUser/HomeContent'
 import ProfileContent from '@/components/AppComponents/contentCommonUser/ProfileContent'
@@ -24,6 +26,9 @@ const Home = () => {
         <ProfileContent hidden={tabSelected !== TABS.PROFILE} />
 
         <AppPromotionsContent  hidden={tabSelected !== TABS.PROMOTIONS} />
+        <AppRewardsContent  hidden={tabSelected !== TABS.DELIVEREDREWARDS} />
+        <AppNotificationsContent  hidden={tabSelected !== TABS.NOTIFICATIONS} />
+
       </div>
 
       <BottomNavigation />

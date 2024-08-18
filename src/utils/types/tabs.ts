@@ -5,21 +5,16 @@ export const TABS = {
   HISTORY: 'history',
   PROFILE: 'profile',
   PROMOTIONS: 'promotions',
+  DELIVEREDREWARDS: 'deliveryRewards',
+  NOTIFICATIONS: 'notifications',
 }
-export const TABS_FILTER = [
-  {
-    name: 'Ativos',
-    value: 'active',
-  },
-  {
-    name: 'Inativos',
-    value: 'inactive',
-  },
-  {
-    name: 'Todos',
-    value: 'all'
-  }
-]
+export const TABS_PTBR = {
+  [TABS.HOME]: 'Ínicio',
+  [TABS.WALLET]: 'Carteira',
+  [TABS.QRCODE]: 'QR Code',
+  [TABS.HISTORY]: 'Histórico',
+  [TABS.PROFILE]: 'Perfil',
+}
 
 export const TABS_DASH = {
   DASH: 'dash',
@@ -42,10 +37,18 @@ export const TABS_DASH_PTBR = {
   [TABS_DASH.QRCODE]: 'QR Code',
   [TABS_DASH.AWARDS]: 'Prêmios',
 }
-export const TABS_PTBR = {
-  [TABS.HOME]: 'Ínicio',
-  [TABS.WALLET]: 'Carteira',
-  [TABS.QRCODE]: 'QR Code',
-  [TABS.HISTORY]: 'Histórico',
-  [TABS.PROFILE]: 'Perfil',
-}
+
+export const TABS_FILTER = [
+  {
+    name: 'Ativos',
+    value: 'active',
+  },
+  {
+    name: 'Inativos',
+    value: 'inactive',
+  },
+  {
+    name: 'Todos',
+    value: 'all'
+  }
+]

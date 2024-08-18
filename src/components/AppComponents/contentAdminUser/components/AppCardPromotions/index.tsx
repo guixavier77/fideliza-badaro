@@ -13,8 +13,8 @@ const AppCardPromotionsContent: React.FC<AppCardPromotionsContentProps> = ({ pro
       <div className='flex items-center gap-2'>
         <StoreMallDirectoryIcon style={{ fontSize: 52 }} />
         <div>
-					<p className='font-bold'>Nome da Loja</p>
-					<p className='font-extralight'>Nome da promoção</p>
+					<p className='font-bold'>Nome da promoção</p>
+					<p className='font-extralight'>Prêmio</p>
         </div>
       </div>
         

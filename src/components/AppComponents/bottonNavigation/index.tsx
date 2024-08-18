@@ -10,6 +10,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import WalletIcon from '@mui/icons-material/Wallet';
 import React, { useContext, useMemo } from 'react';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import QrCodeIcon from '@mui/icons-material/QrCode';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 
 const styleIcons = {
   fontSize: 48,
@@ -50,15 +54,21 @@ const tabsCommomUser = [
 
 const tabsAdminOrCashier = [
   {
-    name: 'Promoções',
-    icon: <MonetizationOnIcon style={styleIcons} />,
+    name: 'QR Code',
+    icon: <QrCodeIcon style={styleIcons} />,
     value: TABS.PROMOTIONS,
   },
   {
-    name: 'Perfil',
-    icon: <PersonIcon style={styleIcons} />,
-    value: TABS.PROFILE,
-  }
+    name: 'Resgates',
+    icon: <EmojiEventsIcon style={styleIcons} />,
+    value: TABS.DELIVEREDREWARDS,
+  },
+
+  {
+    name: 'Notificações',
+    icon: <NotificationsIcon style={styleIcons} />,
+    value: TABS.NOTIFICATIONS,
+  },
 ];
 
 
