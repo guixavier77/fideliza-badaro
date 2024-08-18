@@ -1,11 +1,11 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { DefaultContext } from '@/contexts/defaultContext';
-import User from '@/database/entities/user.entity';
+import User from '@/interfaces/user.interface';
 import Add from '@mui/icons-material/Add';
 import CardStore from '../../cards/cardStore';
 import ModalStores from '../../modals/ModalStores';
-import Store from '@/database/entities/store.entity';
+import Store from '@/interfaces/store.interface';
 
 const TABS = [
   {

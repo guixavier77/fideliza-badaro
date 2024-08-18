@@ -1,6 +1,5 @@
 import { DefaultContext } from '@/contexts/defaultContext';
-import Award from '@/database/entities/award.entity';
-import AwardDB from '@/database/wrappers/award';
+import Award from '@/interfaces/award.interface';
 import { TABS_FILTER } from '@/utils/types/tabs';
 import Add from '@mui/icons-material/Add';
 import { orderBy } from 'firebase/firestore';
@@ -14,14 +13,7 @@ const AwardsContent = ({ hidden }: any) => {
   const [openModal, setopenModal] = useState(false);
   const [data, setdata] = useState<Award[]>();
   const [dataFilter, setdatafilter] = useState<Award[]>();
-  useEffect(() => {
-    if (!storeSelected) return;
-    const onSubscribe = new AwardDB(storeSelected).on(setdata, orderBy('name', 'asc'));
-    return () => {
-      onSubscribe();
-    };
-  }, [storeSelected])
-
+ 
 
   useEffect(() => {
     if (tab === 'all') {

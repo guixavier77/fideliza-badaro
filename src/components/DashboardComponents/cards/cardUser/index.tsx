@@ -1,4 +1,4 @@
-import User from '@/database/entities/user.entity';
+import User from '@/interfaces/user.interface';
 import masks from '@/utils/masks/masks';
 import { ROLE_PTBR } from '@/utils/types/roles';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';

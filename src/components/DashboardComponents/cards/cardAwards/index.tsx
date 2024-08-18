@@ -1,4 +1,4 @@
-import Award from '@/database/entities/award.entity';
+import Award from '@/interfaces/award.interface';
 import Money from '@/utils/masks/money';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import Image from 'next/image';

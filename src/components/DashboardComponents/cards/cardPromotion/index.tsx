@@ -7,28 +7,24 @@ import MonetizationOn from '@mui/icons-material/MonetizationOn';
 import Image from 'next/image';
 import { useContext, useState ,useEffect} from 'react';
 import ModalPromotions from '../../modals/ModalPromotions';
-import Award from '@/database/entities/award.entity';
-import AwardDB from '@/database/wrappers/award';
+import Award from '@/interfaces/award.interface';
+import Promotion from '@/interfaces/promotion.interface';
+
+interface CardPromotionProps {
+  promotion: Promotion;
+}
+
+interface AwardsDictionary {
+  [key: string]: Award;
+};
 
 
 
-const CardPromotion = ({ promotion }: any) => {
+const CardPromotion: React.FC<CardPromotionProps> = ({ promotion }) => {
   const {storeSelected} = useContext(DefaultContext);
-  const [awardsDicionary, setawardsDicionary] = useState<Award>();
+  const [awardsDicionary, setawardsDicionary] = useState<AwardsDictionary>();
 
-  useEffect(() => {
-    if (!storeSelected) return;
-    const onSubscribe = new AwardDB(storeSelected).on((awards) => {
-      const awardsDicionary: any = {}
-      awards.forEach((award) => {
-        awardsDicionary[award.id] = award;
-      })
-      setawardsDicionary(awardsDicionary);
-    })
-    return () => {
-      onSubscribe();
-    };
-  }, [storeSelected])
+
   const [openEdit, setOpenEdit] = useState(false);
   return (
     <div className='bg-white shadow-lg rounded-20 w-60'>

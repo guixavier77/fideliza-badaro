@@ -1,4 +1,4 @@
-import Store from '@/database/entities/store.entity';
+import Store from '@/interfaces/store.interface';
 import masks from '@/utils/masks/masks';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';

@@ -1,4 +1,4 @@
-import Promotion from '@/database/entities/promotion';
+import Promotion from '@/interfaces/promotion.interface';
 import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
 import QrCode2OutlinedIcon from '@mui/icons-material/QrCode2Outlined';
 import React from 'react';

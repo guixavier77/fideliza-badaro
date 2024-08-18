@@ -2,9 +2,7 @@ import ButtonStyled from '@/components/GlobalComponents/button';
 import InputStyled from '@/components/GlobalComponents/input';
 import SelectStyled from '@/components/GlobalComponents/select';
 import { DefaultContext } from '@/contexts/defaultContext';
-import Award from '@/database/entities/award.entity';
-import AwardDB from '@/database/wrappers/award';
-
+import Award from '@/interfaces/award.interface';
 import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
 import { CircularProgress, Modal } from '@mui/material';
 import { useFormik } from 'formik';
@@ -18,13 +16,7 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
   const [awards, setawards] = useState<Award[]>();
   const [loading, setloading] = useState(false);
 
-  useEffect(() => {
-    if (!storeSelected) return;
-    const onSubscribe = new AwardDB(storeSelected).on(setawards);
-    return () => {
-      onSubscribe();
-    };
-  }, [storeSelected])
+
 
   const options = useMemo(() => awards?.map(item => ({ value: item.id, text: item.name })), [awards])
 

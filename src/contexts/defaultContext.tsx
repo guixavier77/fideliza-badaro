@@ -1,9 +1,7 @@
 
 'use client'
-import Award from '@/database/entities/award.entity';
-import Store from '@/database/entities/store.entity';
-import AwardDB from '@/database/wrappers/award';
-import StoreDB from '@/database/wrappers/store';
+import Award from '@/interfaces/award.interface';
+import Store from '@/interfaces/store.interface';
 import DefaultContextInterface from '@/interfaces/default.interface';
 import { orderBy } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
@@ -38,43 +36,6 @@ export default function DefaultProvider({ children }: any) {
     fetchData();
   }, [userSession]);
 
-  useEffect(() => {
-    const onSubscribe = new StoreDB().on(setstores, orderBy('name', 'asc'));
-    return () => {
-      onSubscribe();
-    };
-  }, [])
-
-  useEffect(() => {
-    if (!storeSelected) return;
-    const fetchStore = async () => {
-      try {
-        const storeData = await new StoreDB().get(storeSelected);
-        setstore(storeData);
-      } catch (error) {
-        console.error('Erro ao buscar a loja:', error);
-      }
-    };
-
-    fetchStore();
-  }, [storeSelected])
-
-
-
-  useEffect(() => {
-    if (!storeSelected) return;
-    const onSubscribe = new AwardDB(storeSelected).on((awards) => {
-      const awardsDicionary: any = {}
-      awards.forEach((award) => {
-        console.log(award);
-        awardsDicionary[award.id] = award;
-      })
-      setawardsDicionary(awardsDicionary);
-    })
-    return () => {
-      onSubscribe();
-    };
-  }, [storeSelected])
 
   return (
     <DefaultContext.Provider value={{

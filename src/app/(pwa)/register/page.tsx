@@ -2,8 +2,6 @@
 import ButtonStyled from "@/components/GlobalComponents/button";
 import InputStyled from "@/components/GlobalComponents/input";
 import Loading from "@/components/GlobalComponents/loading";
-import { auth } from "@/database/firebase/config";
-import UserDB from "@/database/wrappers/user";
 import masks from "@/utils/masks/masks";
 import { ROLE } from "@/utils/types/roles";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
@@ -60,16 +58,6 @@ export default function Register() {
         role: values.role
       }
       try {
-        const emailExists = await fetchSignInMethodsForEmail(auth, values.email);
-        if (emailExists.length > 0) {
-          return;
-        }
-        const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-        const user = userCredential.user;
-        if (user) {
-          await new UserDB().createCustomId(user.uid, data).then(() => router.push('/login')).catch((e) => console.log(e)).finally(() => setloading(false))
-        }
-
 
       } catch (error) {
         console.error('Erro ao registrar usuário:', error);

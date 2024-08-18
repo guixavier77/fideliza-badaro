@@ -1,6 +1,5 @@
 import { DefaultContext } from '@/contexts/defaultContext';
-import Promotion from '@/database/entities/promotion';
-import PromotionsDB from '@/database/wrappers/promotion';
+import Promotion from '@/interfaces/promotion.interface';
 import { TABS_FILTER } from '@/utils/types/tabs';
 import Add from '@mui/icons-material/Add';
 import { orderBy } from 'firebase/firestore';
@@ -14,14 +13,6 @@ const PromotionsContent = ({ hidden }: any) => {
   const [openPromotion, setopenPromotion] = useState(false);
   const [promotions, setPromotions] = useState<Promotion[]>([])
   const [promotionsFilter, setPromotionsFilter] = useState<Promotion[]>([])
-
-  useEffect(() => {
-    if (!storeSelected) return;
-    const onSubscribe = new PromotionsDB(storeSelected).on(setPromotions, orderBy('name', 'asc'));
-    return () => {
-      onSubscribe();
-    };
-  }, [storeSelected])
 
 
   useEffect(() => {

@@ -11,8 +11,7 @@ import masks from '@/utils/masks/masks';
 import Money from '@/utils/masks/money';
 import Image from 'next/image';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
-import AwardDB from '@/database/wrappers/award';
-import award from '@/database/wrappers/award';
+
 
 
 
@@ -58,18 +57,7 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
         status: true,
       }
 
-      if (awardEdit) {
-        new AwardDB(storeSelected).update(awardEdit.id, data).then().catch((e) => console.log(e)).finally(() => {
-          setloading(false)
-          setIsClose();
-        });
-      } else {
 
-        new AwardDB(storeSelected).create(data).then().catch((e) => console.log(e)).finally(() => {
-          setloading(false)
-          setIsClose();
-        });
-      }
 
     }
   })

@@ -4,9 +4,8 @@ import Add from '@mui/icons-material/Add';
 import ModalUsers from '../../modals/ModalUsers';
 import CardUser from '../../cards/cardUser';
 import { Alert } from '@mui/material';
-import UserDB from '@/database/wrappers/user';
 import { orderBy, where } from 'firebase/firestore';
-import User from '@/database/entities/user.entity';
+import User from '@/interfaces/user.interface';
 import { DefaultContext } from '@/contexts/defaultContext';
 
 const TABS = [
@@ -31,15 +30,7 @@ const UsersContent = ({ hidden }: any) => {
   const [users, setUsers] = useState<User[]>([])
   const [usersFilter, setUsersFilter] = useState<User[]>([])
 
-  useEffect(() => {
-    if (!storeSelected) return;
-    const onSubscribe = new UserDB().on(setUsers, orderBy('name', 'asc'));
-    return () => {
-      onSubscribe();
-    };
-  }, [storeSelected])
-
-
+  
 
   useEffect(() => {
     if (tab === 'all') {
