@@ -112,8 +112,8 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
 
         {!launcherByCpf && generateQrCode &&
           <>
-            <p className='font-semibold text-xl text-center uppercase pb-5'>QR Code</p>
-            <p className='font-light text-base text-center uppercase pb-5'>Peça o usuário para ler o QR COde abaixo</p>
+            <p className='font-semibold text-xl text-center uppercase pb-2'>QR Code</p>
+            <p className='font-light text-base text-center uppercase pb-5'>Instrua o usuário a escanear o QR Code abaixo</p>
             <div className='flex flex-col justify-center items-center'>
               <QRCodeSVG 
                 value="Guilherme"
