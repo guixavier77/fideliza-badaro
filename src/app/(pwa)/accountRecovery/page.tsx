@@ -2,7 +2,7 @@
 import ButtonStyled from "@/components/GlobalComponents/button";
 import InputStyled from "@/components/GlobalComponents/input";
 import Loading from "@/components/GlobalComponents/loading";
-import { auth } from "@/database/firebase/config";
+
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -22,18 +22,18 @@ export default function AccountRecovery() {
     onSubmit: async (values) => {
       setloading(true);
 
-      console.log(values);
-      try {
-        sendPasswordResetEmail(auth, values.email)
-          .then(() => console.log('kk'))
-          .catch(() => console.log('kk'))
-          .finally(() => setloading(false))
+      // console.log(values);
+      // try {
+      //   sendPasswordResetEmail(auth, values.email)
+      //     .then(() => console.log('kk'))
+      //     .catch(() => console.log('kk'))
+      //     .finally(() => setloading(false))
 
 
 
-      } catch (error) {
-        console.error(error);
-      }
+      // } catch (error) {
+      //   console.error(error);
+      // }
 
 
     }
