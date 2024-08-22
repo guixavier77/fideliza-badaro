@@ -3,10 +3,12 @@ import React from 'react'
 const CustomersContent = ({hidden}: any) => {
   return (
     <div hidden={hidden}>
-      <p>
+      <div className='bg-black rounded-40 w-full  shadow-xl'>
+        <div className='flex items-center justify-between py-4 px-10'>
+          
 
-        Customers
-      </p>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 
 import Add from '@mui/icons-material/Add';
 import ModalUsers from '../../modals/ModalUsers';
@@ -7,6 +7,8 @@ import { Alert } from '@mui/material';
 import { orderBy, where } from 'firebase/firestore';
 import User from '@/interfaces/user.interface';
 import { DefaultContext } from '@/contexts/defaultContext';
+import { users } from '@/utils/mocks';
+import PaginationDash from '../components/PaginationDash';
 
 const TABS = [
   {
@@ -23,24 +25,33 @@ const TABS = [
   }
 ]
 
+let itemsPerPage = 7;
 const UsersContent = ({ hidden }: any) => {
   const { storeSelected } = useContext(DefaultContext);
   const [tab, setTab] = useState('all');
   const [openUsers, setopenUsers] = useState(false);
-  const [users, setUsers] = useState<User[]>([])
+  // const [users, setUsers] = useState<User[]>([])
   const [usersFilter, setUsersFilter] = useState<User[]>([])
+  const [currentPage, setCurrentPage] = useState(1);
 
   
+  const usersToDisplay = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return users.slice(startIndex, endIndex);
+  }, [currentPage, users]);
+  const numberPages = useMemo(() => Math.ceil(users.length / itemsPerPage), [users]);
 
-  useEffect(() => {
-    if (tab === 'all') {
-      setUsersFilter(users.filter(user => user.storeId === storeSelected));
-    } else if (tab === 'active') {
-      setUsersFilter(users.filter(user => user.status && user.storeId === storeSelected));
-    } else {
-      setUsersFilter(users.filter(user => !user.status && user.storeId === storeSelected));
-    }
-  }, [storeSelected, users, tab])
+
+  // useEffect(() => {
+  //   if (tab === 'all') {
+  //     setUsersFilter(users.filter(user => user.storeId === storeSelected));
+  //   } else if (tab === 'active') {
+  //     setUsersFilter(users.filter(user => user.status && user.storeId === storeSelected));
+  //   } else {
+  //     setUsersFilter(users.filter(user => !user.status && user.storeId === storeSelected));
+  //   }
+  // }, [storeSelected, users, tab])
 
 
 
@@ -56,7 +67,7 @@ const UsersContent = ({ hidden }: any) => {
     setopenUsers(false);
   }, []);
   return (
-    <div hidden={hidden}>
+    <div hidden={hidden} className='h-full relative'>
       <div className='w-full flex justify-between gap-4' >
         <div className='bg-black rounded-40 w-full  shadow-xl'>
           <div className='flex items-center justify-between py-4 px-10'>
@@ -71,12 +82,22 @@ const UsersContent = ({ hidden }: any) => {
         </button>
       </div>
 
-      <div className='mt-10 flex flex-col gap-4'>
-        {usersFilter.map((user) =>
+      <div className='mt-10 flex flex-col gap-4 flex-grow'>
+        {usersToDisplay?.map((user) =>
           <>
             <CardUser user={user} />
           </>
         )}
+      </div> 
+
+      <div className='mt-10 absolute right-0 bottom-20'>
+        <PaginationDash 
+          count={numberPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        
+        
+        />
       </div>
 
       <ModalUsers

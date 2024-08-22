@@ -52,11 +52,11 @@ const tabs = [
     icon: <EmojiEventsIcon />,
     value: TABS_DASH.REEWARDS
   },
-  {
-    name: 'QR Code',
-    icon: <QrCodeIcon />,
-    value: TABS_DASH.QRCODE
-  },
+  // {
+  //   name: 'QR Code',
+  //   icon: <QrCodeIcon />,
+  //   value: TABS_DASH.QRCODE
+  // },
 
 ]
 

@@ -22,8 +22,8 @@ const functions = [
     value: ROLE.ADMIN
   },
   {
-    name: ROLE_PTBR[ROLE.CASHIER],
-    value: ROLE.CASHIER
+    name: ROLE_PTBR[ROLE.OPERATOR],
+    value: ROLE.OPERATOR
 
   },
 ]
@@ -35,6 +35,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
   const optionsStores = useMemo(() => stores?.map(store => ({ value: store.id, text: store.name })), [stores])
 
   const options = useMemo(() => functions.map(item => ({ value: item.value, text: item.name })), [functions])
+
 
   useEffect(() => {
     if (!open) return formik.resetForm();
@@ -68,7 +69,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       email: '',
       password: '',
       storeId: storeSelected,
-      role: ROLE.CASHIER,
+      role: ROLE.OPERATOR,
       active: true,
     },
     onSubmit: async (values) => {

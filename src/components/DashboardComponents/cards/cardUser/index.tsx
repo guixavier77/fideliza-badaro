@@ -5,6 +5,8 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import Person from '@mui/icons-material/Person';
 import React, { useCallback, useState } from 'react';
 import ModalUsers from '../../modals/ModalUsers';
+import ArticleOutlined from '@mui/icons-material/ArticleOutlined';
+import MailOutline from '@mui/icons-material/MailOutline';
 
 
 interface CardUserProps {
@@ -30,10 +32,10 @@ const CardUser: React.FC<CardUserProps> = ({ user }) => {
         </div>
         <div className='grid grid-cols-12 gap-x-4 items-center w-full pl-2'>
           <p className='font-bold col-span-3 text-left'>{user.name}</p>
-          <p className='font-light col-span-2'>{masks.cpfMask(user.cpf)}</p>
+          <p className='font-light col-span-2 '>{masks.cpfMask(user.cpf)}</p>
           <p className='font-light col-span-4'>{user.email}</p>
           <p className='font-medium col-span-2 '>{ROLE_PTBR[user.role]}</p>
-          <button onClick={() => handleOpenEditUser(user)} className='col-start-12 col-span-1 text-right'><ModeEditOutlineIcon /></button>
+          <button onClick={() => handleOpenEditUser(user)} className='bg-black rounded-20 text-center self-end py-1'><ModeEditOutlineIcon style={{color: '#C90B0B'}}/></button>
         </div>
       </div>
 
