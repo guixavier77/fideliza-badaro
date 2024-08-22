@@ -3,18 +3,15 @@ import { DefaultContext } from '@/contexts/defaultContext';
 import { useTab } from '@/contexts/tabContext';
 import { ROLE } from '@/utils/types/roles';
 import { TABS } from '@/utils/types/tabs';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import HistoryIcon from '@mui/icons-material/History';
 import HomeIcon from '@mui/icons-material/Home';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import WalletIcon from '@mui/icons-material/Wallet';
 import React, { useContext, useMemo } from 'react';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import QrCodeIcon from '@mui/icons-material/QrCode';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 
 

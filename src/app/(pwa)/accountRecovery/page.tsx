@@ -5,7 +5,6 @@ import Loading from "@/components/GlobalComponents/loading";
 
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import { sendPasswordResetEmail } from "firebase/auth";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
