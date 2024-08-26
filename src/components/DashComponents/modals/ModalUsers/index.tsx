@@ -14,7 +14,9 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import api from '@/services/api';
 import { DefaultContext } from '@/contexts/defaultContext';
 import StoreIcon from '@mui/icons-material/Store';
-
+import { generatePassword } from '@/utils/password';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import WcIcon from '@mui/icons-material/Wc';
 
 const functions = [
   {
@@ -36,6 +38,12 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
 
   const options = useMemo(() => functions.map(item => ({ value: item.value, text: item.name })), [functions])
 
+  const optionsSex = [
+    { value: 'm', text: 'Masculino' },
+    { value: 'f', text: 'Feminino' },
+    { value: 'i', text: 'Indefinido' },
+  ];
+  
 
   useEffect(() => {
     if (!open) return formik.resetForm();
@@ -44,7 +52,9 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
         name,
         cpf,
         email,
+        phone,
         password,
+        sex,
         role,
         active,
         storeId,
@@ -53,7 +63,9 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
         name: name,
         cpf: cpf,
         email: email,
+        phone: phone,
         password: password,
+        sex: sex,
         role: role,
         active,
         storeId,
@@ -67,17 +79,35 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       cpf: '',
       name: '',
       email: '',
+      phone: '',
       password: '',
-      storeId: storeSelected,
+      sex: 'm',
+      storeId: "",
       role: ROLE.OPERATOR,
       active: true,
     },
     onSubmit: async (values) => {
       setloading(true);
-      api.post('users', values).then().catch((e) => console.log(e)).finally(() => {
-        setloading(false)
-        setIsClose();
-      });
+
+      const data = {
+        cpf: masks.unmask(values.cpf),
+        email: values.email,
+        name: values.name,
+        phone: masks.unmask(values.phone),
+        sex: values.sex,
+        active: true,
+        role: values.role,
+        storeId: 1,
+        password: await generatePassword(values.password),
+      }
+
+      api.post('users', data)
+        .then()
+        .catch((e) => console.log(e))
+        .finally(() => {
+          setloading(false)
+          setIsClose();
+        });
     }
   })
   return (
@@ -119,6 +149,16 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
           />
 
           <InputStyled
+            id="phone"
+            value={masks.phoneMask(formik.values.phone)}
+            onChange={formik.handleChange}
+            label="Telefone"
+            type="text"
+            placeholder="99 9999-9999"
+            icon={<LocalPhoneIcon style={{ color: '#C90B0B' }} />}
+          />
+
+          <InputStyled
             id="password"
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -127,6 +167,15 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
             placeholder="***********"
             disabled={userData}
             icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
+          />
+
+          <SelectStyled
+            label="Sexo"
+            icon={<WcIcon style={{ color: '#C90B0B' }} />}
+            value={formik.values.sex}
+            onChange={formik.handleChange}
+            id="sex"
+            options={optionsSex}
           />
 
           <SelectStyled

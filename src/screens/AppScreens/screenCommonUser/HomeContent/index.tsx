@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import PointsAnimation from '../../../animations/points'
+import PointsAnimation from '@/components/animations/points';
 import { DefaultContext } from '@/contexts/defaultContext';
 import { ROLE } from '@/utils/types/roles';
 

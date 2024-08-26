@@ -4,9 +4,10 @@ import CardUser from '@/components/DashComponents/cards/cardUser';
 import ModalUsers from '@/components/DashComponents/modals/ModalUsers';
 import { DefaultContext } from '@/contexts/defaultContext';
 import User from '@/interfaces/user.interface';
+import api from '@/services/api';
 import { users } from '@/utils/mocks';
 import Add from '@mui/icons-material/Add';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 
 const TABS = [
@@ -29,7 +30,7 @@ const UsersContent = ({ hidden }: any) => {
   const { storeSelected } = useContext(DefaultContext);
   const [tab, setTab] = useState('all');
   const [openUsers, setopenUsers] = useState(false);
-  // const [users, setUsers] = useState<User[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const [usersFilter, setUsersFilter] = useState<User[]>([])
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -38,19 +39,27 @@ const UsersContent = ({ hidden }: any) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return users.slice(startIndex, endIndex);
-  }, [currentPage, users]);
-  const numberPages = useMemo(() => Math.ceil(users.length / itemsPerPage), [users]);
+  }, [currentPage, usersFilter]);
+  const numberPages = useMemo(() => users.length > 1 ? Math.ceil(usersFilter.length / itemsPerPage) : 1, [usersFilter]);
 
+  useEffect(() => {
+    if(hidden) return;
+    api.get('users')
+    .then(res => {
+      setUsers(res.data?.users);
+    })
+    .catch(error => console.error(error))
+  },[hidden])
 
-  // useEffect(() => {
-  //   if (tab === 'all') {
-  //     setUsersFilter(users.filter(user => user.storeId === storeSelected));
-  //   } else if (tab === 'active') {
-  //     setUsersFilter(users.filter(user => user.status && user.storeId === storeSelected));
-  //   } else {
-  //     setUsersFilter(users.filter(user => !user.status && user.storeId === storeSelected));
-  //   }
-  // }, [storeSelected, users, tab])
+  useEffect(() => {
+    if (tab === 'all') {
+      setUsersFilter(users.filter(user => user.storeId === storeSelected));
+    } else if (tab === 'active') {
+      setUsersFilter(users.filter(user => user.status && user.storeId === storeSelected));
+    } else {
+      setUsersFilter(users.filter(user => !user.status && user.storeId === storeSelected));
+    }
+  }, [storeSelected, users, tab])
 
   const onPressItem = (item: any) => {
     setTab(item);

@@ -2,6 +2,7 @@
 import ButtonStyled from "@/components/GlobalComponents/button";
 import InputStyled from "@/components/GlobalComponents/input";
 import Loading from "@/components/GlobalComponents/loading";
+import SelectStyled from "@/components/GlobalComponents/select";
 import masks from "@/utils/masks/masks";
 import { ROLE } from "@/utils/types/roles";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
@@ -11,11 +12,14 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import WcIcon from "@mui/icons-material/Wc";
+import api from "@/services/api";
+import { generatePassword } from "@/utils/password";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { colors } from "@/utils/colors/colors";
 
 const validate = async (values: any) => {
   const unmaskCpf = values.cpf.replace(/\D/g, "")
@@ -35,12 +39,22 @@ export default function Register() {
   const router = useRouter();
   const [loading, setloading] = useState(false);
   const [sucessRegister, setsucessRegister] = useState(false);
+
+
+  const optionsSex = [
+    { value: 'm', text: 'Masculino' },
+    { value: 'f', text: 'Feminino' },
+    { value: 'i', text: 'Indefinido' },
+  ];
+
+  
   const formik = useFormik({
     initialValues: {
       cpf: '',
       name: '',
       email: '',
       phone: '',
+      sex: 'm',
       birthDate: '',
       password: '',
       confirmPassword: '',
@@ -49,30 +63,34 @@ export default function Register() {
     validate,
     onSubmit: async (values) => {
       setloading(true);
-      const data: any = {
-        name: values.name,
+      const data = {
         cpf: masks.unmask(values.cpf),
         email: values.email,
-        phone: values.phone,
+        name: values.name,
+        phone: masks.unmask(values.phone),
         birthDate: values.birthDate,
-        role: values.role
-      }
-      try {
-
-      } catch (error) {
-        console.error('Erro ao registrar usuário:', error);
-        setsucessRegister(false)
+        sex: values.sex,
+        active: true,
+        role: ROLE.CUSTOMER,
+        storeId: null,
+        password: await generatePassword(values.password),
       }
 
-
+      api.post('users', data)
+        .then(() => setsucessRegister(true))
+        .catch((e) => console.log(e))
+        .finally(() => {
+          setloading(false)
+        });
     }
   })
   return (
-    <main className="w-screen flex flex-col p-4 relative ">
+    <main className="w-screen flex flex-col p-4 relative justify-center ">
       {loading && <Loading text='Carregando...' />}
 
-      {!loading && <>
-        <button className="absolute top-2 left-2"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: '#C90B0B' }} onClick={() => router.push('/login')} /> </button>
+      {!loading && !sucessRegister && 
+      <>
+        <button className="absolute top-2 left-2"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: colors.red }} onClick={() => router.push('/login')} /> </button>
         <div className="text-center mt-5 pt-5">
           <PersonOutlineOutlinedIcon />
           <p className="font-bold uppercase text-lg">Cadastro</p>
@@ -86,7 +104,7 @@ export default function Register() {
               label="CPF"
               type="tel"
               placeholder="000.000.000-00"
-              icon={<ArticleOutlinedIcon style={{ color: '#C90B0B' }} />}
+              icon={<ArticleOutlinedIcon style={{ color: colors.red }} />}
             />
             <InputStyled
               id="name"
@@ -95,7 +113,7 @@ export default function Register() {
               label="Nome"
               type="text"
               placeholder="Exemplo"
-              icon={<PersonOutlineOutlinedIcon style={{ color: '#C90B0B' }} />}
+              icon={<PersonOutlineOutlinedIcon style={{ color: colors.red }} />}
             />
             <InputStyled
               id="email"
@@ -104,7 +122,7 @@ export default function Register() {
               label="E-mail"
               type="text"
               placeholder="exemplo@gmail.com"
-              icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
+              icon={<MailOutlineIcon style={{ color: colors.red }} />}
             />
 
             <InputStyled
@@ -114,7 +132,7 @@ export default function Register() {
               label="Telefone"
               type="text"
               placeholder="(00) 00000-0000"
-              icon={<LocalPhoneOutlinedIcon style={{ color: '#C90B0B' }} />}
+              icon={<LocalPhoneOutlinedIcon style={{ color: colors.red }} />}
             />
 
             <InputStyled
@@ -124,8 +142,17 @@ export default function Register() {
               label="Data de Nascimento"
               type="tel"
               placeholder="DD/MM/YYYY"
-              icon={<CalendarMonthOutlinedIcon style={{ color: '#C90B0B' }} />}
+              icon={<CalendarMonthOutlinedIcon style={{ color: colors.red }} />}
             />
+
+          <SelectStyled
+            label="Sexo"
+            icon={<WcIcon style={{ color: colors.red }} />}
+            value={formik.values.sex}
+            onChange={formik.handleChange}
+            id="sex"
+            options={optionsSex}
+          />
 
             <InputStyled
               id="password"
@@ -134,7 +161,7 @@ export default function Register() {
               label="Senha"
               type="password"
               placeholder="***********"
-              icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
+              icon={<LockOutlinedIcon style={{ color: colors.red }} />}
             />
 
           </div>
@@ -157,6 +184,31 @@ export default function Register() {
         </form>
 
       </>}
+
+      {!loading && sucessRegister &&
+        <>
+          <button className="absolute top-2 left-2"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: colors.red }} onClick={() => router.push('/login')} /> </button>
+
+          <div className='flex flex-col justify-center items-center h-screen gap-4'>
+
+            <CheckCircleIcon style={{fontSize:96, color: colors.red}}/>
+            
+            <p className='text-red font-semibold text-2xl mx-4 text-center'>Cadastro realizado com sucesso!</p>
+          
+            <div className="absolute bottom-10 ">
+              <ButtonStyled
+                type="button"
+                onClick={() => router.push('/login')}
+                styles="w-full px-6"
+                bgColor='bg-black'
+                title="FAZER LOGIN"
+              />
+
+            </div>
+          </div>
+        </>
+      
+      }
 
 
     </main>

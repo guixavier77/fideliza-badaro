@@ -13,8 +13,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <TabProvider>
           {children}
         </TabProvider>
-
-
       </DefaultProvider>
     </SessionProvider>
   )
