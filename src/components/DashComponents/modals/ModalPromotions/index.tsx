@@ -64,18 +64,18 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
       }
 
 
-      if (promotionEdit) {
-        api.put('promotions', data).then().catch((e) => console.log(e)).finally(() => {
-          setloading(false)
-          setIsClose();
-        });
-      } else {
-        api.post('promotions', data).then().catch((e) => console.log(e)).finally(() => {
-          setloading(false)
-          setIsClose();
-        });
+      // if (promotionEdit) {
+      //   api.put('promotions', data).then().catch((e) => console.log(e)).finally(() => {
+      //     setloading(false)
+      //     setIsClose();
+      //   });
+      // } else {
+      //   api.post('promotions', data).then().catch((e) => console.log(e)).finally(() => {
+      //     setloading(false)
+      //     setIsClose();
+      //   });
 
-      }
+      // }
     }
   })
 

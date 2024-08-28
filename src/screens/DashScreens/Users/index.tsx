@@ -45,10 +45,8 @@ const UsersContent = ({ hidden }: any) => {
   useEffect(() => {
     if(hidden) return;
     api.get('users')
-    .then(res => {
-      setUsers(res.data?.users);
-    })
-    .catch(error => console.error(error))
+    .then(res => setUsers(res.data?.users))
+    .catch(error => console.error('[ERROR API /users]', error?.response?.data))
   },[hidden])
 
   useEffect(() => {

@@ -18,6 +18,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
   const { user } = useContext(DefaultContext);
   const stylesInput = 'bg-white border-none shadow-sm py-3'
   useEffect(() => {
+    console.log(user);
     formik.setValues({
       cpf: user ? user?.cpf : '',
       name: user ? user?.name : '',

@@ -79,10 +79,13 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
         street: values.street,
         number: values.number,
       }
-      api.post('stores', data).then().catch((e) => console.log(e)).finally(() => {
-        setloading(false)
-        setIsClose();
-      });
+      api.post('stores', data)
+        .then()
+        .catch(error => console.error('[ERROR API /stores]', error?.response?.data))
+        .finally(() => {
+          setloading(false)
+          setIsClose();
+        });
     }
   })
 

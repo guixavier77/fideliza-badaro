@@ -4,18 +4,21 @@ import { useTab } from '@/contexts/tabContext';
 import { TABS_DASH_PTBR } from '@/utils/types/tabs';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
-import { useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
-
+import Cookies from 'js-cookie';
 import { ROLE } from '@/utils/types/roles';
-import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const HeaderDash = () => {
   const { store, user, stores, setstoreSelected, storeSelected } = useContext(DefaultContext)
   const { tabDashSelected } = useTab();
+  const router = useRouter();
 
-  console.log(storeSelected);
-
+  const handleLogout = () => {
+    Cookies.remove('token');
+    router.push('/login')
+  }
   const options = useMemo(() => stores?.map(item => ({ value: item.id, text: item.name })), [stores])
   return (
     <div className='bg-black  flex  justify-center items-center col-start-3 col-end-13  row-start-1 row-end-1 shadow-xl relative'>
@@ -47,7 +50,7 @@ const HeaderDash = () => {
         }
 
         <button
-          onClick={() => signOut()}
+          onClick={handleLogout}
           className='text-white bg-red px-4 py-1 rounded-20'>
           <ExitToAppOutlinedIcon />
         </button>

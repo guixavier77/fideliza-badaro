@@ -103,7 +103,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
 
       api.post('users', data)
         .then()
-        .catch((e) => console.log(e))
+        .catch(error => console.error('[ERROR API /users]', error?.response?.data))
         .finally(() => {
           setloading(false)
           setIsClose();

@@ -3,11 +3,11 @@ import Store from "@/interfaces/store.interface"
 import User from "@/interfaces/user.interface"
 
 export default interface DefaultContextInterface {
-  user: User | null,
+  user: User | null
   stores: Store[],
   store: Store | null,
-  storeSelected: string,
-  setstoreSelected: (e: string) => void,
+  storeSelected: number | null,
+  setstoreSelected: (e: number) => void,
   awardsDicionary: any
 
 

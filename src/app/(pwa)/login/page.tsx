@@ -4,13 +4,18 @@ import InputStyled from "@/components/GlobalComponents/input";
 import Loading from "@/components/GlobalComponents/loading";
 import Logo from "@/components/GlobalComponents/logo";
 
+import { DefaultContext } from "@/contexts/defaultContext";
+import api from "@/services/api";
+import { generatePassword } from "@/utils/password";
 import { ROLE } from "@/utils/types/roles";
+import Cookies from 'js-cookie'
+
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useFormik } from "formik";
-import { signIn, useSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 
 
@@ -26,11 +31,31 @@ export default function Login() {
     onSubmit: async (values) => {
       setloading(true);
       setError('');
-      const user: any = {}
-
+      try{
+        const response = await api.post('authUsers', {
+          email: values.email,
+          password: await generatePassword(values?.password)
+        })
+        if(response.status === 200){
+          const {user, token} = response?.data;
+          if(user && token){
+            Cookies.set('token', token, { expires: 30 });
+            if(user.role === ROLE.SUPERADMIN) router.push('/dashboard')
+            if(user.role === ROLE.ADMIN) router.push('/redirectScreen')
+            if(user.role === ROLE.CUSTOMER || user.role === ROLE.OPERATOR) router.push('/home')
+        
+          }
+        } else {
+          setError('Credenciais inválidas, tente novamente.')
+        }
+      }catch{
+        setError('Credenciais inválidas, tente novamente.')
+        
+      }finally{
+        setloading(false);
+      }
     }
   })
-   
   return (
     <form onSubmit={formik.handleSubmit} className="s:w-screen t:w-3/6 d:w-2/6 mx-auto flex flex-col justify-evenly p-4 h-screen  ">
       {loading && <Loading text="Autenticando..." />}

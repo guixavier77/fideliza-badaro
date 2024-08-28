@@ -78,10 +78,8 @@ export default function Register() {
 
       api.post('users', data)
         .then(() => setsucessRegister(true))
-        .catch((e) => console.log(e))
-        .finally(() => {
-          setloading(false)
-        });
+        .catch(error => console.error('[ERROR API /users]', error?.response?.data))
+        .finally(() => setloading(false));
     }
   })
   return (

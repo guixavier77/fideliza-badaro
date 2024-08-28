@@ -6,6 +6,7 @@ import Add from '@mui/icons-material/Add';
 import PaginationDash from '@/components/DashComponents/PaginationDash';
 import CardStore from '@/components/DashComponents/cards/cardStore';
 import ModalStores from '@/components/DashComponents/modals/ModalStores';
+import api from '@/services/api';
 
 const TABS = [
   {
@@ -24,9 +25,8 @@ const TABS = [
 let itemsPerPage = 7;
 
 const StoresContent = ({ hidden }: any) => {
-  const { stores } = useContext(DefaultContext);
+  const {stores} = useContext(DefaultContext);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [tab, setTab] = useState('all');
   const [openUsers, setopenUsers] = useState(false);
   const [storesFilter, setStoresFilter] = useState<Store[]>([])

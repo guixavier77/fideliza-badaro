@@ -73,7 +73,7 @@ const AsideBar = () => {
         </h1>
         <div className='flex px-4 justify-center flex-col py-5 mt-5'>
           {tabs.map((tab) => (
-            (
+            (tab.value !== TABS_DASH.STORE || user?.role === ROLE.SUPERADMIN) && (
               <button
                 key={tab.value}
                 className={`${tabDashSelected === tab.value ? 'bg-red' : 'bg-none'} py-2 rounded-40 pl-2 flex gap-5 items-center mb-2 transition-colors duration-500 ease-in`}
