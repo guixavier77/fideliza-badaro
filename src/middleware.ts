@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt"
 import { ROLE } from "./utils/types/roles";
 
+
+
 export default async function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
   const decodedToken: any = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });

@@ -4,8 +4,11 @@ import PaginationDash from '@/components/DashComponents/PaginationDash';
 import CardAwards from '@/components/DashComponents/cards/cardAwards';
 import { DefaultContext } from '@/contexts/defaultContext';
 import Award from '@/interfaces/award.interface';
+import api from '@/services/api';
+import { colors } from '@/utils/colors/colors';
 import { TABS_FILTER } from '@/utils/types/tabs';
 import Add from '@mui/icons-material/Add';
+import { CircularProgress } from '@mui/material';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 
@@ -15,27 +18,38 @@ const AwardsContent = ({ hidden }: any) => {
     const { storeSelected } = useContext(DefaultContext)
     const [tab, setTab] = useState('all');
     const [openModal, setopenModal] = useState(false);
-    const [data, setdata] = useState<Award[]>([]);
-    const [dataFilter, setdatafilter] = useState<Award[]>();
+    const [awards, setAwards] = useState<Award[]>([]);
+    const [awardsFilter, setAwardsfilter] = useState<Award[]>();
     const [currentPage, setCurrentPage] = useState(1);
-    const numberPages = useMemo(() => data.length > 0 ? Math.ceil(data.length / itemsPerPage) : 1, [data]);
+    const [loading, setLoading] = useState(false);
+    const numberPages = useMemo(() => awards.length > 0 ? Math.ceil(awards.length / itemsPerPage) : 1, [awards]);
+    useEffect(() => {
+        if(!hidden || !storeSelected) return;
+        setLoading(true);
+        api.get(`awards/${storeSelected}`)
+            .then((res) => setAwards(res?.data?.awards))
+            .catch(error => console.error('[ERROR API /awards]', error?.response?.data))
+            .finally(() => setLoading(false))
+    },[storeSelected, hidden])
+    useEffect(() => {
+        if (tab === 'all') {
+        setAwardsfilter(awards);
+        } else if (tab === 'active') {
+        setAwardsfilter(awards?.filter(data => data.status));
+        } else {
+        setAwardsfilter(awards?.filter(data => !data.status));
+        }
+    }, [awards, tab])
+
+
+
 
     const dataToDisplay = useMemo(() => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        return data.slice(startIndex, endIndex);
-    }, [currentPage, data]);
+        return awardsFilter?.slice(startIndex, endIndex);
+    }, [currentPage, awardsFilter]);
 
-    useEffect(() => {
-        if (tab === 'all') {
-        setdatafilter(data);
-        } else if (tab === 'active') {
-        setdatafilter(data?.filter(data => data.status));
-        } else {
-        setdatafilter(data?.filter(data => !data.status));
-
-        }
-    }, [data, tab])
 
 
     const onPressItem = (item: any) => {
@@ -63,7 +77,14 @@ const AwardsContent = ({ hidden }: any) => {
             <Add style={{ fontSize: 52, color: '#C90B0B' }} />
             </button>
         </div>
-
+        {loading ? 
+        <>
+          <div className='h-3/4 w-full flex justify-center items-center'>
+            <CircularProgress style={{width: 80, height: 80, color: colors.red }} />
+          </div> 
+        </>
+        : 
+        <>
         <div className='mt-10 flex flex-col gap-4'>
             {dataToDisplay?.map((data: Award) =>
             <>
@@ -71,6 +92,9 @@ const AwardsContent = ({ hidden }: any) => {
             </>
             )}
         </div>
+
+        </>}
+
 
         <div className='mt-10 absolute right-0 bottom-20'>
             <PaginationDash 

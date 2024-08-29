@@ -27,7 +27,7 @@ const CardUser: React.FC<CardUserProps> = ({ user }) => {
   return (
     <div className='bg-white shadow-lg rounded-40 py-2 px-4'>
       <div className='flex items-center'>
-        <div className={`${user.status ? 'bg-green' : 'bg-red'} mr-2 flex justify-normal items-center rounded-xl p-1`}>
+        <div className={`${user.active ? 'bg-green' : 'bg-red'} mr-2 flex justify-normal items-center rounded-xl p-1`}>
           <Person style={{ fontSize: 32, color: '#FFFFFF' }} />
         </div>
         <div className='grid grid-cols-12 gap-x-4 items-center w-full pl-2'>

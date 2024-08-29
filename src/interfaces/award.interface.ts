@@ -3,7 +3,7 @@ import DefaultEntityType from "./default";
 export default interface Award extends DefaultEntityType {
   id: string,
   name: string,
-  status: boolean,
+  active: boolean,
   price: number,
 
   image?: Blob,

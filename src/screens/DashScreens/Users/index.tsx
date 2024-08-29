@@ -5,8 +5,10 @@ import ModalUsers from '@/components/DashComponents/modals/ModalUsers';
 import { DefaultContext } from '@/contexts/defaultContext';
 import User from '@/interfaces/user.interface';
 import api from '@/services/api';
+import { colors } from '@/utils/colors/colors';
 import { users } from '@/utils/mocks';
 import Add from '@mui/icons-material/Add';
+import { CircularProgress } from '@mui/material';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 
@@ -33,6 +35,7 @@ const UsersContent = ({ hidden }: any) => {
   const [users, setUsers] = useState<User[]>([])
   const [usersFilter, setUsersFilter] = useState<User[]>([])
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   
   const usersToDisplay = useMemo(() => {
@@ -44,9 +47,11 @@ const UsersContent = ({ hidden }: any) => {
 
   useEffect(() => {
     if(hidden) return;
+    setLoading(true);
     api.get('users')
     .then(res => setUsers(res.data?.users))
     .catch(error => console.error('[ERROR API /users]', error?.response?.data))
+    .finally(() => setLoading(false))
   },[hidden])
 
   useEffect(() => {
@@ -85,13 +90,24 @@ const UsersContent = ({ hidden }: any) => {
         </button>
       </div>
 
-      <div className='mt-10 flex flex-col gap-4'>
-        {usersToDisplay?.map((user) =>
-          <>
-            <CardUser user={user} />
-          </>
-        )}
-      </div> 
+
+      {loading ? 
+        <>
+          <div className='h-3/4 w-full flex justify-center items-center'>
+            <CircularProgress style={{width: 80, height: 80, color: colors.red }} />
+          </div> 
+        </>
+        : 
+        <>
+          <div className='mt-10 flex flex-col gap-4'>
+            {usersToDisplay?.map((user) =>
+              <>
+                <CardUser user={user} />
+              </>
+            )}
+          </div> 
+        </>
+      }
 
       <div className='mt-10 absolute right-0 bottom-20'>
         <PaginationDash 

@@ -9,7 +9,7 @@ export default interface User extends DefaultEntityType {
   birthDate: string,
   role: 'admin' | 'customer' | 'operator',
   password: string,
-  status: boolean,
+  active: boolean,
   storeId: number | null
 
 }
