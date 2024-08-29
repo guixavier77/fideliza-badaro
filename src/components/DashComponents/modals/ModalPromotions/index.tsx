@@ -12,8 +12,7 @@ import FlagIcon from '@mui/icons-material/Flag';
 import api from '@/services/api';
 
 const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
-  const { storeSelected } = useContext(DefaultContext)
-  const [awards, setawards] = useState<Award[]>();
+  const { storeSelected, awards } = useContext(DefaultContext)
   const [loading, setloading] = useState(false);
 
 
@@ -57,25 +56,28 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
       setloading(true);
       const data = {
         name: values.name,
-        points: values.points,
+        points: Number(values.points),
         awardId: values.awardId,
         storeId: storeSelected,
-        promotionId: promotionEdit ? promotionEdit.id : null,
       }
 
 
-      // if (promotionEdit) {
-      //   api.put('promotions', data).then().catch((e) => console.log(e)).finally(() => {
-      //     setloading(false)
-      //     setIsClose();
-      //   });
-      // } else {
-      //   api.post('promotions', data).then().catch((e) => console.log(e)).finally(() => {
-      //     setloading(false)
-      //     setIsClose();
-      //   });
+      if (promotionEdit) {
+        api.put('promotions', data)
+          .then().catch((e) => console.log(e)).finally(() => {
+          setloading(false)
+          setIsClose();
+        });
+      } else {
+        api.post('promotions', data)
+          .then()
+          .catch((e) => console.log(e))
+          .finally(() => {
+            setloading(false)
+            setIsClose();
+        });
 
-      // }
+      }
     }
   })
 

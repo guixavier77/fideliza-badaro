@@ -1,5 +1,5 @@
 'use client'
-import ModalAwards from '@/components/AppComponents/modals/ModalAwards';
+import ModalAwards from '@/components/DashComponents/modals/ModalAwards';
 import PaginationDash from '@/components/DashComponents/PaginationDash';
 import CardAwards from '@/components/DashComponents/cards/cardAwards';
 import { DefaultContext } from '@/contexts/defaultContext';
@@ -15,29 +15,20 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 let itemsPerPage = 7;
 
 const AwardsContent = ({ hidden }: any) => {
-    const { storeSelected } = useContext(DefaultContext)
+    const { awards } = useContext(DefaultContext)
     const [tab, setTab] = useState('all');
     const [openModal, setopenModal] = useState(false);
-    const [awards, setAwards] = useState<Award[]>([]);
     const [awardsFilter, setAwardsfilter] = useState<Award[]>();
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const numberPages = useMemo(() => awards.length > 0 ? Math.ceil(awards.length / itemsPerPage) : 1, [awards]);
     useEffect(() => {
-        if(!hidden || !storeSelected) return;
-        setLoading(true);
-        api.get(`awards/${storeSelected}`)
-            .then((res) => setAwards(res?.data?.awards))
-            .catch(error => console.error('[ERROR API /awards]', error?.response?.data))
-            .finally(() => setLoading(false))
-    },[storeSelected, hidden])
-    useEffect(() => {
         if (tab === 'all') {
         setAwardsfilter(awards);
         } else if (tab === 'active') {
-        setAwardsfilter(awards?.filter(data => data.status));
+        setAwardsfilter(awards?.filter(data => data.active));
         } else {
-        setAwardsfilter(awards?.filter(data => !data.status));
+        setAwardsfilter(awards?.filter(data => !data.active));
         }
     }, [awards, tab])
 

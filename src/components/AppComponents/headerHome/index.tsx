@@ -18,7 +18,7 @@ const HeaderHome = () => {
       <div className='flex justify-between items-center'>
         <div className=''>
           <Logo type="white" styles='text-xl text-start' />
-          <p className='text-white font-bold '>Olá, <span className='font-extralight'>{user?.email}</span></p>
+          <p className='text-white font-bold '>Olá, <span className='font-extralight'>{user?.name}</span></p>
         </div>
 
         <button onClick={handleLogout} className=''>

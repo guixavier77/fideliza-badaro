@@ -54,9 +54,15 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
         price: Number(masks.unmask(values.price)),
         image_url: values.image_url,
         image: values.image,
-        status: true,
+        active: true,
       }
 
+
+
+      api.post('/awards',data)
+        .then(() => {})
+        .catch()
+        .finally()
 
 
     }

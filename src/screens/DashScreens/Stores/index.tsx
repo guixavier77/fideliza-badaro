@@ -39,9 +39,9 @@ const StoresContent = ({ hidden }: any) => {
     if (tab === 'all') {
       setStoresFilter(stores);
     } else if (tab === 'active') {
-      setStoresFilter(stores.filter(store => store.status));
+      setStoresFilter(stores.filter(store => store.active));
     } else {
-      setStoresFilter(stores.filter(store => !store.status));
+      setStoresFilter(stores.filter(store => !store.active));
     }
   }, [stores, tab])
 

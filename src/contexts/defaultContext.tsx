@@ -11,14 +11,12 @@ import {jwtDecode} from 'jwt-decode'
 import User from '@/interfaces/user.interface';
 import api from '@/services/api';
 import { ROLE } from '@/utils/types/roles';
+import useLoadData from '@/hooks/useLoadData';
 export const DefaultContext = createContext<DefaultContextInterface>({} as any)
 
 export default function DefaultProvider({ children }: any) {
 
-  const [stores, setstores] = useState<Store[]>([]);
   const [storeSelected, setstoreSelected] = useState<number | null>(null);
-  const [store, setstore] = useState<Store | null>(null);
-  const [awardsDicionary, setawardsDicionary] = useState<Award>();
   const [user, setuser] = useState<User | null>(null);
 
 
@@ -37,29 +35,26 @@ export default function DefaultProvider({ children }: any) {
     }
   }, []);
 
-  useEffect(() => {
-    if(!storeSelected) return;
-    api.get(`stores/${storeSelected}`)
-      .then((res) => setstore(res?.data?.store))
-      .catch(error => console.error('[ERROR API /stores]', error?.response?.data))
-  },[storeSelected])
+  const {
+    store,
+    stores,
+    awards,
+    promotions
+  
+  } = useLoadData(user, storeSelected)
 
-  useEffect(() => {
-    if(!user || user.role !== ROLE.SUPERADMIN) return;
-    api.get(`stores`)
-    .then((res) => setstores(res?.data?.stores))
-    .catch(error => console.error('[ERROR API /stores]', error?.response?.data))
-  },[user])
+
 
   
   return (
     <DefaultContext.Provider value={{
       user,
       stores,
+      awards,
+      promotions,
       store,
       storeSelected,
       setstoreSelected,
-      awardsDicionary
     }}>
       {children}
     </DefaultContext.Provider>

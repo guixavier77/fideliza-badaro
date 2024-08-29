@@ -4,6 +4,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
 import ModalAwards from '../../modals/ModalAwards';
+import logoPng from '../../../../assets/logo.png'
 
 
 interface CardAwardProps {
@@ -24,9 +25,13 @@ const CardAwards: React.FC<CardAwardProps> = ({ award }) => {
   return (
     <div className='bg-white shadow-lg rounded-40 py-2 px-4'>
       <div className='flex items-center'>
-        <Image src={award?.image_url || ''} alt='Imagem do premio' width={40}
-          height={40} />
-        <div className='grid grid-cols-6 items-center w-full pl-3'>
+        <Image 
+          src={award?.image_url || logoPng} 
+          alt='Imagem do premio' 
+          width={40}
+          height={40} 
+        />
+        <div className='grid grid-cols-6 items-center w-full pl-5'>
           <p className='font-bold col-span-2 text-left'>{award?.name}</p>
           <p className='font-bold text-left col-span-2'>{Money.centsToMaskMoney(award?.price)}</p>
           <div className='col-span-2 flex'>

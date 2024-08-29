@@ -9,12 +9,12 @@ import PaginationDash from '@/components/DashComponents/PaginationDash';
 import ModalPromotions from '@/components/DashComponents/modals/ModalPromotions';
 
 
+
 let itemsPerPage = 7;
 const PromotionsContent = ({ hidden }: any) => {
   const [tab, setTab] = useState('all');
-  const { storeSelected } = useContext(DefaultContext);
+  const { promotions } = useContext(DefaultContext);
   const [openPromotion, setopenPromotion] = useState(false);
-  const [promotions, setPromotions] = useState<Promotion[]>([])
   const [promotionsFilter, setPromotionsFilter] = useState<Promotion[]>([])
   const [currentPage, setCurrentPage] = useState(1);
 

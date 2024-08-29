@@ -11,7 +11,31 @@ import LocalPhoneOutlined from '@mui/icons-material/LocalPhoneOutlined';
 import BusinessIcon from '@mui/icons-material/Business';
 import api from '@/services/api';
 import apiViaCep from '@/services/apiViaCep';
+import CustomizedSteppers from '../../StepBar';
 
+const validate = (values: any) => {
+  let errors: any = {};
+  if (!values.name) {
+    errors.name = 'Este campo é necessário';
+  }
+  if (!values.cnpj) {
+    errors.cnpj = 'Este campo é necessário.';
+  } else if (values.cnpj.length < 18) {
+    errors.cnpj = 'O CNPJ precisa ter 14 dígitos.';
+  }
+
+  if (!values.email) {
+    errors.email = 'Este campo é necessário.';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Email inválido.';
+  }
+
+  if (!values.phone) {
+    errors.phone = 'Este campo é necessário';
+  }
+
+  return errors;
+}
 
 
 const ModalStores = ({ open, setIsClose, data }: any) => {
@@ -68,6 +92,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
       complement: '',
 
     },
+    validate,
     onSubmit: async (values) => {
       setloading(true);
       const data = {
@@ -92,6 +117,8 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
     }
   })
 
+
+const steps = ['Dados da loja', 'Endereço da loja'];
 
   const getCepData = useCallback(async (cep: string) => {
     const unmaskCep = masks.unmask(cep);
@@ -129,6 +156,10 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
       <div className='bg-white rounded-20 w-1/3 p-4'>
         <p className='font-semibold text-xl text-center uppercase pb-5'>Cadastro de loja</p>
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
+          <CustomizedSteppers 
+            steps={steps}
+            activeTab={!viewTwo ? 0 : 1}
+          />
           {!viewTwo &&
             <div  className='flex flex-col gap-4'>
               <InputStyled
@@ -139,6 +170,9 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
                 type="text"
                 placeholder="Nome da Loja"
                 icon={<StoreOutlinedIcon style={{ color: '#C90B0B' }} />}
+                error={formik.errors.name}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.name}
               />
 
               <InputStyled
@@ -149,6 +183,11 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
                 type="text"
                 placeholder="00.000.000/0000-00"
                 icon={<ArticleOutlinedIcon style={{ color: '#C90B0B' }} />}
+                error={formik.errors.cnpj}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.cnpj}
+
+
               />
               <InputStyled
                 id="email"
@@ -159,6 +198,10 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
                 type="text"
                 placeholder="exemplo@gmail.com"
                 icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
+                error={formik.errors.email}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.email}
+
               />
               <InputStyled
                 id="phone"
@@ -168,6 +211,10 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
                 type="text"
                 placeholder="(00) 00000-0000"
                 icon={<LocalPhoneOutlined style={{ color: '#C90B0B' }} />}
+                error={formik.errors.phone}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.phone}
+
               />
               <div className='flex gap-5 pt-5'>
                 <ButtonStyled
@@ -195,7 +242,6 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
 
           {viewTwo &&
             <div  className='flex flex-col gap-4'>
-              <p className='font-semibold text-xl text-left mb-2'>Endereço</p>
               <div className='flex gap-4' >
                 <InputStyled
                   // stylesInput='w-3/4'
