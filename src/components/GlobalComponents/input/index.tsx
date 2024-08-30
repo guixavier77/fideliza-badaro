@@ -2,6 +2,7 @@
 import React from 'react'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 interface IInputStyled {
+  maxLength?: number;
   disabled?: boolean,
   id: string
   label?: string
@@ -17,7 +18,7 @@ interface IInputStyled {
   onBlur?: any
   isTouched?: boolean
 }
-const InputStyled = ({disabled, label, type, icon, placeholder, value, onChange, id, styles, stylesInput,edit,error ,onBlur, isTouched}: IInputStyled) => {
+const InputStyled = ({maxLength,disabled, label, type, icon, placeholder, value, onChange, id, styles, stylesInput,edit,error ,onBlur, isTouched}: IInputStyled) => {
   return (
     <div className='flex flex-col '>
       {label && <label className='mb-1 text-darkGray text-sm'>{label}</label>}
@@ -25,6 +26,7 @@ const InputStyled = ({disabled, label, type, icon, placeholder, value, onChange,
         <div className='flex items-center gap-4 w-full'>
           {icon}
           <input 
+            maxLength={maxLength}
             disabled={disabled} 
             id={id} 
             value={value} 

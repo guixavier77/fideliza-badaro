@@ -9,10 +9,11 @@ interface IButtonStyled {
   icon?: any,
   onClick?: () => void
   type: "submit" | "button" | undefined
+  disabled?: boolean
 }
-const ButtonStyled = ({ styles, bgColor, textColor, title, onClick, type, icon, stylesIcon }: IButtonStyled) => {
+const ButtonStyled = ({ styles, bgColor, textColor, title, onClick, type, icon, disabled }: IButtonStyled) => {
   return (
-    <button type={type} className={`${bgColor} ${styles} ${textColor ? textColor : 'text-white'} py-3 bg-black  rounded-xl font-semibold flex justify-center items-center gap-2 `} onClick={onClick}>
+    <button disabled={disabled} type={type} className={`${bgColor} ${styles} ${textColor ? textColor : 'text-white'} py-3 bg-black  rounded-xl font-semibold flex justify-center items-center gap-2 `} onClick={onClick}>
 
       {icon && React.cloneElement(icon)}
 

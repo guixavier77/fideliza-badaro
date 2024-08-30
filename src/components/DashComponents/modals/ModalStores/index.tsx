@@ -4,7 +4,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 import { CircularProgress, Modal } from '@mui/material';
 import { useFormik } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import masks from '@/utils/masks/masks';
 import LocalPhoneOutlined from '@mui/icons-material/LocalPhoneOutlined';
@@ -12,6 +12,9 @@ import BusinessIcon from '@mui/icons-material/Business';
 import api from '@/services/api';
 import apiViaCep from '@/services/apiViaCep';
 import CustomizedSteppers from '../../StepBar';
+import { DefaultContext } from '@/contexts/defaultContext';
+import PreFeedBack from '@/utils/feedbackStatus';
+
 
 const validate = (values: any) => {
   let errors: any = {};
@@ -34,44 +37,82 @@ const validate = (values: any) => {
     errors.phone = 'Este campo é necessário';
   }
 
+  if (!values.cep) {
+    errors.cep = 'Este campo é necessário';
+  }
+
+  if(!values.uf){
+    errors.uf = 'Este campo é necessário';
+  }
+
+  if(!values.city){
+    errors.city = 'Este campo é necessário';
+  }
+
+  
+  if(!values.neighborhood){
+    errors.neighborhood = 'Este campo é necessário';
+  }
+
+  if(!values.street){
+    errors.street = 'Este campo é necessário';
+  }
+
+
   return errors;
 }
 
 
 const ModalStores = ({ open, setIsClose, data }: any) => {
+  const {onShowFeedBack} = useContext(DefaultContext)
   const [loading, setloading] = useState(false);
   const [viewTwo, setViewTwo] = useState(false);
+
+
+  const onSuccess = () => {
+    onShowFeedBack(PreFeedBack.success('Loja cadastrada com sucesso!'))
+    setIsClose();
+  }
+
+  const onError = (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar a loja.'))
+    console.log(e);
+
+  }
   useEffect(() => {
-    if (!open) return formik.resetForm();
-    if (data && data.address) {
+
+    if (!open){ 
+      setViewTwo(false);
+      return formik.resetForm()
+    };
+    if (data) {
       const {
         name,
         cnpj,
         email,
         phone,
-        address
+        address_cep,
+        address_uf,
+        address_city,
+        address_neighborhood,
+        address_street, 
+        address_number
+        
       } = data;
-      const {
-        cep,
-        uf,
-        city,
-        neighborhood,
-        street,
-        number,
-        complement
-      } = address;
+      
       formik.setValues({
         name: name,
         cnpj: cnpj,
         email: email,
         phone: phone,
-        cep: cep,
-        uf: uf,
-        city: city,
-        neighborhood: neighborhood,
-        complement: complement,
-        street: street,
-        number: number,
+
+
+        cep: address_cep,
+        uf: address_uf,
+        city: address_city,
+        neighborhood: address_neighborhood,
+        street: address_street,
+        number: address_number,
       });
     }
   }, [data, open])
@@ -89,7 +130,6 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
       neighborhood: '',
       street: '',
       number: '',
-      complement: '',
 
     },
     validate,
@@ -97,28 +137,26 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
       setloading(true);
       const data = {
         name: values.name,
-        cnpj: values.cnpj,
+        cnpj: masks.unmask(values.cnpj),
         email: values.email,
         phone: values.phone,
-        cep: values.cep,
-        uf: values.uf,
-        city: values.city,
-        neighborhood: values.neighborhood,
-        street: values.street,
-        number: values.number,
+        address_cep: masks.unmask(values.cep),
+        address_uf: values.uf,
+        address_city: values.city,
+        address_neighborhood: values.neighborhood,
+        address_street: values.street,
+        address_number: values.number,
       }
+      console.log(data, '[POST] /stores')
       api.post('stores', data)
-        .then()
-        .catch(error => console.error('[ERROR API /stores]', error?.response?.data))
-        .finally(() => {
-          setloading(false)
-          setIsClose();
-        });
+        .then(onSuccess)
+        .catch((e) => onError(e))
+        .finally(() => setloading(false));
     }
   })
 
 
-const steps = ['Dados da loja', 'Endereço da loja'];
+  const steps = ['Dados da loja', 'Endereço da loja'];
 
   const getCepData = useCallback(async (cep: string) => {
     const unmaskCep = masks.unmask(cep);
@@ -126,27 +164,20 @@ const steps = ['Dados da loja', 'Endereço da loja'];
     if (response) {
       formik.setValues({
         ...formik.values,
-        uf: response.data?.uf,
-        city: response.data?.localidade,
-        neighborhood: response.data?.bairro,
-        street: response.data?.logradouro,
+        cep: response?.data?.cep,
+        uf: response?.data?.uf,
+        city: response?.data?.localidade,
+        neighborhood: response?.data?.bairro,
+        street: response?.data?.logradouro,
       })
     }
-    console.log(data);
-  }, [])
+   
+  }, [formik.values])
 
   useEffect(() => {
-    if (formik.values.cep.length < 10 && !data) {
-      formik.setValues({
-        ...formik.values,
-        uf: '',
-        city: '',
-        neighborhood: '',
-        street: '',
-      })
-    }
-    if (formik.values.cep.length === 10) getCepData(formik.values.cep)
+    if (formik.values.cep.length === 10 && !data) getCepData(formik.values.cep)
   }, [data, formik.values.cep, getCepData])
+
   return (
     <Modal
       open={open}
@@ -186,6 +217,7 @@ const steps = ['Dados da loja', 'Endereço da loja'];
                 error={formik.errors.cnpj}
                 onBlur={formik.handleBlur}
                 isTouched={formik.touched.cnpj}
+                maxLength={18}
 
 
               />
@@ -214,6 +246,7 @@ const steps = ['Dados da loja', 'Endereço da loja'];
                 error={formik.errors.phone}
                 onBlur={formik.handleBlur}
                 isTouched={formik.touched.phone}
+                maxLength={15}
 
               />
               <div className='flex gap-5 pt-5'>
@@ -245,6 +278,7 @@ const steps = ['Dados da loja', 'Endereço da loja'];
               <div className='flex gap-4' >
                 <InputStyled
                   // stylesInput='w-3/4'
+                  
                   id="cep"
                   value={masks.cepMask(formik.values.cep)}
                   onChange={formik.handleChange}
@@ -252,6 +286,9 @@ const steps = ['Dados da loja', 'Endereço da loja'];
                   type="text"
                   placeholder="0000-000"
                   icon={<BusinessIcon style={{ color: '#C90B0B' }} />}
+                  error={formik.errors.cep}
+                  onBlur={formik.handleBlur}
+                  isTouched={formik.touched.cep}
                 />
 
 
@@ -264,6 +301,9 @@ const steps = ['Dados da loja', 'Endereço da loja'];
                   type="text"
                   placeholder="MG"
                   icon={<BusinessIcon style={{ color: '#C90B0B' }} />}
+                  error={formik.errors.uf}
+                  onBlur={formik.handleBlur}
+                  isTouched={formik.touched.uf}
                 />
               </div>
 
@@ -277,6 +317,10 @@ const steps = ['Dados da loja', 'Endereço da loja'];
                 type="text"
                 placeholder="-----"
                 icon={<BusinessIcon style={{ color: '#C90B0B' }} />}
+
+                error={formik.errors.city}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.city}
               />
               <InputStyled
                 stylesInput='w-3/4'
@@ -287,6 +331,10 @@ const steps = ['Dados da loja', 'Endereço da loja'];
                 type="text"
                 placeholder="-----"
                 icon={<BusinessIcon style={{ color: '#C90B0B' }} />}
+
+                error={formik.errors.neighborhood}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.neighborhood}
               />
 
               <div className='flex gap-4' >
@@ -298,6 +346,10 @@ const steps = ['Dados da loja', 'Endereço da loja'];
                   type="text"
                   placeholder="Rua"
                   icon={<BusinessIcon style={{ color: '#C90B0B' }} />}
+
+                  error={formik.errors.street}
+                  onBlur={formik.handleBlur}
+                  isTouched={formik.touched.street}
                 />
 
 
@@ -310,6 +362,10 @@ const steps = ['Dados da loja', 'Endereço da loja'];
                   type="text"
                   placeholder="----"
                   icon={<BusinessIcon style={{ color: '#C90B0B' }} />}
+
+                  error={formik.errors.number}
+                  onBlur={formik.handleBlur}
+                  isTouched={formik.touched.number}
                 />
               </div>
 

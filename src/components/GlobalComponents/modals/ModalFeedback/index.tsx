@@ -1,19 +1,9 @@
-import ButtonStyled from '@/components/GlobalComponents/button';
-import InputStyled from '@/components/GlobalComponents/input';
-import { DefaultContext } from '@/contexts/defaultContext';
-import masks from '@/utils/masks/masks';
+import { colors } from '@/utils/colors/colors';
 import { STATUS } from '@/utils/types/feedback';
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
-import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
-import { CircularProgress, Modal } from '@mui/material';
-import { useFormik } from 'formik';
-import Image from 'next/image';
-import { useCallback, useContext, useEffect, useState } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { config } from 'process';
-import { colors } from '@/utils/colors/colors';
+import { Modal } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 interface ModalFeedBackStatusProps {
   status: string;
@@ -26,19 +16,18 @@ interface ModalFeedBackStatusProps {
 
 
 const ModalFeedBackStatus = ({open, setIsClose, status,title, description }: ModalFeedBackStatusProps) => {
-  const [timer, setTimer] = useState<number>(5);
+  const [timer, setTimer] = useState<number>(3);
   const StatusIcon = status === STATUS.SUCCESS ? CheckCircleIcon : ErrorIcon;
-
+  console.log(status);
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (open) {
-      setTimer(5); 
       interval = setInterval(() => {
         setTimer((prevTimer) => {
           const newTimer = prevTimer - 1;
           if (newTimer <= 0) {
             clearInterval(interval!); 
-            // setIsClose(); 
+            setIsClose(); 
           }
           return newTimer;
         });

@@ -29,7 +29,7 @@ const CardPromotion: React.FC<CardPromotionProps> = ({ promotion }) => {
   const [openEdit, setOpenEdit] = useState(false);
   return (
     <div className='relative bg-white shadow-lg rounded-20 w-60 hover:shadow-xl transition-shadow duration-300'>
-      <div className={`absolute top-0 right-0 rounded-tr-20 rounded-bt-20 px-4 py-1 text-white font-bold ${promotion?.active ? 'bg-green' : 'bg-red'}`}>
+      <div className={`absolute top-0 right-0 rounded-tr-20 rounded-bl-20 px-4 py-1 text-white font-bold ${promotion?.active ? 'bg-green' : 'bg-red'}`}>
         {promotion?.active ? 'Ativo' : 'Inativo'}
       </div>
       <div className='px-4 flex w-full flex-col pt-10'>
@@ -41,13 +41,13 @@ const CardPromotion: React.FC<CardPromotionProps> = ({ promotion }) => {
             height={150}
           />
           <p className='font-medium text-lg text-center mt-4'>
-            {awardsDicionary ? awardsDicionary[promotion.awardId]?.name : ''}
+            {awardsDicionary ? awardsDicionary[promotion.awardId]?.name : 'Indefinido'}
           </p>
           <p className='font-light text-gray-500 text-center mt-2'>
-            {awardsDicionary ? Money.centsToMaskMoney(awardsDicionary[promotion.awardId]?.price) : ''}
+            {awardsDicionary ? Money.centsToMaskMoney(awardsDicionary[promotion.awardId]?.price) : Money.centsToMaskMoney(0)}
           </p>
         </div>
-        <div className='flex flex-col relative mt-4'>
+        <div className='flex flex-col relative '>
           <p className='font-bold text-left text-lg my-3 flex items-center'>
             <MonetizationOn style={{ color: '#C90B0B' }} className='mr-2' />
             {promotion?.name.substring(0, 20)}
