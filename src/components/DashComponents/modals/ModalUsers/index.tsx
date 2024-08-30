@@ -95,12 +95,12 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
   ];
 
   const onSuccess = () => {
-    onShowFeedBack(PreFeedBack.success('Loja cadastrada com sucesso!'))
+    onShowFeedBack(PreFeedBack.success('Usuário cadastrado com sucesso!'))
     setIsClose();
   }
 
   const onError = (e: any) => {
-    onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar a loja.'))
+    onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar usuário.'))
     console.log('[ERROR API /users]', e?.response?.data)
   }
   

@@ -11,15 +11,39 @@ import masks from '@/utils/masks/masks';
 import Money from '@/utils/masks/money';
 import Image from 'next/image';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import PreFeedBack from '@/utils/feedbackStatus';
+
+const validate = (values: any) => {
+  let errors: any = {};
+
+  if(!values.name){
+    errors.name = "Este campo é necessário."
+  }
 
 
+  if(!values.price) {
+    errors.price = "Este campo é necessário."
+  }
+
+  return errors
+}
 
 
 
 const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
   const [loading, setloading] = useState(false);
-  const { storeSelected } = useContext(DefaultContext);
+  const { storeSelected,onShowFeedBack } = useContext(DefaultContext);
 
+
+  const onSuccess = () => {
+    onShowFeedBack(PreFeedBack.success('Prêmio cadastrado com sucesso!'))
+    setIsClose();
+  }
+
+  const onError = (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar prêmio.'))
+    console.log('[ERROR API /users]', e?.response?.data)
+  }
   useEffect(() => {
     if (!open) return formik.resetForm();
     if (awardEdit) {
@@ -47,22 +71,22 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
       image_url: '',
 
     },
+    validate,
     onSubmit: async (values) => {
       setloading(true);
       const data: any = {
         name: values.name,
         price: Number(masks.unmask(values.price)),
         image_url: values.image_url,
-        image: values.image,
-        active: true,
+        // image: values.image,
+        storeId: storeSelected
       }
 
-
-
+      console.log(data);
       api.post('/awards',data)
-        .then(() => {})
-        .catch()
-        .finally()
+        .then(onSuccess)
+        .catch(error => onError(error))
+        .finally(() => setloading(false));
 
 
     }
@@ -112,6 +136,10 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
             type="text"
             placeholder="Exemplo"
             icon={<PersonOutlineOutlined style={{ color: '#C90B0B' }} />}
+
+            error={formik.errors.name}
+            onBlur={formik.handleBlur}
+            isTouched={formik.touched.name}
           />
 
           <InputStyled
@@ -122,6 +150,10 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
             label="Preço"
             type="text"
             icon={<AttachMoneyOutlinedIcon style={{ color: '#C90B0B' }} />}
+
+            error={formik.errors.price}
+            onBlur={formik.handleBlur}
+            isTouched={formik.touched.price}
           />
 
           <div className='flex gap-5 pt-5'>
@@ -132,7 +164,6 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
               bgColor='bg-red'
               title="Cancelar"
             />
-
 
             {loading ?
               <ButtonStyled

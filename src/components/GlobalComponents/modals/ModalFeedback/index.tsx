@@ -22,6 +22,7 @@ const ModalFeedBackStatus = ({open, setIsClose, status,title, description }: Mod
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (open) {
+      setTimer(3);
       interval = setInterval(() => {
         setTimer((prevTimer) => {
           const newTimer = prevTimer - 1;
