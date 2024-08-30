@@ -72,13 +72,10 @@ const ColorlibStepIconRoot = styled('div')<{
   ],
 }));
 
-function ColorlibStepIcon(props: StepIconProps) {
-  const { active, completed, className } = props;
+function ColorlibStepIcon(props: StepIconProps & { icons: { [index: string]: React.ReactElement<any> } }) {
+  const { active, completed, className,icons } = props;
 
-  const icons: { [index: string]: React.ReactElement<any> } = {
-    1: <StoreIcon />,
-    2: <BusinessIcon />,
-  };
+
 
   return (
     <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
@@ -88,16 +85,19 @@ function ColorlibStepIcon(props: StepIconProps) {
 }
 
 
-export default function CustomizedSteppers({steps, activeTab}: any) {
+export default function CustomizedSteppers({steps, activeTab, iconStep1, iconStep2}: any) {
+  const icons = {
+    1: iconStep1,
+    2: iconStep2,
+  };
   return (
     <Stack>
       <Stepper alternativeLabel activeStep={activeTab} connector={<ColorlibConnector />}>
         {steps.map((label: any) => (
           <Step key={label}>
-            <StepLabel 
-              StepIconComponent={ColorlibStepIcon}
+           <StepLabel 
+              StepIconComponent={(props) => <ColorlibStepIcon {...props} icons={icons} />}
             >
-
               <p className='font-bold text-base'>{label}</p>
             </StepLabel>
           </Step>

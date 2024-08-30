@@ -13,7 +13,8 @@ import api from '@/services/api';
 import apiViaCep from '@/services/apiViaCep';
 import CustomizedSteppers from '../../StepBar';
 import { DefaultContext } from '@/contexts/defaultContext';
-import PreFeedBack from '@/utils/feedbackStatus';
+import PreFeedBack from '@/utils/feedbackStatus';;
+import StoreIcon from '@mui/icons-material/Store';
 
 
 const validate = (values: any) => {
@@ -76,9 +77,9 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
 
   const onError = (e: any) => {
     onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar a loja.'))
-    console.log(e);
-
+    console.log('[ERROR API /stores]', e?.response?.data)
   }
+
   useEffect(() => {
 
     if (!open){ 
@@ -150,7 +151,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
       console.log(data, '[POST] /stores')
       api.post('stores', data)
         .then(onSuccess)
-        .catch((e) => onError(e))
+        .catch((error) => onError(error))
         .finally(() => setloading(false));
     }
   })
@@ -190,6 +191,9 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
           <CustomizedSteppers 
             steps={steps}
             activeTab={!viewTwo ? 0 : 1}
+            iconStep1={<StoreIcon/>}
+            iconStep2={<BusinessIcon/>}
+           
           />
           {!viewTwo &&
             <div  className='flex flex-col gap-4'>
@@ -265,7 +269,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
                   bgColor='bg-black'
                   title="Próximo"
                 />
-            </div>
+              </div>
 
 
 

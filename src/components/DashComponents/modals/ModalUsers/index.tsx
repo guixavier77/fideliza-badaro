@@ -17,6 +17,10 @@ import StoreIcon from '@mui/icons-material/Store';
 import { generatePassword } from '@/utils/password';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import WcIcon from '@mui/icons-material/Wc';
+import PreFeedBack from '@/utils/feedbackStatus';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CustomizedSteppers from '../../StepBar';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 const functions = [
   {
@@ -30,9 +34,55 @@ const functions = [
   },
 ]
 
+const validate = (values: any) => {
+  const unmaskCpf = values.cpf.replace(/\D/g, "")
+  let errors: any = {};
+  if (!values.cpf) {
+    errors.cpf = 'Este campo é necessário';
+  } else if (values.cpf.length < 14) {
+    errors.cpf = 'Informe o cpf completo';
+  } else if (!masks.validaCpf(unmaskCpf)) {
+    errors.cpf = 'CPF inválido';
+  }
+
+  if(!values.name) {
+    errors.name = "Este campo é necessário"
+  } else if(values.name.length < 4) {
+    errors.name = "Minimo 4 caracteres"
+  }
+
+  if(!values.phone) {
+    errors.phone = "Este campo é necessário"
+  } else if(values.phone.length < 15){
+    errors.phone = "Digite o telefone completo"
+  }
+
+  if(!values.birthDate) {
+    errors.birthDate = "Este campo é necessário"
+  } else if(values.birthDate.length < 10){
+    errors.birthDate = "Digite a data completa"
+  }
+
+  if (!values.email) {
+    errors.email = 'Este campo é necessário.';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Email inválido.';
+  }
+
+  if(!values.password) {
+    errors.password = "Este campo é necessário."
+  } else if(values.password.length < 7){
+    errors.password = "Minímo de 7 caracteres."
+  }
+
+  return errors;
+}
+
 const ModalUsers = ({ open, setIsClose, userData }: any) => {
-  const { stores, storeSelected,user } = useContext(DefaultContext);
+  const { stores, onShowFeedBack,user } = useContext(DefaultContext);
   const [loading, setloading] = useState(false);
+  const [viewTwo, setViewTwo] = useState(false);
+
 
   const optionsStores = useMemo(() => stores?.map(store => ({ value: store.id, text: store.name })), [stores])
 
@@ -43,6 +93,16 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
     { value: 'f', text: 'Feminino' },
     { value: 'i', text: 'Indefinido' },
   ];
+
+  const onSuccess = () => {
+    onShowFeedBack(PreFeedBack.success('Loja cadastrada com sucesso!'))
+    setIsClose();
+  }
+
+  const onError = (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar a loja.'))
+    console.log('[ERROR API /users]', e?.response?.data)
+  }
   
 
   useEffect(() => {
@@ -58,6 +118,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
         role,
         active,
         storeId,
+        birthDate,
       } = userData;
       formik.setValues({
         name: name,
@@ -65,6 +126,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
         email: email,
         phone: phone,
         password: password,
+        birthDate: birthDate,
         sex: sex,
         role: role,
         active,
@@ -81,11 +143,13 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       email: '',
       phone: '',
       password: '',
+      birthDate: '',
       sex: 'm',
-      storeId: "",
+      storeId: Number(optionsStores[0]?.value),
       role: ROLE.OPERATOR,
       active: true,
     },
+    validate,
     onSubmit: async (values) => {
       setloading(true);
 
@@ -102,14 +166,15 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       }
 
       api.post('users', data)
-        .then()
-        .catch(error => console.error('[ERROR API /users]', error?.response?.data))
-        .finally(() => {
-          setloading(false)
-          setIsClose();
-        });
+        .then(onSuccess)
+        .catch(error => onError(error))
+        .finally(() => setloading(false));
     }
   })
+
+
+  const steps = ['Dados do usuário', 'Informações de login'];
+
   return (
     <Modal
       open={open}
@@ -119,114 +184,185 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       <div className='bg-white rounded-20 w-1/3 p-4'>
         <p className='font-semibold text-xl text-center uppercase pb-5'>Cadastro de usuário</p>
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
-          <InputStyled
-            id="cpf"
-            onChange={formik.handleChange}
-            value={masks.cpfMask(formik.values.cpf)}
-            label="CPF"
-            type="tel"
-            placeholder="000.000.000-00"
-            icon={<ArticleOutlined style={{ color: '#C90B0B' }} />}
-          />
-          <InputStyled
-            id="name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            label="Nome"
-            type="text"
-            placeholder="Exemplo"
-            icon={<PersonOutlineOutlined style={{ color: '#C90B0B' }} />}
-          />
-          <InputStyled
-            id="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            disabled={userData}
-            label="E-mail"
-            type="text"
-            placeholder="exemplo@gmail.com"
-            icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
+          <CustomizedSteppers 
+            steps={steps}
+            activeTab={!viewTwo ? 0 : 1}
+            iconStep1={<PersonOutlineOutlined/>}
+            iconStep2={<LockOpenIcon/>}
           />
 
-          <InputStyled
-            id="phone"
-            value={masks.phoneMask(formik.values.phone)}
-            onChange={formik.handleChange}
-            label="Telefone"
-            type="text"
-            placeholder="99 9999-9999"
-            icon={<LocalPhoneIcon style={{ color: '#C90B0B' }} />}
-          />
+          {!viewTwo && 
+            <div className='flex flex-col gap-4'>
+              <InputStyled
+                id="cpf"
+                onChange={formik.handleChange}
+                value={masks.cpfMask(formik.values.cpf)}
+                label="CPF"
+                type="tel"
+                placeholder="000.000.000-00"
+                icon={<ArticleOutlined style={{ color: '#C90B0B' }} />}
+                error={formik.errors.cpf}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.cpf}
+              />
+              <InputStyled
+                id="name"
+                onChange={formik.handleChange}
+                value={formik.values.name}
+                label="Nome"
+                type="text"
+                placeholder="Exemplo"
+                icon={<PersonOutlineOutlined style={{ color: '#C90B0B' }} />}
+                error={formik.errors.name}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.name}
+              />
 
-          <InputStyled
-            id="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            label="Senha"
-            type="password"
-            placeholder="***********"
-            disabled={userData}
-            icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
-          />
+              <InputStyled
+                id="phone"
+                value={masks.phoneMask(formik.values.phone)}
+                onChange={formik.handleChange}
+                label="Telefone"
+                type="text"
+                placeholder="99 9999-9999"
+                maxLength={15}
+                icon={<LocalPhoneIcon style={{ color: '#C90B0B' }} />}
 
-          <SelectStyled
-            label="Sexo"
-            icon={<WcIcon style={{ color: '#C90B0B' }} />}
-            value={formik.values.sex}
-            onChange={formik.handleChange}
-            id="sex"
-            options={optionsSex}
-          />
+                error={formik.errors.phone}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.phone}
+              />
 
-          <SelectStyled
-            label="Função"
-            icon={<AccountBoxIcon style={{ color: '#C90B0B' }} />}
-            value={formik.values.role}
-            onChange={formik.handleChange}
-            id="role"
-            options={options}
-          />
+              <InputStyled
+                id="birthDate"
+                value={masks.dateMask(formik.values.birthDate)}
+                onChange={formik.handleChange}
+                label="Data de Nascimento"
+                type="text"
+                placeholder="DD/MM/YYYY"
+                icon={<CalendarMonthIcon style={{ color: '#C90B0B' }} />}
 
-          {user?.role === ROLE.SUPERADMIN &&
-            <SelectStyled
-              label="Loja"
-              icon={<StoreIcon style={{ color: '#C90B0B' }} />}
-              value={formik.values.storeId}
-              onChange={formik.handleChange}
-              id="storeId"
-              options={optionsStores}
-            />
+                error={formik.errors.birthDate}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.birthDate}
+              />
 
+              <SelectStyled
+                label="Sexo"
+                icon={<WcIcon style={{ color: '#C90B0B' }} />}
+                value={formik.values.sex}
+                onChange={formik.handleChange}
+                id="sex"
+                options={optionsSex}
+              />
+
+              <div className='flex gap-5 pt-5'>
+                <ButtonStyled
+                  type="button"
+                  onClick={setIsClose}
+                  styles="w-full"
+                  bgColor='bg-red'
+                  title="Cancelar"
+                />
+              
+                <ButtonStyled
+                  type="button"
+                  onClick={() => setViewTwo(true)}
+                  styles="w-full"
+                  bgColor='bg-black'
+                  title="Próximo"
+                />
+              </div>
+
+              
+            </div>
+          
+          }
+          {viewTwo &&
+            <div className='flex flex-col gap-4'>
+              <InputStyled
+                id="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                disabled={userData}
+                label="E-mail"
+                type="text"
+                placeholder="exemplo@gmail.com"
+                icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
+
+                error={formik.errors.email}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.email}
+              />
+
+              <InputStyled
+                id="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                label="Senha"
+                type="password"
+                placeholder="***********"
+                disabled={userData}
+                icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
+
+                error={formik.errors.password}
+                onBlur={formik.handleBlur}
+                isTouched={formik.touched.password}
+              />
+
+
+              <SelectStyled
+                label="Função"
+                icon={<AccountBoxIcon style={{ color: '#C90B0B' }} />}
+                value={formik.values.role}
+                onChange={formik.handleChange}
+                id="role"
+                options={options}
+              />
+
+              {user?.role === ROLE.SUPERADMIN &&
+                <SelectStyled
+                  label="Loja"
+                  icon={<StoreIcon style={{ color: '#C90B0B' }} />}
+                  value={formik.values.storeId}
+                  onChange={formik.handleChange}
+                  id="storeId"
+                  options={optionsStores}
+                />
+              }
+
+              <div className='flex gap-5 pt-5'>
+                <ButtonStyled
+                  type="button"
+                  onClick={() => setViewTwo(false)}
+                  styles="w-full"
+                  bgColor='bg-red'
+                  title="Voltar"
+                />
+                {loading ?
+                  <ButtonStyled
+                    bgColor='bg-darkGray'
+                    textColor='text-white'
+                    type="submit"
+                    styles="w-full"
+                    title='Cadastrando...'
+                    icon={<CircularProgress style={{ width: 20, height: 20, color: '#FFFFFF' }} />}
+
+                  /> :
+                  <ButtonStyled
+                    type="submit"
+                    styles="w-full"
+                    title="Cadastrar"
+                  />
+                }
+
+
+              </div>
+            </div>
           }
 
 
-          <div className='flex gap-5 pt-5'>
-            <ButtonStyled
-              type="button"
-              onClick={setIsClose}
-              styles="w-full"
-              bgColor='bg-red'
-              title="Cancelar"
-            />
-            {loading ?
-              <ButtonStyled
-                bgColor='bg-darkGray'
-                textColor='text-white'
-                type="submit"
-                styles="w-full"
-                title='Cadastrando...'
-                icon={<CircularProgress style={{ width: 20, height: 20, color: '#FFFFFF' }} />}
 
-              /> :
-              <ButtonStyled
-                type="submit"
-                styles="w-full"
-                title="Cadastrar"
-              />
-            }
-
-
-          </div>
         </form>
       </div>
     </Modal>
