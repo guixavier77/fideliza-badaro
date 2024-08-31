@@ -11,9 +11,9 @@ import {jwtDecode} from 'jwt-decode'
 import User from '@/interfaces/user.interface';
 import api from '@/services/api';
 import { ROLE } from '@/utils/types/roles';
-import useLoadData from '@/hooks/useLoadData';
 import ModalFeedBackStatus from '@/components/GlobalComponents/modals/ModalFeedback';
 import FeedBackStatusInterface from '@/interfaces/feedbackStatus';
+import useLoadStores from '@/hooks/useLoadStores';
 export const DefaultContext = createContext<DefaultContextInterface>({} as any)
 
 export default function DefaultProvider({ children }: any) {
@@ -34,7 +34,6 @@ export default function DefaultProvider({ children }: any) {
         const decoded: any = jwtDecode(token);
         setuser(decoded as any)
         setstoreSelected(decoded.storeId)
-        console.log(decoded);
       } catch (error) {
         setuser(null)
         setstoreSelected(null);
@@ -45,10 +44,7 @@ export default function DefaultProvider({ children }: any) {
   const {
     store,
     stores,
-    awards,
-    promotions
-  
-  } = useLoadData(user, storeSelected)
+  } = useLoadStores(user, storeSelected)
 
 
   const onShowFeedBack = useCallback(({ title, description, status }: FeedBackStatusInterface) => setshowModal({
@@ -61,8 +57,6 @@ export default function DefaultProvider({ children }: any) {
     <DefaultContext.Provider value={{
       user,
       stores,
-      awards,
-      promotions,
       store,
       storeSelected,
       setstoreSelected,

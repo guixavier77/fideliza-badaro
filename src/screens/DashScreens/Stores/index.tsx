@@ -94,6 +94,7 @@ const StoresContent = ({ hidden }: any) => {
       <ModalStores
         open={openUsers}
         setIsClose={handleCloseUsers}
+
       />
 
     </div>

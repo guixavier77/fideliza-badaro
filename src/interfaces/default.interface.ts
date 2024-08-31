@@ -8,8 +8,6 @@ import FeedBackStatusInterface from "./feedbackStatus"
 export default interface DefaultContextInterface {
   user: User | null
   stores: Store[],
-  awards: Award[]
-  promotions: Promotion[],
   store: Store | null,
   storeSelected: number | null,
   setstoreSelected: (e: number) => void,

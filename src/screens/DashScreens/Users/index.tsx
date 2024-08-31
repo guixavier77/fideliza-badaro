@@ -3,10 +3,9 @@ import PaginationDash from '@/components/DashComponents/PaginationDash';
 import CardUser from '@/components/DashComponents/cards/cardUser';
 import ModalUsers from '@/components/DashComponents/modals/ModalUsers';
 import { DefaultContext } from '@/contexts/defaultContext';
+import useLoadUsers from '@/hooks/useLoadUsers';
 import User from '@/interfaces/user.interface';
-import api from '@/services/api';
 import { colors } from '@/utils/colors/colors';
-import { users } from '@/utils/mocks';
 import Add from '@mui/icons-material/Add';
 import { CircularProgress } from '@mui/material';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -32,12 +31,10 @@ const UsersContent = ({ hidden }: any) => {
   const { storeSelected } = useContext(DefaultContext);
   const [tab, setTab] = useState('all');
   const [openUsers, setopenUsers] = useState(false);
-  const [users, setUsers] = useState<User[]>([])
   const [usersFilter, setUsersFilter] = useState<User[]>([])
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const {users, loading} = useLoadUsers(hidden,storeSelected );
 
-  
   const usersToDisplay = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -45,22 +42,14 @@ const UsersContent = ({ hidden }: any) => {
   }, [currentPage, usersFilter]);
   const numberPages = useMemo(() => users.length > 1 ? Math.ceil(usersFilter.length / itemsPerPage) : 1, [usersFilter]);
 
-  useEffect(() => {
-    if(hidden) return;
-    setLoading(true);
-    api.get('users')
-    .then(res => setUsers(res.data?.users))
-    .catch(error => console.error('[ERROR API /users]', error?.response?.data))
-    .finally(() => setLoading(false))
-  },[hidden])
 
   useEffect(() => {
     if (tab === 'all') {
-      setUsersFilter(users.filter(user => user.storeId === storeSelected));
+      setUsersFilter(usersToDisplay);
     } else if (tab === 'active') {
-      setUsersFilter(users.filter(user => user.status && user.storeId === storeSelected));
+      setUsersFilter(usersToDisplay.filter(user => user.active));
     } else {
-      setUsersFilter(users.filter(user => !user.status && user.storeId === storeSelected));
+      setUsersFilter(usersToDisplay.filter(user => !user.active));
     }
   }, [storeSelected, users, tab])
 
@@ -100,7 +89,7 @@ const UsersContent = ({ hidden }: any) => {
         : 
         <>
           <div className='mt-10 flex flex-col gap-4'>
-            {usersToDisplay?.map((user) =>
+            {usersFilter?.map((user) =>
               <>
                 <CardUser user={user} />
               </>

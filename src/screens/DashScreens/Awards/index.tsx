@@ -10,17 +10,18 @@ import { TABS_FILTER } from '@/utils/types/tabs';
 import Add from '@mui/icons-material/Add';
 import { CircularProgress } from '@mui/material';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useLoadAwards from '@/hooks/useLoadAwards';
 
 
 let itemsPerPage = 7;
 
 const AwardsContent = ({ hidden }: any) => {
-    const { awards } = useContext(DefaultContext)
+    const {storeSelected} = useContext(DefaultContext);
     const [tab, setTab] = useState('all');
     const [openModal, setopenModal] = useState(false);
     const [awardsFilter, setAwardsfilter] = useState<Award[]>();
     const [currentPage, setCurrentPage] = useState(1);
-    const [loading, setLoading] = useState(false);
+    const {awards, loading} = useLoadAwards(hidden, storeSelected)
     const numberPages = useMemo(() => awards.length > 0 ? Math.ceil(awards.length / itemsPerPage) : 1, [awards]);
     useEffect(() => {
         if (tab === 'all') {

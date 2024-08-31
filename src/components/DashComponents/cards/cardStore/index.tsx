@@ -42,7 +42,7 @@ const CardStore: React.FC<CardStoreProps> = ({ store }) => {
       <ModalStores
         open={openEdit}
         setIsClose={handleCloseEditData}
-        data={dataSelected}
+        storeSelected={dataSelected}
 
       />
     </div>

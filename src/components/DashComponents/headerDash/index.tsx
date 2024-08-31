@@ -34,7 +34,7 @@ const HeaderDash = () => {
             <div className={`outline-none rounded-xl p-2 flex items-center justify-between`}>
               <div className='flex items-center  w-full relative bg-none'>
                 <StoreOutlinedIcon style={{ color: '#FFFFFF' }} />
-                <select name='storeSelected' value={storeSelected} onChange={(e) => setstoreSelected(e.target.value)} className=" w-full text-white font-semibold appearance-none outline-none bg-transparent px-8 bg-black ">
+                <select name='storeSelected' value={Number(storeSelected)} onChange={(e) => setstoreSelected(Number(e.target.value))} className=" w-full text-white font-semibold appearance-none outline-none bg-transparent px-8 bg-black ">
                   {options?.map((item: any) => (
                     <option value={item.value}>{item.text}</option>
                   ))}

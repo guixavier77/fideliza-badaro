@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export default interface DefaultEntityType {
-  id: string,
+  id: number,
   created_at: Timestamp,
   updated_at?: Timestamp,
 }

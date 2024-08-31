@@ -1,7 +1,6 @@
 import DefaultEntityType from "./default";
 
 export default interface Store extends DefaultEntityType {
-  id: string,
   cnpj: string,
   name: string,
   phone:  string,

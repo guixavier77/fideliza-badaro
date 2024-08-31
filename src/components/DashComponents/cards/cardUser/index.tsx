@@ -42,7 +42,7 @@ const CardUser: React.FC<CardUserProps> = ({ user }) => {
       <ModalUsers
         open={openEdit}
         setIsClose={handleCloseEditUser}
-        userData={userSelected}
+        userSelected={userSelected}
 
       />
     </div>

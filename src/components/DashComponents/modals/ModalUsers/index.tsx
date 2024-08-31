@@ -34,54 +34,60 @@ const functions = [
   },
 ]
 
-const validate = (values: any) => {
-  const unmaskCpf = values.cpf.replace(/\D/g, "")
-  let errors: any = {};
-  if (!values.cpf) {
-    errors.cpf = 'Este campo é necessário';
-  } else if (values.cpf.length < 14) {
-    errors.cpf = 'Informe o cpf completo';
-  } else if (!masks.validaCpf(unmaskCpf)) {
-    errors.cpf = 'CPF inválido';
-  }
 
-  if(!values.name) {
-    errors.name = "Este campo é necessário"
-  } else if(values.name.length < 4) {
-    errors.name = "Minimo 4 caracteres"
-  }
 
-  if(!values.phone) {
-    errors.phone = "Este campo é necessário"
-  } else if(values.phone.length < 15){
-    errors.phone = "Digite o telefone completo"
-  }
-
-  if(!values.birthDate) {
-    errors.birthDate = "Este campo é necessário"
-  } else if(values.birthDate.length < 10){
-    errors.birthDate = "Digite a data completa"
-  }
-
-  if (!values.email) {
-    errors.email = 'Este campo é necessário.';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Email inválido.';
-  }
-
-  if(!values.password) {
-    errors.password = "Este campo é necessário."
-  } else if(values.password.length < 7){
-    errors.password = "Minímo de 7 caracteres."
-  }
-
-  return errors;
-}
-
-const ModalUsers = ({ open, setIsClose, userData }: any) => {
+const ModalUsers = ({ open, setIsClose, userSelected }: any) => {
   const { stores, onShowFeedBack,user } = useContext(DefaultContext);
   const [loading, setloading] = useState(false);
   const [viewTwo, setViewTwo] = useState(false);
+
+  const validate = (values: any) => {
+    const unmaskCpf = values.cpf.replace(/\D/g, "")
+    let errors: any = {};
+  
+    if (!values.cpf) {
+      errors.cpf = 'Este campo é necessário';
+    } else if (masks.cpfMask(values.cpf).length < 14) {
+      errors.cpf = 'Informe o cpf completo';
+    } else if (!masks.validaCpf(unmaskCpf)) {
+      errors.cpf = 'CPF inválido';
+    }
+  
+    if (!values.name) {
+      errors.name = "Este campo é necessário";
+    } else if (values.name.length < 4) {
+      errors.name = "Minimo 4 caracteres";
+    }
+
+    if (!values.phone) {
+      errors.phone = "Este campo é necessário";
+    } else if (masks.unmask(values.phone).length < 11) {
+      errors.phone = "Digite o telefone completo";
+    }
+  
+    if (!values.birthDate) {
+      errors.birthDate = "Este campo é necessário";
+    } else if (values.birthDate.length < 10) {
+      errors.birthDate = "Digite a data completa";
+    }
+  
+    if (!userSelected) {
+      if (!values.email) {
+        errors.email = 'Este campo é necessário.';
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Email inválido.';
+      }
+  
+      if (!values.password) {
+        errors.password = "Este campo é necessário.";
+      } else if (values.password.length < 7) {
+        errors.password = "Minímo de 7 caracteres.";
+      }
+    }
+  
+    console.log(errors);
+    return errors;
+  }
 
 
   const optionsStores = useMemo(() => stores?.map(store => ({ value: store.id, text: store.name })), [stores])
@@ -103,29 +109,37 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
     onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar usuário.'))
     console.log('[ERROR API /users]', e?.response?.data)
   }
+  const onSuccessUpdate = () => {
+    onShowFeedBack(PreFeedBack.success('Usuário atualizado com sucesso!'))
+    setIsClose();
+  }
+
+  const onErrorUpdate = (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao atualizar usuário.'))
+    console.log('[ERROR API /users]', e?.response?.data)
+  }
   
 
   useEffect(() => {
     if (!open) return formik.resetForm();
-    if (userData) {
+    if (userSelected) {
       const {
         name,
         cpf,
         email,
         phone,
-        password,
         sex,
         role,
         active,
         storeId,
         birthDate,
-      } = userData;
+      } = userSelected;
       formik.setValues({
         name: name,
         cpf: cpf,
         email: email,
         phone: phone,
-        password: password,
+        password: "",
         birthDate: birthDate,
         sex: sex,
         role: role,
@@ -133,7 +147,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
         storeId,
       });
     }
-  }, [userData, open])
+  }, [userSelected, open])
 
 
   const formik = useFormik({
@@ -158,17 +172,38 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
         email: values.email,
         name: values.name,
         phone: masks.unmask(values.phone),
+        birthDate: values.birthDate,
         sex: values.sex,
         active: true,
         role: values.role,
-        storeId: 1,
+        storeId: Number(values.storeId),
         password: await generatePassword(values.password),
       }
 
-      api.post('users', data)
-        .then(onSuccess)
-        .catch(error => onError(error))
-        .finally(() => setloading(false));
+      console.log(userSelected);
+      const dataUpdate = {
+        id: userSelected.id,
+        cpf: masks.unmask(values.cpf),
+        name: values.name,
+        phone: masks.unmask(values.phone),
+        birthDate: values.birthDate,
+        sex: values.sex,
+        active: true,
+        role: values.role,
+        storeId: Number(values.storeId),
+      }
+
+      if(userSelected) {
+        api.put('users', dataUpdate)
+          .then(onSuccessUpdate)
+          .catch(error => onErrorUpdate(error))
+          .finally(() => setloading(false));
+      } else {
+        api.post('users', data)
+          .then(onSuccess)
+          .catch(error => onError(error))
+          .finally(() => setloading(false));
+      }
     }
   })
 
@@ -182,7 +217,8 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
       className="flex justify-center items-center"
     >
       <div className='bg-white rounded-20 w-1/3 p-4'>
-        <p className='font-semibold text-xl text-center uppercase pb-5'>Cadastro de usuário</p>
+      <p className='font-semibold text-xl text-center uppercase pb-5'>{userSelected ? "Atualizar usuário" : "Cadastro de usuário"}</p>
+
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
           <CustomizedSteppers 
             steps={steps}
@@ -284,7 +320,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
                 id="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
-                disabled={userData}
+                disabled={userSelected}
                 label="E-mail"
                 type="text"
                 placeholder="exemplo@gmail.com"
@@ -302,7 +338,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
                 label="Senha"
                 type="password"
                 placeholder="***********"
-                disabled={userData}
+                disabled={userSelected}
                 icon={<LockOutlinedIcon style={{ color: '#C90B0B' }} />}
 
                 error={formik.errors.password}
@@ -352,7 +388,7 @@ const ModalUsers = ({ open, setIsClose, userData }: any) => {
                   <ButtonStyled
                     type="submit"
                     styles="w-full"
-                    title="Cadastrar"
+                    title={userSelected ? "Atualizar" : "Cadastrar"}
                   />
                 }
 

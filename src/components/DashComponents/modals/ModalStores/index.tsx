@@ -22,10 +22,12 @@ const validate = (values: any) => {
   if (!values.name) {
     errors.name = 'Este campo é necessário';
   }
+
+  console.log(values.cnpj);
   if (!values.cnpj) {
     errors.cnpj = 'Este campo é necessário.';
-  } else if (values.cnpj.length < 18) {
-    errors.cnpj = 'O CNPJ precisa ter 14 dígitos.';
+  } else if (masks.cnpjMask(values.cnpj).length < 18) {
+    errors.cnpj = 'O CNPJ precisa ter 18 dígitos.';
   }
 
   if (!values.email) {
@@ -64,10 +66,20 @@ const validate = (values: any) => {
 }
 
 
-const ModalStores = ({ open, setIsClose, data }: any) => {
+const ModalStores = ({ open, setIsClose, storeSelected }: any) => {
   const {onShowFeedBack} = useContext(DefaultContext)
   const [loading, setloading] = useState(false);
   const [viewTwo, setViewTwo] = useState(false);
+
+  const onSuccessUpdate = () => {
+    onShowFeedBack(PreFeedBack.success('Dados da loja atualizada com sucesso!'))
+    setIsClose();
+  }
+
+  const onErrorUpdate = (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao atualizar dados da loja.'))
+    console.log('[ERROR API /stores]', e?.response?.data)
+  }
 
 
   const onSuccess = () => {
@@ -86,7 +98,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
       setViewTwo(false);
       return formik.resetForm()
     };
-    if (data) {
+    if (storeSelected) {
       const {
         name,
         cnpj,
@@ -99,7 +111,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
         address_street, 
         address_number
         
-      } = data;
+      } = storeSelected;
       
       formik.setValues({
         name: name,
@@ -116,7 +128,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
         number: address_number,
       });
     }
-  }, [data, open])
+  }, [storeSelected, open])
 
   const formik = useFormik({
     initialValues: {
@@ -148,11 +160,22 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
         address_street: values.street,
         address_number: values.number,
       }
-      console.log(data, '[POST] /stores')
-      api.post('stores', data)
-        .then(onSuccess)
-        .catch((error) => onError(error))
-        .finally(() => setloading(false));
+
+      if(data) {
+        api.put('stores', {
+            ...data,
+            id: storeSelected.id
+          })
+          .then(onSuccessUpdate)
+          .catch((error) => onError(error))
+          .finally(() => setloading(false));
+
+      } else {
+        api.post('stores', data)
+          .then(onSuccess)
+          .catch((error) => onError(error))
+          .finally(() => setloading(false));
+      }
     }
   })
 
@@ -176,8 +199,8 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
   }, [formik.values])
 
   useEffect(() => {
-    if (formik.values.cep.length === 10 && !data) getCepData(formik.values.cep)
-  }, [data, formik.values.cep, getCepData])
+    if (formik.values.cep.length === 10 && !storeSelected) getCepData(formik.values.cep)
+  }, [storeSelected, formik.values.cep, getCepData])
 
   return (
     <Modal
@@ -186,14 +209,14 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
       className="flex justify-center items-center"
     >
       <div className='bg-white rounded-20 w-1/3 p-4'>
-        <p className='font-semibold text-xl text-center uppercase pb-5'>Cadastro de loja</p>
+        <p className='font-semibold text-xl text-center uppercase pb-5'>{storeSelected ? "Atualizar loja" : "Cadastro de loja"}</p>
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
           <CustomizedSteppers 
             steps={steps}
             activeTab={!viewTwo ? 0 : 1}
             iconStep1={<StoreIcon/>}
             iconStep2={<BusinessIcon/>}
-           
+
           />
           {!viewTwo &&
             <div  className='flex flex-col gap-4'>
@@ -229,7 +252,6 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
                 id="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
-                disabled={data}
                 label="E-mail"
                 type="text"
                 placeholder="exemplo@gmail.com"
@@ -395,7 +417,7 @@ const ModalStores = ({ open, setIsClose, data }: any) => {
                   <ButtonStyled
                     type="submit"
                     styles="w-full"
-                    title="Cadastrar"
+                    title={storeSelected ? "Atualizar" : "Cadastrar"}
                   />
   
                 }

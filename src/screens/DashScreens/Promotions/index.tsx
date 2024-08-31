@@ -7,13 +7,14 @@ import Add from '@mui/icons-material/Add';
 import CardPromotion from '@/components/DashComponents/cards/cardPromotion';
 import PaginationDash from '@/components/DashComponents/PaginationDash';
 import ModalPromotions from '@/components/DashComponents/modals/ModalPromotions';
+import useLoadPromotions from '@/hooks/useLoadPromotions';
 
 
 
 let itemsPerPage = 7;
 const PromotionsContent = ({ hidden }: any) => {
   const [tab, setTab] = useState('all');
-  const { promotions } = useContext(DefaultContext);
+  const {promotions,loading} = useLoadPromotions(hidden)
   const [openPromotion, setopenPromotion] = useState(false);
   const [promotionsFilter, setPromotionsFilter] = useState<Promotion[]>([])
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,13 +67,19 @@ const PromotionsContent = ({ hidden }: any) => {
         </button>
       </div>
 
-      <div className='mt-10 flex flex-row gap-4'>
-        {promotionsFilterDisplay.map((promotion) =>
-          <>
-            <CardPromotion promotion={promotion} />
-          </>
-        )}
-      </div>
+      {loading ? 
+        <>
+
+        </>
+        :
+        <div className='mt-10 flex flex-row gap-4'>
+          {promotionsFilterDisplay.map((promotion) =>
+            <>
+              <CardPromotion promotion={promotion} />
+            </>
+          )}
+        </div>
+      }
 
       <div className='mt-10 absolute right-0 bottom-20'>
         <PaginationDash 
