@@ -180,7 +180,6 @@ const ModalUsers = ({ open, setIsClose, userSelected }: any) => {
         password: await generatePassword(values.password),
       }
 
-      console.log(userSelected);
       const dataUpdate = {
         id: userSelected.id,
         cpf: masks.unmask(values.cpf),

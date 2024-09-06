@@ -42,7 +42,17 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
 
   const onError = (e: any) => {
     onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar prêmio.'))
-    console.log('[ERROR API /users]', e?.response?.data)
+    console.log('[ERROR API /awards]', e?.response?.data)
+  }
+
+  const onSuccessUpdate = () => {
+    onShowFeedBack(PreFeedBack.success('Prêmio atualizado com sucesso!'))
+    setIsClose();
+  }
+
+  const onErrorUpdate = (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao atualizar prêmio.'))
+    console.log('[ERROR API /awards]', e?.response?.data)
   }
   useEffect(() => {
     if (!open) return formik.resetForm();
@@ -82,13 +92,26 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
         storeId: storeSelected
       }
 
-      console.log(data);
-      api.post('/awards',data)
-        .then(onSuccess)
-        .catch(error => onError(error))
+      const dataUpdate: any = {
+        name: values.name,
+        price: Number(masks.unmask(values.price)),
+        image_url: values.image_url,
+        id: awardEdit.id,
+        storeId: storeSelected
+      }
+
+      if(awardEdit) {
+        api.put('/awards', dataUpdate)
+        .then(onSuccessUpdate)
+        .catch(error => onErrorUpdate(error))
         .finally(() => setloading(false));
 
-
+      } else {
+        api.post('/awards',data)
+          .then(onSuccess)
+          .catch(error => onError(error))
+          .finally(() => setloading(false));
+      }
     }
   })
 

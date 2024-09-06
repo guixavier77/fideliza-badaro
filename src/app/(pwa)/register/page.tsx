@@ -40,7 +40,6 @@ export default function Register() {
   const [loading, setloading] = useState(false);
   const [sucessRegister, setsucessRegister] = useState(false);
 
-
   const optionsSex = [
     { value: 'm', text: 'Masculino' },
     { value: 'f', text: 'Feminino' },
@@ -83,18 +82,18 @@ export default function Register() {
     }
   })
   return (
-    <main className="w-screen flex flex-col p-4 relative justify-center ">
+    <main className="s:w-screen t:w-3/6 d:w-2/6 mx-auto flex flex-col justify-center p-4 h-screen relative">
       {loading && <Loading text='Carregando...' />}
 
       {!loading && !sucessRegister && 
       <>
-        <button className="absolute top-2 left-2"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: colors.red }} onClick={() => router.push('/login')} /> </button>
+        <button className="absolute top-5 left-2"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: colors.red }} onClick={() => router.push('/login')} /> </button>
         <div className="text-center mt-5 pt-5">
           <PersonOutlineOutlinedIcon />
           <p className="font-bold uppercase text-lg">Cadastro</p>
         </div>
-        <form className="flex flex-col " onSubmit={formik.handleSubmit}>
-          <div className="flex flex-col gap-2">
+        <form className="flex flex-col h-full" onSubmit={formik.handleSubmit}>
+          <div className="flex flex-col gap-2 h-full">
             <InputStyled
               id="cpf"
               onChange={formik.handleChange}

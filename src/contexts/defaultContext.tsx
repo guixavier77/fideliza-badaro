@@ -1,19 +1,14 @@
 
 'use client'
-import Award from '@/interfaces/award.interface';
-import Store from '@/interfaces/store.interface';
-import DefaultContextInterface from '@/interfaces/default.interface';
-import { orderBy } from 'firebase/firestore';
-import { useSession } from 'next-auth/react';
-import { createContext, useCallback, useEffect, useState } from 'react';
-import Cookies from 'js-cookie'
-import {jwtDecode} from 'jwt-decode'
-import User from '@/interfaces/user.interface';
-import api from '@/services/api';
-import { ROLE } from '@/utils/types/roles';
 import ModalFeedBackStatus from '@/components/GlobalComponents/modals/ModalFeedback';
-import FeedBackStatusInterface from '@/interfaces/feedbackStatus';
 import useLoadStores from '@/hooks/useLoadStores';
+import DefaultContextInterface from '@/interfaces/default.interface';
+import FeedBackStatusInterface from '@/interfaces/feedbackStatus';
+import User from '@/interfaces/user.interface';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+import { useRouter } from 'next/navigation';
+import { createContext, useCallback, useEffect, useState } from 'react';
 export const DefaultContext = createContext<DefaultContextInterface>({} as any)
 
 export default function DefaultProvider({ children }: any) {
@@ -40,6 +35,7 @@ export default function DefaultProvider({ children }: any) {
       }
     }
   }, []);
+
 
   const {
     store,
@@ -70,9 +66,7 @@ export default function DefaultProvider({ children }: any) {
         title={showModal.title}
         description={showModal.description}
         status={showModal.status}
-        setIsClose={() => setshowModal({...showModal, open: false})}
-
-      
+        setIsClose={() => setshowModal({...showModal, open: false})}      
       />
     </DefaultContext.Provider>
   );

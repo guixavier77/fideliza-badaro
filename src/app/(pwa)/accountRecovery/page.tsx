@@ -38,40 +38,40 @@ export default function AccountRecovery() {
     }
   })
   return (
-    <form onSubmit={formik.handleSubmit} className="w-screen h-screen px-6 flex flex-col relative justify-center pt-5 ">
+    <form onSubmit={formik.handleSubmit} className="s:w-screen t:w-3/6 d:w-2/6 mx-auto flex flex-col justify-center p-4 h-screen relative ">
       {loading && <Loading text="Enviando e-mail..." />}
       {!loading && <>
         <button className="absolute top-5 left-5"><ArrowBackOutlinedIcon style={{ fontSize: 36, color: '#C90B0B' }} onClick={() => router.push('/login')} /> </button>
-        <div className="flex flex-col justify-between h-4/6">
-          <div className="py-5">
+        <div className="flex flex-col justify-center h-full">
+          <div className="flex flex-col h-full justify-evenly">
+            <div className="py-5">
 
-            <h1 className="text-center text-red font-bold text-2xl">Recuperação de senha</h1>
-            <p className="text-center mt-4">Identifique-se para receber um e-mail <br />com as instruções e o link para criar uma nova senha.</p>
-            <div className="pt-5 mt-5">
-              <InputStyled
-                id="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
+              <h1 className="text-center text-red font-bold text-2xl">Recuperação de senha</h1>
+              <p className="text-center mt-4">Identifique-se para receber um e-mail <br />com as instruções e o link para criar uma nova senha.</p>
+              <div className="pt-5 mt-5">
+                <InputStyled
+                  id="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
 
-                label="E-mail"
-                type="text"
-                placeholder="exemplo@gmail.com"
-                icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
-              />
+                  label="E-mail"
+                  type="text"
+                  placeholder="exemplo@gmail.com"
+                  icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
+                />
 
+              </div>
             </div>
-          </div>
-          <div>
-
-
-            <div className="my-auto">
-              <ButtonStyled
-                type="submit"
-                styles="w-full"
-                title="Enviar"
-              />
-
+            <div>
+              <div className="my-auto">
+                <ButtonStyled
+                  type="submit"
+                  styles="w-full"
+                  title="Enviar"
+                />
+              </div>
             </div>
+
           </div>
 
         </div>
