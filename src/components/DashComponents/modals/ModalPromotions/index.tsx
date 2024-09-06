@@ -10,23 +10,48 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import FlagIcon from '@mui/icons-material/Flag';
 import api from '@/services/api';
+import useLoadAwards from '@/hooks/useLoadAwards';
+import PreFeedBack from '@/utils/feedbackStatus';
 
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
-  const { storeSelected, awards } = useContext(DefaultContext)
-  const [loading, setloading] = useState(false);
+  const { storeSelected,onShowFeedBack } = useContext(DefaultContext)
+  const [loadingCreate, setloadingCreate] = useState(false);
 
-
+  const {awards, loading} = useLoadAwards(!open, storeSelected)
+  console.log(promotionEdit);
 
   const options = useMemo(() => awards?.map(item => ({ value: item.id, text: item.name })), [awards])
 
+
+  const onSuccess = () => {
+    onShowFeedBack(PreFeedBack.success('Prêmio cadastrado com sucesso!'))
+    setIsClose();
+  }
+
+  const onError = (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao cadastrar promoção.'))
+    console.log('[ERROR API /awards]', e?.response?.data)
+  }
+
+  const onSuccessUpdate = () => {
+    onShowFeedBack(PreFeedBack.success('Prêmio atualizado com sucesso!'))
+    setIsClose();
+  }
+
+  const onErrorUpdate = (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao atualizar promoção.'))
+    console.log('[ERROR API /awards]', e?.response?.data)
+  }
   useEffect(() => {
     if (!open) return formik.resetForm();
     if (!promotionEdit && options && options?.length > 0) {
       formik.setValues({
         name: '',
-        points: '',
+        points: 0,
         active: true,
-        awardId: options[0].value,
+        awardId: 0,
+        maxWinners: 0,
       })
     }
     if (promotionEdit) {
@@ -34,13 +59,15 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
         name,
         points,
         awardId,
-        active
+        active,
+        maxWinners
       } = promotionEdit;
       formik.setValues({
         name: name,
         points: points,
         awardId: awardId,
-        active
+        active,
+        maxWinners
       });
     }
   }, [promotionEdit, open])
@@ -48,34 +75,42 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
   const formik = useFormik({
     initialValues: {
       name: '',
-      points: '',
-      awardId: '',
+      points: 0,
+      awardId: 0,
       active: true,
+      maxWinners: 0,
     },
     onSubmit: async (values) => {
-      setloading(true);
+      setloadingCreate(true);
       const data = {
         name: values.name,
         points: Number(values.points),
-        awardId: values.awardId,
+        awardId: Number(values.awardId),
         storeId: storeSelected,
+        maxWinners: Number(values.maxWinners)
       }
 
+      const dataUpdate = {
+        id: promotionEdit ? promotionEdit.id :  null,
+        name: values.name,
+        points: Number(values.points),
+        awardId: Number(values.awardId),
+        storeId: storeSelected,
+        maxWinners: Number(values.maxWinners)
 
+      }
+
+      console.log(dataUpdate);
       if (promotionEdit) {
-        api.put('promotions', data)
-          .then().catch((e) => console.log(e)).finally(() => {
-          setloading(false)
-          setIsClose();
-        });
+        api.put('promotions', dataUpdate)
+          .then(onSuccessUpdate)
+          .catch(error => onErrorUpdate(error))
+          .finally(() => setloadingCreate(false));
       } else {
         api.post('promotions', data)
-          .then()
-          .catch((e) => console.log(e))
-          .finally(() => {
-            setloading(false)
-            setIsClose();
-        });
+        .then(onSuccess)
+        .catch(error => onError(error))
+        .finally(() => setloadingCreate(false));
 
       }
     }
@@ -109,17 +144,29 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
             id="awardId"
             options={options}
           />
-
+          
           <InputStyled
             id="points"
             onChange={formik.handleChange}
             value={formik.values.points}
-            label="Pontos"
+            label="Meta de Pontos"
             type="number"
             stylesInput='w-full'
             placeholder="Ex: 5"
             icon={<FlagIcon style={{ color: '#C90B0B' }} />}
           />
+
+          <InputStyled
+            id="maxWinners"
+            onChange={formik.handleChange}
+            value={formik.values.maxWinners}
+            label="Máximo de vencedores"
+            type="number"
+            stylesInput='w-full'
+            placeholder="Ex: 5"
+            icon={<MilitaryTechIcon style={{ color: '#C90B0B' }} />}
+          />
+
 
 
           <div className='flex gap-5 pt-5'>
@@ -131,7 +178,7 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
               title="Cancelar"
             />
 
-            {loading ?
+            {loadingCreate ?
               <ButtonStyled
                 bgColor='bg-darkGray'
                 textColor='text-white'

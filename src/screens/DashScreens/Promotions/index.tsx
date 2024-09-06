@@ -11,7 +11,7 @@ import useLoadPromotions from '@/hooks/useLoadPromotions';
 
 
 
-let itemsPerPage = 7;
+let itemsPerPage = 4;
 const PromotionsContent = ({ hidden }: any) => {
   const [tab, setTab] = useState('all');
   const {promotions,loading} = useLoadPromotions(hidden)
@@ -72,7 +72,7 @@ const PromotionsContent = ({ hidden }: any) => {
 
         </>
         :
-        <div className='mt-10 flex flex-row gap-4'>
+        <div className='mt-10 flex flex-row gap-4 justify-center flex-wrap '>
           {promotionsFilterDisplay.map((promotion) =>
             <>
               <CardPromotion promotion={promotion} />
@@ -94,6 +94,7 @@ const PromotionsContent = ({ hidden }: any) => {
       <ModalPromotions
         open={openPromotion}
         setIsClose={handleClosePromotion}
+        
       />
 
     </div>

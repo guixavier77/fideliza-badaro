@@ -33,23 +33,24 @@ const UsersContent = ({ hidden }: any) => {
   const [openUsers, setopenUsers] = useState(false);
   const [usersFilter, setUsersFilter] = useState<User[]>([])
   const [currentPage, setCurrentPage] = useState(1);
-  const {users, loading} = useLoadUsers(hidden,storeSelected );
+  const {users, loading} = useLoadUsers(hidden,storeSelected);
 
-  const usersToDisplay = useMemo(() => {
+  const usersToDisplay: User[] = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return users.slice(startIndex, endIndex);
-  }, [currentPage, usersFilter]);
-  const numberPages = useMemo(() => users.length > 1 ? Math.ceil(usersFilter.length / itemsPerPage) : 1, [usersFilter]);
+    return usersFilter.slice(startIndex, endIndex);
+  }, [currentPage, users]);
+
+  const numberPages = useMemo(() => usersFilter.length > 1 ? Math.ceil(usersFilter.length / itemsPerPage) : 1, [usersFilter]);
 
 
   useEffect(() => {
     if (tab === 'all') {
-      setUsersFilter(usersToDisplay);
+      setUsersFilter(users);
     } else if (tab === 'active') {
-      setUsersFilter(usersToDisplay.filter(user => user.active));
+      setUsersFilter(users.filter(user => user.active));
     } else {
-      setUsersFilter(usersToDisplay.filter(user => !user.active));
+      setUsersFilter(users.filter(user => !user.active));
     }
   }, [storeSelected, users, tab])
 
@@ -88,8 +89,8 @@ const UsersContent = ({ hidden }: any) => {
         </>
         : 
         <>
-          <div className='mt-10 flex flex-col gap-4'>
-            {usersFilter?.map((user) =>
+          <div className='mt-10 flex flex-col gap-4' >
+            {usersToDisplay?.map((user) =>
               <>
                 <CardUser user={user} />
               </>

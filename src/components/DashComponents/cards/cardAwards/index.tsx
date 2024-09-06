@@ -35,7 +35,7 @@ const CardAwards: React.FC<CardAwardProps> = ({ award }) => {
           <p className='font-bold col-span-2 text-left'>{award?.name}</p>
           <p className='font-bold text-left col-span-2'>{Money.centsToMaskMoney(award?.price)}</p>
           <div className='col-span-2 flex'>
-            <p className={`${award?.active ? 'bg-green' : 'bg-red'} rounded-20 text-white px-3 py-1 `}>{`${award?.active ? 'Ativo' : 'Inativo'}`}</p>
+            <p className={`${award?.active ? 'bg-green' : 'bg-red'} rounded-20 text-white px-3 py-1 font-bold `}>{`${award?.active ? 'Ativo' : 'Inativo'}`}</p>
           </div>
           <button onClick={() => handleOpenEditAward(award)} className='col-start-12 col-span-1 text-right'><ModeEditOutlineIcon /></button>
         </div>

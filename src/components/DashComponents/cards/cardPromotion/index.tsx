@@ -7,16 +7,17 @@ import Money from '@/utils/masks/money';
 import FlagIcon from '@mui/icons-material/Flag';
 import MonetizationOn from '@mui/icons-material/MonetizationOn';
 import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ModalPromotions from '../../modals/ModalPromotions';
 import logoPng from '../../../../assets/logo.png'
+import useLoadAwards from '@/hooks/useLoadAwards';
 
 interface CardPromotionProps {
   promotion: Promotion;
 }
 
 interface AwardsDictionary {
-  [key: string]: Award;
+  [key: number]: Award;
 };
 
 
@@ -24,6 +25,21 @@ interface AwardsDictionary {
 const CardPromotion: React.FC<CardPromotionProps> = ({ promotion }) => {
   const {storeSelected} = useContext(DefaultContext);
   const [awardsDicionary, setawardsDicionary] = useState<AwardsDictionary>();
+
+  const {awards, loading} = useLoadAwards(false, storeSelected)
+
+  useEffect(() => {
+    const awardsDicionary:AwardsDictionary = {};
+    awards.forEach((aw) => {
+      awardsDicionary[aw.id] = {
+        ...aw
+      }
+    })
+    setawardsDicionary(awardsDicionary)
+  },[awards])
+
+  console.log(awardsDicionary);
+
 
 
   const [openEdit, setOpenEdit] = useState(false);
@@ -35,7 +51,7 @@ const CardPromotion: React.FC<CardPromotionProps> = ({ promotion }) => {
       <div className='px-4 flex w-full flex-col pt-10'>
         <div className='flex flex-col items-center'>
           <Image
-            src={awardsDicionary ? awardsDicionary[promotion.awardId]?.image_url : logoPng}
+            src={awardsDicionary ? awardsDicionary[promotion.awardId]?.image_url ? awardsDicionary[promotion.awardId]?.image_url : logoPng : logoPng}
             alt='Imagem do prêmio'
             width={150}
             height={150}
@@ -62,7 +78,9 @@ const CardPromotion: React.FC<CardPromotionProps> = ({ promotion }) => {
       <div className={`bg-black rounded-b-20 w-full mt-4 flex items-center justify-center`}>
         <ButtonStyled
           type="button"
-          onClick={() => setOpenEdit(true)}
+          onClick={() => {
+            setOpenEdit(true)
+          }}
           styles="w-full"
           title="Editar"
         />

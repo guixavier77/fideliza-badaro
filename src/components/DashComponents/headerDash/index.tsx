@@ -23,7 +23,7 @@ const HeaderDash = () => {
   return (
     <div className='bg-black  flex  justify-center items-center col-start-3 col-end-13  row-start-1 row-end-1 shadow-xl relative'>
       <h1 className='text-white font-bold text-4xl '>{TABS_DASH_PTBR[tabDashSelected]}</h1>
-      <div className='flex  justify-center items-center gap-3 absolute right-12'>
+      <div className='flex  justify-center items-center absolute right-10'>
         {user?.role !== ROLE.SUPERADMIN ? (
           <>
             <StoreOutlinedIcon style={{ color: '#FFFFFF' }} />
@@ -34,7 +34,7 @@ const HeaderDash = () => {
             <div className={`outline-none rounded-xl p-2 flex items-center justify-between`}>
               <div className='flex items-center  w-full relative bg-none'>
                 <StoreOutlinedIcon style={{ color: '#FFFFFF' }} />
-                <select name='storeSelected' value={Number(storeSelected)} onChange={(e) => setstoreSelected(Number(e.target.value))} className=" w-full text-white font-semibold appearance-none outline-none bg-transparent px-8 bg-black ">
+                <select name='storeSelected' value={Number(storeSelected)} onChange={(e) => setstoreSelected(Number(e.target.value))} className=" w-full text-white font-semibold appearance-none outline-none bg-transparent pl-2 pr-6 bg-black ">
                   {options?.map((item: any) => (
                     <option value={item.value}>{item.text}</option>
                   ))}
