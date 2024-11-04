@@ -66,12 +66,12 @@ const AsideBar = () => {
 
 
   return (
-    <div className='bg-black h-screen pt-7 flex flex-col justify-between shadow-xl col-start-1 col-end-3 row-start-1 row-end-13 '>
+    <div className='bg-black h-screen pt-7 flex flex-col justify-between shadow-xl w-64'>
       <div>
-        <h1 className=' flex flex-col text-4xl font-bold text-center text-white  leading-5 '>
-          Fideliza<span className="text-red text-3xl ">Badaro</span>
+        <h1 className=' flex flex-col text-2xl font-bold text-center text-white  leading-5 '>
+          Fideliza<span className="text-red text-1xl ">Badaro</span>
         </h1>
-        <div className='flex px-4 justify-center flex-col py-5 mt-5'>
+        <div className='flex px-4 justify-center flex-col py-2 mt-5'>
           {tabs.map((tab) => (
             (tab.value !== TABS_DASH.STORE || user?.role === ROLE.SUPERADMIN) && (
               <button
@@ -81,7 +81,7 @@ const AsideBar = () => {
               >
                 {React.cloneElement(tab.icon, {
                   style: {
-                    fontSize: 36,
+                    fontSize: 28,
                     color: '#FFFFFF',
                   }
                 })}

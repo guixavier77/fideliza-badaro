@@ -3,23 +3,22 @@ import ButtonStyled from "@/components/GlobalComponents/button";
 import InputStyled from "@/components/GlobalComponents/input";
 import Loading from "@/components/GlobalComponents/loading";
 import SelectStyled from "@/components/GlobalComponents/select";
+import api from "@/services/api";
+import { colors } from "@/utils/colors/colors";
 import masks from "@/utils/masks/masks";
 import { ROLE } from "@/utils/types/roles";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import WcIcon from "@mui/icons-material/Wc";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import WcIcon from "@mui/icons-material/Wc";
-import api from "@/services/api";
-import { generatePassword } from "@/utils/password";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { colors } from "@/utils/colors/colors";
 
 const validate = async (values: any) => {
   const unmaskCpf = values.cpf.replace(/\D/g, "")
@@ -72,7 +71,7 @@ export default function Register() {
         active: true,
         role: ROLE.CUSTOMER,
         storeId: null,
-        password: await generatePassword(values.password),
+        password: values.password,
       }
 
       api.post('users', data)

@@ -10,8 +10,11 @@ const useLoadAwards = (hidden: boolean, storeSelected: number | null) => {
   useEffect(() => {
     if(!storeSelected || hidden) return;
     setloading(true);
+    console.log(storeSelected);
     api.get(`awards/${storeSelected}`)
-        .then((res) => setawards(res?.data?.awards))
+        .then((res) => 
+          setawards(res?.data?.awards)
+        )
         .catch(error => console.error('[ERROR API] /awards', error?.response?.data))
         .finally(() => setloading(false))
   },[storeSelected, hidden])

@@ -26,10 +26,11 @@ const CardAwards: React.FC<CardAwardProps> = ({ award }) => {
     <div className='bg-white shadow-lg rounded-40 py-2 px-4'>
       <div className='flex items-center'>
         <Image 
-          src={award?.image_url || logoPng} 
+          src={award?.image || logoPng} 
           alt='Imagem do premio' 
           width={40}
-          height={40} 
+          height={40}
+          style={{ maxWidth: '40px', maxHeight: '40px', objectFit: 'contain' }} 
         />
         <div className='grid grid-cols-6 items-center w-full pl-5'>
           <p className='font-bold col-span-2 text-left'>{award?.name}</p>

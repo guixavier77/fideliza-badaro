@@ -19,10 +19,11 @@ const HeaderDash = () => {
     Cookies.remove('token');
     router.push('/login')
   }
+ 
   const options = useMemo(() => stores?.map(item => ({ value: item.id, text: item.name })), [stores])
   return (
-    <div className='bg-black  flex  justify-center items-center col-start-3 col-end-13  row-start-1 row-end-1 shadow-xl relative'>
-      <h1 className='text-white font-bold text-4xl '>{TABS_DASH_PTBR[tabDashSelected]}</h1>
+    <div className='bg-black  py-2 flex px-4 justify-between items-center relative'>
+      <h1 className='text-white font-bold text-2xl '>{TABS_DASH_PTBR[tabDashSelected]}</h1>
       <div className='flex  justify-center items-center absolute right-10'>
         {user?.role !== ROLE.SUPERADMIN ? (
           <>

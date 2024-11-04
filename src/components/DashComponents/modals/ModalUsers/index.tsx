@@ -1,26 +1,25 @@
 import ButtonStyled from '@/components/GlobalComponents/button';
 import InputStyled from '@/components/GlobalComponents/input';
+import SelectStyled from '@/components/GlobalComponents/select';
+import { DefaultContext } from '@/contexts/defaultContext';
+import api from '@/services/api';
+import PreFeedBack from '@/utils/feedbackStatus';
 import masks from '@/utils/masks/masks';
 import { ROLE, ROLE_PTBR } from '@/utils/types/roles';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ArticleOutlined from '@mui/icons-material/ArticleOutlined';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import StoreIcon from '@mui/icons-material/Store';
+import WcIcon from '@mui/icons-material/Wc';
 import { CircularProgress, Modal } from '@mui/material';
 import { useFormik } from 'formik';
-import { useMemo, useState, useEffect, useContext } from 'react';
-import SelectStyled from '@/components/GlobalComponents/select';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import api from '@/services/api';
-import { DefaultContext } from '@/contexts/defaultContext';
-import StoreIcon from '@mui/icons-material/Store';
-import { generatePassword } from '@/utils/password';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import WcIcon from '@mui/icons-material/Wc';
-import PreFeedBack from '@/utils/feedbackStatus';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import CustomizedSteppers from '../../StepBar';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 const functions = [
   {
@@ -85,7 +84,7 @@ const ModalUsers = ({ open, setIsClose, userSelected }: any) => {
       }
     }
   
-    console.log(errors);
+
     return errors;
   }
 
@@ -177,7 +176,7 @@ const ModalUsers = ({ open, setIsClose, userSelected }: any) => {
         active: true,
         role: values.role,
         storeId: Number(values.storeId),
-        password: await generatePassword(values.password),
+        password: values.password,
       }
 
       const dataUpdate = {

@@ -38,7 +38,6 @@ const CardPromotion: React.FC<CardPromotionProps> = ({ promotion }) => {
     setawardsDicionary(awardsDicionary)
   },[awards])
 
-  console.log(awardsDicionary);
 
 
 
@@ -51,7 +50,7 @@ const CardPromotion: React.FC<CardPromotionProps> = ({ promotion }) => {
       <div className='px-4 flex w-full flex-col pt-10'>
         <div className='flex flex-col items-center'>
           <Image
-            src={awardsDicionary ? awardsDicionary[promotion.awardId]?.image_url ? awardsDicionary[promotion.awardId]?.image_url : logoPng : logoPng}
+            src={awardsDicionary ? awardsDicionary[promotion.awardId]?.image ? awardsDicionary[promotion.awardId]?.image : logoPng : logoPng}
             alt='Imagem do prêmio'
             width={150}
             height={150}

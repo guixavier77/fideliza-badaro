@@ -5,6 +5,7 @@ import useLoadStores from '@/hooks/useLoadStores';
 import DefaultContextInterface from '@/interfaces/default.interface';
 import FeedBackStatusInterface from '@/interfaces/feedbackStatus';
 import User from '@/interfaces/user.interface';
+import { ROLE } from '@/utils/types/roles';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
@@ -12,6 +13,8 @@ import { createContext, useCallback, useEffect, useState } from 'react';
 export const DefaultContext = createContext<DefaultContextInterface>({} as any)
 
 export default function DefaultProvider({ children }: any) {
+  const router = useRouter();
+
   const [storeSelected, setstoreSelected] = useState<number | null>(null);
   const [user, setuser] = useState<User | null>(null);
   const [showModal, setshowModal] = useState<any>({
@@ -20,7 +23,14 @@ export default function DefaultProvider({ children }: any) {
     description: '',
     status: '',
   })
+  
 
+  const redirect = useCallback((user: User) => {
+    if(!user) return;
+    if(user.role === ROLE.SUPERADMIN) router.push('/dashboard')
+    if(user.role === ROLE.ADMIN) router.push('/redirectScreen')
+    if(user.role === ROLE.CUSTOMER || user.role === ROLE.OPERATOR) router.push('/home')
+  },[user])
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -28,7 +38,8 @@ export default function DefaultProvider({ children }: any) {
       try {
         const decoded: any = jwtDecode(token);
         setuser(decoded as any)
-        setstoreSelected(decoded.storeId)
+        if(decoded.role !== ROLE.SUPERADMIN) setstoreSelected(Number(decoded.storeId))
+        redirect(decoded);
       } catch (error) {
         setuser(null)
         setstoreSelected(null);

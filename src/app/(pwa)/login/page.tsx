@@ -4,18 +4,15 @@ import InputStyled from "@/components/GlobalComponents/input";
 import Loading from "@/components/GlobalComponents/loading";
 import Logo from "@/components/GlobalComponents/logo";
 
-import { DefaultContext } from "@/contexts/defaultContext";
 import api from "@/services/api";
-import { generatePassword } from "@/utils/password";
 import { ROLE } from "@/utils/types/roles";
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useFormik } from "formik";
-import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 
 
@@ -34,7 +31,7 @@ export default function Login() {
       try{
         const response = await api.post('authUsers', {
           email: values.email,
-          password: await generatePassword(values?.password)
+          password:values?.password
         })
         if(response.status === 200){
           const {user, token} = response?.data;

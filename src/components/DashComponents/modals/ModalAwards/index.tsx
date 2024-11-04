@@ -60,13 +60,12 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
       const {
         name,
         price,
-        image_url
+        image
       } = awardEdit;
       formik.setValues({
         name: name,
         price: price.toString(),
-        image: null,
-        image_url: image_url,
+        image: image,
 
       });
     }
@@ -77,31 +76,30 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
     initialValues: {
       name: '',
       price: '',
-      image: null,
-      image_url: '',
+      image: null as string | null,
 
     },
     validate,
     onSubmit: async (values) => {
       setloading(true);
+
       const data: any = {
         name: values.name,
         price: Number(masks.unmask(values.price)),
-        image_url: values.image_url,
-        // image: values.image,
+        image: values.image,
         storeId: storeSelected
       }
 
       const dataUpdate: any = {
         name: values.name,
         price: Number(masks.unmask(values.price)),
-        image_url: values.image_url,
-        id: awardEdit.id,
+        image: values.image,
+        id: awardEdit ? awardEdit.id : null,
         storeId: storeSelected
       }
-
+      console.log(JSON.stringify(data));
       if(awardEdit) {
-        api.put('/awards', dataUpdate)
+        api.put('/awards', dataUpdate, )
         .then(onSuccessUpdate)
         .catch(error => onErrorUpdate(error))
         .finally(() => setloading(false));
@@ -116,15 +114,21 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
   })
 
 
-  const handleImage = useCallback((e: any) => {
-    const [file] = Array.from(e.target.files)
-
-    formik.setValues({
-      ...formik.values,
-      image: file as any,
-      image_url: URL.createObjectURL(file as any)
-    })
-  }, [formik.values])
+  const handleImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0]; 
+      const reader = new FileReader();
+      reader.readAsDataURL(file); 
+      console.log(reader.result)
+        reader.onloadend = () => {
+            formik.setValues({
+                ...formik.values,
+                image: reader.result as string,
+            });
+        };
+    }
+}, [formik.values]);
   return (
     <Modal
       open={open}
@@ -134,14 +138,14 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
       <div className='bg-white rounded-20 w-1/3 p-4'>
         <p className='font-semibold text-xl text-center uppercase pb-5'>Cadastro de prêmio</p>
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
-          <div id='image_url' className='flex justify-center'>
+          <div id='image' className='flex justify-center'>
             <label >
               <figure >
-                <input id='image_url' type="file" accept="image/*" multiple onChange={handleImage} className='hidden' />
-                {formik.values.image_url && <Image src={formik.values.image_url} alt='Imagem do evento' width={150}
+                <input id='image' type="file" accept="image/*" multiple onChange={handleImage} className='hidden' />
+                {formik.values.image && <Image src={formik.values.image} alt='Imagem do evento' width={150}
                   height={150} className='cursor-pointer  bg-white' />}
 
-                {!formik.values.image_url &&
+                {!formik.values.image &&
                   <div className='bg-white w-24 h-24 shadow-lg rounded-20 flex items-center justify-center cursor-pointer flex-col'>
                     <CameraAltOutlinedIcon style={{ fontSize: 48 }} />
                     <p className='font-light text-center'>Foto</p>
