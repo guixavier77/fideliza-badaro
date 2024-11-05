@@ -1,7 +1,6 @@
 import DefaultEntityType from "./default";
 
 export default interface User extends DefaultEntityType {
-  id: string,
   cpf: string,
   name: string,
   phone:  string,
