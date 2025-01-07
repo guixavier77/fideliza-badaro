@@ -12,11 +12,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { DefaultContext } from "@/contexts/defaultContext";
+import { jwtDecode } from "jwt-decode";
 
 
 
 export default function Login() {
+  const {setstoreSelected, setuser} = useContext(DefaultContext)
   const router = useRouter();
   const [loading, setloading] = useState(false);
   const [error, setError] = useState('');
@@ -40,7 +43,9 @@ export default function Login() {
             if(user.role === ROLE.SUPERADMIN) router.push('/dashboard')
             if(user.role === ROLE.ADMIN) router.push('/redirectScreen')
             if(user.role === ROLE.CUSTOMER || user.role === ROLE.OPERATOR) router.push('/home')
-        
+            const decoded: any = jwtDecode(token);
+            setuser(decoded as any)
+            if(decoded.role !== ROLE.SUPERADMIN) setstoreSelected(Number(decoded.storeId))
           }
         } else {
           setError('Credenciais inválidas, tente novamente.')

@@ -23,7 +23,7 @@ const DashboardContent = ({ hidden }: any) => {
     )
   }
   return (
-    <div hidden={hidden}>
+    <div hidden={hidden} className='w-full'>
       <div className='flex  justify-between '>
         <CardDash title="Clientes" value="390" icon={<PeopleOutlineIcon />} />
         <CardDash title="Resgates" value="390" icon={<CardGiftcardIcon />} />

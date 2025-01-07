@@ -81,7 +81,7 @@ const tabsAdminOrCashier = [
 const BottomNavigation = () => {
   const {user} = useContext(DefaultContext);
   const { tabSelected, setTabSelected } = useTab();
-  const renderTabs = useMemo(() => user?.role === ROLE.CUSTOMER ? tabsCommomUser : tabsCommomUser ,[user]) 
+  const renderTabs = useMemo(() => user?.role === ROLE.CUSTOMER ? tabsCommomUser : tabsAdminOrCashier ,[user]) 
   return (
     <div className='w-screen h-20 bg-white z-10 absolute bottom-0 shadow-lg'>
       <div className='flex h-full items-center justify-between px-4'>

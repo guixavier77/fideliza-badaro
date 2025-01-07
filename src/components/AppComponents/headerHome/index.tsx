@@ -13,6 +13,8 @@ const HeaderHome = () => {
     Cookies.remove('token');
     router.push('/login')
   }
+
+  console.log(user);
   return (
     <div className='bg-black h-32 w-screen px-6 py-2 '>
       <div className='flex justify-between items-center'>

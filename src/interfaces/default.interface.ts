@@ -7,6 +7,7 @@ import FeedBackStatusInterface from "./feedbackStatus"
 
 export default interface DefaultContextInterface {
   user: User | null
+  setuser: (e: User | null) => void,
   stores: Store[],
   store: Store | null,
   storeSelected: number | null,

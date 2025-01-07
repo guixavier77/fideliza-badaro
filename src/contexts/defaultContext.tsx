@@ -67,7 +67,7 @@ export default function DefaultProvider({ children }: any) {
       store,
       storeSelected,
       setstoreSelected,
-
+      setuser,
       onShowFeedBack
     }}>
       {children}

@@ -53,7 +53,7 @@ const PromotionsContent = ({ hidden }: any) => {
     setopenPromotion(false);
   }, []);
   return (
-    <div hidden={hidden} className='h-full relative'>
+    <div hidden={hidden} className='h-full relative w-full'>
       <div className='w-full flex justify-between gap-4' >
         <div className='bg-black rounded-40 w-full  shadow-xl'>
           <div className='flex items-center justify-between py-4 px-10'>

@@ -49,8 +49,9 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
       formik.setValues({
         name: '',
         points: 0,
+        pointsPerPurchase: 0,
         active: true,
-        awardId: 0,
+        awardId: options[0]?.value,
         maxWinners: 0,
       })
     }
@@ -60,14 +61,16 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
         points,
         awardId,
         active,
-        maxWinners
+        maxWinners,
+        pointsPerPurchase
       } = promotionEdit;
       formik.setValues({
         name: name,
         points: points,
         awardId: awardId,
         active,
-        maxWinners
+        maxWinners,
+        pointsPerPurchase: pointsPerPurchase ?? 0,
       });
     }
   }, [promotionEdit, open])
@@ -79,6 +82,7 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
       awardId: 0,
       active: true,
       maxWinners: 0,
+      pointsPerPurchase: 0,
     },
     onSubmit: async (values) => {
       setloadingCreate(true);
@@ -87,20 +91,20 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
         points: Number(values.points),
         awardId: Number(values.awardId),
         storeId: storeSelected,
-        maxWinners: Number(values.maxWinners)
+        maxWinners: Number(values.maxWinners),
+        pointsPerPurchase: Number(values.pointsPerPurchase ?? 0),
+
       }
 
       const dataUpdate = {
         id: promotionEdit ? promotionEdit.id :  null,
         name: values.name,
         points: Number(values.points),
-        awardId: Number(values.awardId),
+        awardId: Number(values.awardId ?? options[0]?.value),
         storeId: storeSelected,
-        maxWinners: Number(values.maxWinners)
-
+        pointsPerPurchase: Number(values.pointsPerPurchase ?? 0),
       }
 
-      console.log(dataUpdate);
       if (promotionEdit) {
         api.put('promotions', dataUpdate)
           .then(onSuccessUpdate)
@@ -144,12 +148,23 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
             id="awardId"
             options={options}
           />
-          
+
           <InputStyled
             id="points"
             onChange={formik.handleChange}
             value={formik.values.points}
             label="Meta de Pontos"
+            type="number"
+            stylesInput='w-full'
+            placeholder="Ex: 5"
+            icon={<FlagIcon style={{ color: '#C90B0B' }} />}
+          />
+          
+          <InputStyled
+            id="pointsPerPurchase"
+            onChange={formik.handleChange}
+            value={formik.values.pointsPerPurchase}
+            label="Pontos dados por compra"
             type="number"
             stylesInput='w-full'
             placeholder="Ex: 5"
