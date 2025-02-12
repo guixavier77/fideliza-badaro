@@ -1,25 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {QrReader} from "react-qr-reader";
-import { useRouter } from "next/navigation";
+import React from 'react';
+import { QrReader } from "react-qr-reader";
 
-import { DefaultContext } from '@/contexts/defaultContext';
-import ModalFeedBackStatus from '@/components/GlobalComponents/modals/ModalFeedback';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { STATUS } from '@/utils/types/feedback';
 
 interface QrCodeContentProps {
   hidden: boolean;
 }
 
 const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
-  const router = useRouter();
-  const {user} = useContext(DefaultContext)
-  const [openFeeback, setOpenFeedback] = useState(false);
 
 
   const handleScanResult = (result: any, error: any) => {
     if(result){
-      console.log('LEITURA CONCLUIDA');
+      console.log(result, 'LEITURA CONCLUIDA');
     } else {
 
     }
@@ -41,15 +33,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
         </div>
 
 
-        <ModalFeedBackStatus 
-          open={openFeeback}
-          title='SUCESSO!'
-          description='Algo de errado não está certo!'
-          status={STATUS.SUCCESS}
-          setIsClose={() => setOpenFeedback(false)}
 
-        
-        />
       
     </div>
   );
