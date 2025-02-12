@@ -79,7 +79,7 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
     initialValues: {
       name: '',
       points: 0,
-      awardId: 0,
+      awardId: null,
       active: true,
       maxWinners: 0,
       pointsPerPurchase: 0,
@@ -89,7 +89,7 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
       const data = {
         name: values.name,
         points: Number(values.points),
-        awardId: Number(values.awardId),
+        awardId: Number(values.awardId ?? options[0]?.value),
         storeId: storeSelected,
         maxWinners: Number(values.maxWinners),
         pointsPerPurchase: Number(values.pointsPerPurchase ?? 0),
@@ -104,6 +104,7 @@ const ModalPromotions = ({ open, setIsClose, promotionEdit }: any) => {
         storeId: storeSelected,
         pointsPerPurchase: Number(values.pointsPerPurchase ?? 0),
       }
+      console.log(data);
 
       if (promotionEdit) {
         api.put('promotions', dataUpdate)

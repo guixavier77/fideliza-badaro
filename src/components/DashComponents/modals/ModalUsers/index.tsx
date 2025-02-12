@@ -117,10 +117,27 @@ const ModalUsers = ({ open, setIsClose, userSelected }: any) => {
     onShowFeedBack(PreFeedBack.error('Falhou ao atualizar usuário.'))
     console.log('[ERROR API /users]', e?.response?.data)
   }
-  
+
+
+
 
   useEffect(() => {
     if (!open) return formik.resetForm();
+
+    if (!userSelected) {
+      formik.setValues({
+        cpf: '',
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        birthDate: '',
+        sex: 'm',
+        storeId: optionsStores[0].value,
+        role: ROLE.OPERATOR,
+        active: true,
+      })
+    }
     if (userSelected) {
       const {
         name,
@@ -158,7 +175,7 @@ const ModalUsers = ({ open, setIsClose, userSelected }: any) => {
       password: '',
       birthDate: '',
       sex: 'm',
-      storeId: Number(optionsStores[0]?.value),
+      storeId: 0,
       role: ROLE.OPERATOR,
       active: true,
     },
@@ -180,7 +197,7 @@ const ModalUsers = ({ open, setIsClose, userSelected }: any) => {
       }
 
       const dataUpdate = {
-        id: userSelected.id,
+        id: userSelected?.id || null,
         cpf: masks.unmask(values.cpf),
         name: values.name,
         phone: masks.unmask(values.phone),
@@ -191,6 +208,7 @@ const ModalUsers = ({ open, setIsClose, userSelected }: any) => {
         storeId: Number(values.storeId),
       }
 
+      console.log(data);
       if(userSelected) {
         api.put('users', dataUpdate)
           .then(onSuccessUpdate)

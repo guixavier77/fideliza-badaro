@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { DefaultContext } from '@/contexts/defaultContext';
+import api from '@/services/api';
+import PreFeedBack from '@/utils/feedbackStatus';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { QrReader } from "react-qr-reader";
 
 interface QrCodeContentProps {
@@ -7,6 +10,9 @@ interface QrCodeContentProps {
 
 const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const {onShowFeedBack} = useContext(DefaultContext)
+
 
   useEffect(() => {
     const checkCameraPermission = async () => {
@@ -27,6 +33,16 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
     checkCameraPermission();
   }, []);
 
+  const onError= (e: any) => {
+    onShowFeedBack(PreFeedBack.error('Falhou ao ler QR Code'))
+    console.log('[ERROR API /launcherPoints/generateQrCode/qrCode]', e?.response?.data)
+  }
+
+  const onSucess = () => {
+    onShowFeedBack(PreFeedBack.success('Pontos lançados com sucesso!'))
+
+  }
+
   const requestCameraPermission = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -40,6 +56,16 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
     }
   };
 
+  const fnReadQrCode = async (qrCodeId: number) => {
+    setLoading(false);
+    api.get(`/launcherPoints/generateQrCode/${qrCodeId}`)
+      .then(onSucess)
+      .catch((err) => onError(err))
+      .finally(() => setLoading(true))
+  }
+  const onScannerResult = useCallback((result: any) => {
+    fnReadQrCode(Number(result))
+  },[])
   return (
     <div className="h-full" hidden={hidden}>
       <div>
@@ -63,9 +89,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
         <QrReader
           constraints={{ facingMode: "environment" }}
           scanDelay={300}
-          onResult={(result) => {
-            if (result) alert(`${result} leitura`);
-          }}
+          onResult={onScannerResult}
           className="mt-4"
         />
       )}

@@ -4,7 +4,7 @@ import { useTab } from '@/contexts/tabContext';
 import { TABS_DASH_PTBR } from '@/utils/types/tabs';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import Cookies from 'js-cookie';
 import { ROLE } from '@/utils/types/roles';
@@ -21,6 +21,11 @@ const HeaderDash = () => {
   }
  
   const options = useMemo(() => stores?.map(item => ({ value: item.id, text: item.name })), [stores])
+
+
+  useEffect(() => {
+    setstoreSelected(options[0].value)
+  },[options])
   return (
     <div className='bg-black  py-2 flex px-4 justify-between items-center relative'>
       <h1 className='text-white font-bold text-2xl '>{TABS_DASH_PTBR[tabDashSelected]}</h1>
