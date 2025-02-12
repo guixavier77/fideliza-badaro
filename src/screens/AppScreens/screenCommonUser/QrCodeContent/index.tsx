@@ -56,17 +56,13 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
     }
   };
 
-  const fnReadQrCode = (qrCodeId: number) => {
-    setLoading(false);
-    alert("Qr Code: " + qrCodeId)
-    api.get(`/launcherPoints/qrCode/${qrCodeId}`)
-      .then(onSucess)
-      .catch((err) => onError(err))
-      .finally(() => setLoading(true))
-  }
+
   const onScannerResult = useCallback((result: any) => {
-    fnReadQrCode(result)
-  },[fnReadQrCode])
+    api.post(`/launcherPoints/qrCode/${Number(result)}`)
+      .then(onSucess)
+      // .catch((err) => onError(err))
+      .finally(() => setLoading(true))
+  },[])
   return (
     <div className="h-full" hidden={hidden}>
       <div>
