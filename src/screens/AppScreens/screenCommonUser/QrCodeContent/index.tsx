@@ -58,6 +58,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
 
   const fnReadQrCode = async (qrCodeId: number) => {
     setLoading(false);
+    alert("Qr Code: " + qrCodeId)
     api.get(`/launcherPoints/qrCode/${qrCodeId}`)
       .then(onSucess)
       //.catch((err) => onError(err))
@@ -88,7 +89,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
       ) : (
         <QrReader
           constraints={{ facingMode: "environment" }}
-          scanDelay={3000}
+          scanDelay={300}
           onResult={onScannerResult}
           className="mt-4"
         />
