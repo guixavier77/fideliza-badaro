@@ -65,7 +65,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
       .finally(() => setLoading(true))
   },[])
   return (
-    <div className="h-full" hidden={hidden}>
+    <div hidden={hidden}>
       <div>
         <h1 className='text-black text-3xl font-bold text-center mb-2'>QR Code</h1>
         <p className='text-black text-2xl font-light text-center mb-4'>Faça a leitura do QR Code</p>
@@ -110,7 +110,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
           ]}
         
           onScan={(detectedCodes) => {
-            console.log(detectedCodes[0].rawValue);
+            onScannerResult(detectedCodes);
           }}
           onError={(error) => {
             console.log(`onError: ${error}'`);
