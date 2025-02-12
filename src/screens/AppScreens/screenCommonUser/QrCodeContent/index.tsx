@@ -1,3 +1,4 @@
+'use client'
 import { DefaultContext } from '@/contexts/defaultContext';
 import api from '@/services/api';
 import PreFeedBack from '@/utils/feedbackStatus';
