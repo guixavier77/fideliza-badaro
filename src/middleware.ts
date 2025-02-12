@@ -13,7 +13,7 @@ export default async function middleware(request: NextRequest) {
   const signInURL = new URL('/login', request.url);
   const dashboardURL = new URL('/dashboard', request.url);
 
-  if (!token && request.nextUrl.pathname !== '/login') {
+  if (!token && request.nextUrl.pathname !== '/login' && request.nextUrl.pathname !== '/register' && request.nextUrl.pathname !== '/accountRecovery') {
     return NextResponse.redirect(signInURL);
   }
 

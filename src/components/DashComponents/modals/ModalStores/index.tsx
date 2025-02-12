@@ -161,7 +161,7 @@ const ModalStores = ({ open, setIsClose, storeSelected }: any) => {
         address_number: values.number,
       }
 
-      if(data) {
+      if(storeSelected) {
         api.put('stores', {
             ...data,
             id: storeSelected.id
