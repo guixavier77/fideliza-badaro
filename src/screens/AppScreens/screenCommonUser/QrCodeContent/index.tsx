@@ -1,4 +1,3 @@
-'use client';
 import { DefaultContext } from '@/contexts/defaultContext';
 import api from '@/services/api';
 import PreFeedBack from '@/utils/feedbackStatus';
@@ -32,8 +31,8 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
   }, []);
 
   const onError = (e: any) => {
-    onShowFeedBack(PreFeedBack.error(e?.response?.data ?? 'Falhou ao ler QR Code'));
-    console.log('[ERROR API /launcherPoints/generateQrCode/qrCode]', e?.response?.data);
+    onShowFeedBack(PreFeedBack.error('Falhou ao ler QR Code'));
+    console.log('[ERROR API /launcherPoints/qrCode/qrCode]', e?.response?.data);
   };
 
   const onSuccess = () => {
@@ -79,7 +78,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
         <div className="text-center">
           <p className="text-red-600 mb-4">Acesso à câmera negado. Clique abaixo para tentar novamente.</p>
           <button
-            onClick={requestCameraPermission}
+            onClick={() => onScannerResult('qrCode:1')}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg"
           >
             Permitir Câmera
