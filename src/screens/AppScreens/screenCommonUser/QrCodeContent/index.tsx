@@ -65,8 +65,8 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
       .finally(() => setLoading(true))
   }
   const onScannerResult = useCallback((result: any) => {
-    fnReadQrCode(Number(result))
-  },[])
+    fnReadQrCode(result)
+  },[fnReadQrCode])
   return (
     <div className="h-full" hidden={hidden}>
       <div>
@@ -89,7 +89,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
       ) : (
         <QrReader
           constraints={{ facingMode: "environment" }}
-          scanDelay={300}
+          scanDelay={5000}
           onResult={onScannerResult}
           className="mt-4"
         />
