@@ -60,7 +60,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
     setLoading(false);
     api.get(`/launcherPoints/generateQrCode/${qrCodeId}`)
       .then(onSucess)
-      .catch((err) => onError(err))
+      //.catch((err) => onError(err))
       .finally(() => setLoading(true))
   }
   const onScannerResult = useCallback((result: any) => {
