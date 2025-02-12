@@ -88,7 +88,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
       ) : (
         <QrReader
           constraints={{ facingMode: "environment" }}
-          scanDelay={300}
+          scanDelay={3000}
           onResult={onScannerResult}
           className="mt-4"
         />
