@@ -24,7 +24,7 @@ const HeaderDash = () => {
 
 
   useEffect(() => {
-    setstoreSelected(options[0].value)
+    if(options?.length > 0)setstoreSelected(options[0].value)
   },[options])
   return (
     <div className='bg-black  py-2 flex px-4 justify-between items-center relative'>

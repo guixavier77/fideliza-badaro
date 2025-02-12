@@ -2,7 +2,7 @@ import { DefaultContext } from '@/contexts/defaultContext';
 import api from '@/services/api';
 import PreFeedBack from '@/utils/feedbackStatus';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { QrReader } from "react-qr-reader";
+import { Scanner } from '@yudiel/react-qr-scanner';
 
 interface QrCodeContentProps {
   hidden: boolean;
@@ -84,12 +84,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
           </button>
         </div>
       ) : (
-        <QrReader
-          constraints={{ facingMode: "environment" }}
-          scanDelay={10000}
-          onResult={onScannerResult}
-          className="mt-4"
-        />
+        <Scanner onScan={onScannerResult} />
       )}
     </div>
   );

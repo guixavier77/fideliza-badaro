@@ -28,7 +28,7 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
   const [launcherByCpf, setLauncherByCpf] = useState(false);
   const [generateQrCode, setGenerateQrCode] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [idQrCode, setIdQrCode] = useState(null)
+  const [idQrCode, setIdQrCode] = useState<string | null>(null)
   const {onShowFeedBack} = useContext(DefaultContext)
 
   const onErrorUpdate = (e: any) => {
