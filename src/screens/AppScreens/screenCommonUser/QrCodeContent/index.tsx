@@ -31,8 +31,9 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
   }, []);
 
   const onError = (e: any) => {
-    onShowFeedBack(PreFeedBack.error('Falhou ao ler QR Code'));
-    console.log('[ERROR API /launcherPoints/qrCode/qrCode]', e?.response?.data);
+    const errorMessage = e?.response?.data?.msg || e?.response?.data || 'Falhou ao ler QR Code';
+    onShowFeedBack(PreFeedBack.error(errorMessage));
+    console.log('[ERROR API /launcherPoints/qrCode/qrCode]', errorMessage);
   };
 
   const onSuccess = () => {
