@@ -34,7 +34,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
   }, []);
 
   const onError= (e: any) => {
-    onShowFeedBack(PreFeedBack.error('Falhou ao ler QR Code'))
+    onShowFeedBack(PreFeedBack.error(e?.response?.data ?? 'Falhou ao ler QR Code'))
     console.log('[ERROR API /launcherPoints/generateQrCode/qrCode]', e?.response?.data)
   }
 
@@ -61,7 +61,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
     alert("Qr Code: " + qrCodeId)
     api.get(`/launcherPoints/qrCode/${qrCodeId}`)
       .then(onSucess)
-      //.catch((err) => onError(err))
+      .catch((err) => onError(err))
       .finally(() => setLoading(true))
   }
   const onScannerResult = useCallback((result: any) => {
