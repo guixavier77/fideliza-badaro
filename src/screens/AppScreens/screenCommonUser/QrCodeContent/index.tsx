@@ -64,7 +64,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
           constraints={{ facingMode: "environment" }}
           scanDelay={300}
           onResult={(result) => {
-            if (result) console.log(result, 'LEITURA CONCLUIDA');
+            if (result) alert(`${result} leitura`);
           }}
           className="mt-4"
         />
