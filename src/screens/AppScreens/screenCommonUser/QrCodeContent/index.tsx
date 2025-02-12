@@ -110,7 +110,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
           ]}
         
           onScan={(detectedCodes) => {
-            onScannerResult(detectedCodes);
+            onScannerResult(detectedCodes[0].rawValue);
           }}
           onError={(error) => {
             console.log(`onError: ${error}'`);
