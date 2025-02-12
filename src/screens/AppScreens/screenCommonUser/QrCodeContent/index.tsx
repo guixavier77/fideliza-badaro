@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { DefaultContext } from '@/contexts/defaultContext';
 import api from '@/services/api';
 import PreFeedBack from '@/utils/feedbackStatus';
@@ -12,16 +12,13 @@ interface QrCodeContentProps {
 const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const {onShowFeedBack} = useContext(DefaultContext)
-
+  const { onShowFeedBack } = useContext(DefaultContext);
 
   useEffect(() => {
     const checkCameraPermission = async () => {
       try {
         const permission = await navigator.permissions.query({ name: 'camera' as any });
-
         setHasPermission(permission.state === 'granted');
-
         permission.onchange = () => {
           setHasPermission(permission.state === 'granted');
         };
@@ -34,22 +31,21 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
     checkCameraPermission();
   }, []);
 
-  const onError= (e: any) => {
-    onShowFeedBack(PreFeedBack.error(e?.response?.data ?? 'Falhou ao ler QR Code'))
-    console.log('[ERROR API /launcherPoints/generateQrCode/qrCode]', e?.response?.data)
-  }
+  const onError = (e: any) => {
+    onShowFeedBack(PreFeedBack.error(e?.response?.data ?? 'Falhou ao ler QR Code'));
+    console.log('[ERROR API /launcherPoints/generateQrCode/qrCode]', e?.response?.data);
+  };
 
-  const onSucess = () => {
-    onShowFeedBack(PreFeedBack.success('Pontos lançados com sucesso!'))
-
-  }
+  const onSuccess = () => {
+    onShowFeedBack(PreFeedBack.success('Pontos lançados com sucesso!'));
+  };
 
   const requestCameraPermission = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (stream) {
         setHasPermission(true);
-        stream.getTracks().forEach(track => track.stop()); // Para liberar a câmera
+        stream.getTracks().forEach(track => track.stop()); // Para liberar a câmera após permissão
       }
     } catch (error) {
       console.error("Erro ao solicitar permissão da câmera:", error);
@@ -57,16 +53,19 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
     }
   };
 
-
   const onScannerResult = useCallback((result: any) => {
-    let qrCodeReplace = result?.replace('qrCode:', '');
+    if (!result) return;
 
-    alert(qrCodeReplace);
-    api.post(`/launcherPoints/qrCode/${(qrCodeReplace)}`)
-      .then(onSucess)
-      .catch((err) => onError(err))
-      .finally(() => setLoading(true))
-  },[])
+    let qrCodeReplace = result.replace('qrCode:', '').trim(); // Adiciona .trim() para evitar espaços extras
+
+    if (qrCodeReplace) {
+      api.post(`/launcherPoints/qrCode/${qrCodeReplace}`)
+        .then(onSuccess)
+        .catch((err) => onError(err))
+        .finally(() => setLoading(false));  // Desmarca o estado de loading após a requisição
+    }
+  }, []);
+
   return (
     <div hidden={hidden}>
       <div>
@@ -88,12 +87,13 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
         </div>
       ) : (
         <Scanner
-          
           onScan={(detectedCodes) => {
-            onScannerResult(detectedCodes[0].rawValue);
+            if (detectedCodes && detectedCodes.length > 0) {
+              onScannerResult(detectedCodes[0].rawValue);
+            }
           }}
           onError={(error) => {
-            console.log(`onError: ${error}'`);
+            console.log(`onError: ${error}`);
           }}
           styles={{ container: { height: "400px", width: "350px" } }}
           components={{
@@ -103,10 +103,9 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
             zoom: true,
             finder: true,
           }}
-          // allowMultiple={true}
           scanDelay={2000}
         />
-        )}
+      )}
     </div>
   );
 };
