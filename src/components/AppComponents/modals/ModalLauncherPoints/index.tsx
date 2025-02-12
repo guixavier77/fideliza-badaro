@@ -142,7 +142,7 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
             <div className='flex flex-col justify-center items-center'>
             {loading ? 
               <>
-                {idQrCode && <QRCodeSVG value={idQrCode} />}
+                {idQrCode && <QRCodeSVG value={'qrCode:' + idQrCode} />}
               </>
             :
               <Loading text='Gerando QR Code...'/>
