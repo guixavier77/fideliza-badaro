@@ -38,7 +38,7 @@ const ModalLauncherPoints: React.FC<ILauncherPoints> = ({ open, setIsClose, prom
   }
   const fnGenerateQrCode = async ( ) => {
     setLoading(false);
-    api.get(`/launcherPoints/generateQrCode/${promotion?.id}`)
+    api.get(`launcherPoints/generateQrCode/${promotion?.id}`)
       .then((res) =>  setIdQrCode(res?.data?.qrCode?.id))
       .catch((err) => onErrorUpdate(err))
       .finally(() => setLoading(true))

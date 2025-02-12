@@ -59,7 +59,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
     let qrCodeReplace = result.replace('qrCode:', '').trim(); // Adiciona .trim() para evitar espaços extras
 
     if (qrCodeReplace) {
-      api.post(`/launcherPoints/qrCode/${qrCodeReplace}`)
+      api.post(`launcherPoints/qrCode/${qrCodeReplace}`)
         .then(onSuccess)
         .catch((err) => onError(err))
         .finally(() => setLoading(false));  // Desmarca o estado de loading após a requisição

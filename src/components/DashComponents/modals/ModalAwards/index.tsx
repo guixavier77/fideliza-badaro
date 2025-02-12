@@ -99,13 +99,13 @@ const ModalAwards = ({ open, setIsClose, awardEdit }: any) => {
       }
       console.log(JSON.stringify(data));
       if(awardEdit) {
-        api.put('/awards', dataUpdate, )
+        api.put('awards', dataUpdate, )
         .then(onSuccessUpdate)
         .catch(error => onErrorUpdate(error))
         .finally(() => setloading(false));
 
       } else {
-        api.post('/awards',data)
+        api.post('awards',data)
           .then(onSuccess)
           .catch(error => onError(error))
           .finally(() => setloading(false));
