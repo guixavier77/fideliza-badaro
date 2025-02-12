@@ -58,6 +58,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
 
 
   const onScannerResult = useCallback((result: any) => {
+    alert(result);
     api.post(`/launcherPoints/qrCode/${Number(result)}`)
       .then(onSucess)
       // .catch((err) => onError(err))
@@ -85,7 +86,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
       ) : (
         <QrReader
           constraints={{ facingMode: "environment" }}
-          scanDelay={5000}
+          scanDelay={10000}
           onResult={onScannerResult}
           className="mt-4"
         />
