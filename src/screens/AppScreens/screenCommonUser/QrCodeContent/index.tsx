@@ -58,7 +58,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
 
   const fnReadQrCode = async (qrCodeId: number) => {
     setLoading(false);
-    api.get(`/launcherPoints/generateQrCode/${qrCodeId}`)
+    api.get(`/launcherPoints/qrCode/${qrCodeId}`)
       .then(onSucess)
       //.catch((err) => onError(err))
       .finally(() => setLoading(true))
