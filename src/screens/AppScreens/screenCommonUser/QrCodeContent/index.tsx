@@ -59,9 +59,11 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
 
   const onScannerResult = useCallback((result: any) => {
     let qrCodeReplace = result?.replace('qrCode:', '');
+
+    alert(qrCodeReplace);
     api.post(`/launcherPoints/qrCode/${Number(qrCodeReplace)}`)
       .then(onSucess)
-      // .catch((err) => onError(err))
+      .catch((err) => onError(err))
       .finally(() => setLoading(true))
   },[])
   return (
