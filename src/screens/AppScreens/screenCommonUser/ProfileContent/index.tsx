@@ -94,7 +94,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
           edit={true}
           id="birthDate"
           styles={stylesInput}
-          value={masks.dateMask(formik.values.birthDate)}
+          value={formik.values.birthDate}
           onChange={formik.handleChange}
           label="Data de Nascimento"
           type="tel"

@@ -6,10 +6,12 @@ import DefaultContextInterface from '@/interfaces/default.interface';
 import FeedBackStatusInterface from '@/interfaces/feedbackStatus';
 import User from '@/interfaces/user.interface';
 import { ROLE } from '@/utils/types/roles';
+import { TABS } from '@/utils/types/tabs';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import { createContext, useCallback, useEffect, useState } from 'react';
+import { useTab } from './tabContext';
 export const DefaultContext = createContext<DefaultContextInterface>({} as any)
 
 export default function DefaultProvider({ children }: any) {
@@ -23,6 +25,8 @@ export default function DefaultProvider({ children }: any) {
     description: '',
     status: '',
   })
+
+  const {setTabSelected} = useTab();
   
 
   const redirect = useCallback((user: User) => {
@@ -39,6 +43,8 @@ export default function DefaultProvider({ children }: any) {
         const decoded: any = jwtDecode(token);
         setuser(decoded as any)
         if(decoded.role !== ROLE.SUPERADMIN) setstoreSelected(Number(decoded.storeId))
+        console.log(decoded);
+        //setTabSelected(decoded.role === ROLE.CUSTOMER ? TABS.HOME : TABS.HOMEADMIN);
         redirect(decoded);
       } catch (error) {
         setuser(null)

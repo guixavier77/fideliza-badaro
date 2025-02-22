@@ -1,6 +1,6 @@
 'use client'
 import { TABS, TABS_DASH } from '@/utils/types/tabs';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { DefaultContext } from './defaultContext';
 import { ROLE } from '@/utils/types/roles';
 import TabContextInterface from '@/interfaces/tab.interface';
@@ -12,6 +12,10 @@ export const TabProvider = ({ children }: any) => {
 	const [tabSelected, setTabSelected] = useState<string>(user?.role === ROLE.CUSTOMER ? TABS.HOME : TABS.HOMEADMIN);
 	const [tabDashSelected, setTabDashSelected] = useState<string>(TABS_DASH.DASH)
 
+
+	useEffect(() => {
+		setTabSelected(user?.role === ROLE.CUSTOMER ? TABS.HOME : TABS.HOMEADMIN);
+;	},[user])
 	return <TabContext.Provider value={{
 		tabSelected, 
 		setTabSelected, 

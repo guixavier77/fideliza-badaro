@@ -4,7 +4,7 @@ import BottomNavigation from '@/components/AppComponents/bottonNavigation'
 import HeaderHome from '@/components/AppComponents/headerHome'
 import { useTab } from '@/contexts/tabContext'
 import AppHomeContent from '@/screens/AppScreens/screenAdminUser/HomeContent'
-import HomeContent from '@/screens/AppScreens/screenAdminUser/HomeContent'
+import HomeContent from '@/screens/AppScreens/screenCommonUser/HomeContent'
 import AppLauncherPointsContent from '@/screens/AppScreens/screenAdminUser/LauncherPointsContent'
 import AppNotificationsContent from '@/screens/AppScreens/screenAdminUser/NotificationsContent'
 import AppRewardsContent from '@/screens/AppScreens/screenAdminUser/RewardsContent'
@@ -16,6 +16,7 @@ import { TABS } from '@/utils/types/tabs'
 
 const Home = () => {
   const { tabSelected } = useTab();
+  console.log(tabSelected);
   return (
     <div className="bg-light " >
       <HeaderHome />

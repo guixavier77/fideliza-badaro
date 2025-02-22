@@ -56,13 +56,13 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
   const onScannerResult = useCallback((result: any) => {
     if (!result) return;
 
-    let qrCodeReplace = result.replace('qrCode:', '').trim(); // Adiciona .trim() para evitar espaços extras
+    let qrCodeReplace = result.replace('qrCode:', '').trim(); 
 
     if (qrCodeReplace) {
       api.post(`launcherPoints/qrCode/${qrCodeReplace}`)
         .then(onSuccess)
         .catch((err) => onError(err))
-        .finally(() => setLoading(false));  // Desmarca o estado de loading após a requisição
+        .finally(() => setLoading(false)); 
     }
   }, []);
 

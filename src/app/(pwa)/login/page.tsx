@@ -36,6 +36,8 @@ export default function Login() {
           email: values.email,
           password:values?.password
         })
+
+        console.log(response, 'response');
         if(response.status === 200){
           const {user, token} = response?.data;
           if(user && token){
@@ -50,7 +52,8 @@ export default function Login() {
         } else {
           setError('Credenciais inválidas, tente novamente.')
         }
-      }catch{
+      }catch(e){
+        console.log(e);
         setError('Credenciais inválidas, tente novamente.')
         
       }finally{
