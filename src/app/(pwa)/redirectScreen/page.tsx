@@ -40,7 +40,8 @@ const RedirectScreen = () => {
               type="button"
               onClick={() => {
                 setloading(true);
-                router.push('/dashboard')
+                router.push('/dashboard');
+                sessionStorage.setItem('dashboard', 'true');
               }}
               styles="w-full "
               title="Dashboard"

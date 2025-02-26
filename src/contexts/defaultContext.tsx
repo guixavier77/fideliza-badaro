@@ -31,8 +31,9 @@ export default function DefaultProvider({ children }: any) {
 
   const redirect = useCallback((user: User) => {
     if(!user) return;
+    const redirected = sessionStorage.getItem('dashboard') === 'true';
     if(user.role === ROLE.SUPERADMIN) router.push('/dashboard')
-    if(user.role === ROLE.ADMIN) router.push('/redirectScreen')
+    if(user.role === ROLE.ADMIN && !redirected) router.push('/redirectScreen')
     if(user.role === ROLE.CUSTOMER || user.role === ROLE.OPERATOR) router.push('/home')
   },[user])
 
