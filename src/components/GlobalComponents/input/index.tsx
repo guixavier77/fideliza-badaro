@@ -32,7 +32,7 @@ const InputStyled = ({maxLength,disabled, label, type, icon, placeholder, value,
             value={value} 
             onChange={onChange} 
             type={type} 
-            className={`${disabled ? 'text-darkGray bg-gray' : ''} ${stylesInput ? stylesInput : ''} outline-none text-black font-semibold`}
+            className={`${disabled ? '' : ''} ${stylesInput ? stylesInput : ''} outline-none text-black font-semibold bg-white`}
             placeholder={placeholder} 
             onBlur={onBlur}
             

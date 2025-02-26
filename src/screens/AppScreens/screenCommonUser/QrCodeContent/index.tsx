@@ -3,6 +3,7 @@ import api from '@/services/api';
 import PreFeedBack from '@/utils/feedbackStatus';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Scanner } from '@yudiel/react-qr-scanner';
+import ButtonStyled from '@/components/GlobalComponents/button';
 
 interface QrCodeContentProps {
   hidden: boolean;
@@ -67,7 +68,7 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
   }, []);
 
   return (
-    <div hidden={hidden}>
+    <div hidden={hidden} className='h-full'>
       <div>
         <h1 className='text-black text-3xl font-bold text-center mb-2'>QR Code</h1>
         <p className='text-black text-2xl font-light text-center mb-4'>Faça a leitura do QR Code</p>
@@ -76,35 +77,46 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
       {hasPermission === null ? (
         <p className="text-center text-gray-600">Verificando permissão da câmera...</p>
       ) : hasPermission === false ? (
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Acesso à câmera negado. Clique abaixo para tentar novamente.</p>
-          <button
-            onClick={requestCameraPermission}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-          >
-            Permitir Câmera
-          </button>
+        <div className="h-full pb-24 flex flex-col justify-between">
+          <div className='text-center'>
+            <p>{'Acesso à câmera negado.'}</p>
+            <p className="mb-4">{'Clique abaixo para tentar novamente.'}</p>
+          </div>
+
+          <div className='mb-48'>
+            <ButtonStyled
+              type="button"
+              onClick={requestCameraPermission}
+              styles="w-full"
+              title="Permitir Câmera"
+              bgColor='bg-red'
+
+            />
+          </div>
+    
         </div>
       ) : (
-        <Scanner
-          onScan={(detectedCodes) => {
-            if (detectedCodes && detectedCodes.length > 0) {
-              onScannerResult(detectedCodes[0].rawValue);
-            }
-          }}
-          onError={(error) => {
-            console.log(`onError: ${error}`);
-          }}
-          styles={{ container: { height: "400px", width: "350px" } }}
-          components={{
-            audio: true,
-            onOff: true,
-            torch: true,
-            zoom: true,
-            finder: true,
-          }}
-          scanDelay={2000}
-        />
+        <div className='h-screen center'>
+            <Scanner
+              onScan={(detectedCodes) => {
+                if (detectedCodes && detectedCodes.length > 0) {
+                  onScannerResult(detectedCodes[0].rawValue);
+                }
+              }}
+              onError={(error) => {
+                console.log(`onError: ${error}`);
+              }}
+              styles={{ container: { height: "400px", width: "350px" } }}
+              components={{
+                audio: true,
+                onOff: true,
+                torch: true,
+                zoom: true,
+                finder: true,
+              }}
+              scanDelay={2000}
+            />
+        </div>
       )}
     </div>
   );

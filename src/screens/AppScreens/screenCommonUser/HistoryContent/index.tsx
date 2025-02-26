@@ -10,27 +10,26 @@ interface HistoryContentProps {
 
 
 const HistoryContent: React.FC<HistoryContentProps> = ({ hidden }) => {
-  const {loading, data } = useLoadHistoryCustomer(hidden);
+  const { loading, data } = useLoadHistoryCustomer(hidden);
+
   return (
     <div hidden={hidden}>
-      <h1 className='text-black text-3xl font-bold text-center mb-3'>Histórico</h1>
+      <h1 className="text-black text-3xl font-bold text-center mb-3">Histórico</h1>
 
-
-      {loading ? 
-        <div className=''>
-          <Loading text='Buscando dados...'/>
+      {loading ? (
+        <div>
+          <Loading text="Buscando dados..." />
         </div>
-      : 
-        <>
-        {data?.map((data) => (
-          <AppCardHistory history={data}/>
-        ))}
-        </>
-      }
-   
-    
-    </div>
-  )
-}
+      ) : (
+        <div className="max-h-screen overflow-y-auto p-2 pb-32 flex flex-col">
+          {data?.map((item) => (
+            <AppCardHistory history={item} />
+          ))}
+        </div>
 
-export default HistoryContent
+      )}
+    </div>
+  );
+};
+
+export default HistoryContent;

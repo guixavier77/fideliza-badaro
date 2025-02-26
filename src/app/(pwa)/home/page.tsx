@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <div className="bg-light " >
       <HeaderHome />
-      <div className='bg-light h-screen rounded-t-40 absolute w-full top-20 pt-10 px-6'>
+      <div className='bg-light h-screen rounded-t-40 absolute w-full top-20 pt-10 px-6 s:pt-4'>
         <HomeContent hidden={tabSelected !== TABS.HOME} />
         <WalletContent hidden={tabSelected !== TABS.WALLET} />
         <QrCodeContent hidden={tabSelected !== TABS.QRCODE} />

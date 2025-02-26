@@ -16,7 +16,7 @@ const AppCardHistory: React.FC<AppCardHistoryContentProps> = ({ history }) => {
   const day = date ? String(date.getUTCDate()).padStart(2, "0") : '';
   const month = date ? monthNames[date.getUTCMonth()] : '';
   return (
-    <div className='bg-white shadow-md py-4 px-3 rounded-20 flex justify-between items-center relative'>
+    <div className='bg-white shadow-md py-4 px-3 rounded-20 flex justify-between items-center relative mb-3'>
     <div className='absolute top-0 right-5 bg-red px-3 rounded-b-xl'>
       <p className='text-xs text-white font-extralight'>{day} {month}</p>
     </div>

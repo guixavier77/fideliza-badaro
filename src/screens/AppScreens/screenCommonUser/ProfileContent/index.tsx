@@ -1,3 +1,4 @@
+import ButtonStyled from '@/components/GlobalComponents/button';
 import InputStyled from '@/components/GlobalComponents/input';
 import { DefaultContext } from '@/contexts/defaultContext';
 import masks from '@/utils/masks/masks';
@@ -15,6 +16,7 @@ interface ProfileContentProps {
 }
 
 const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
+  console.log(hidden);
   const { user } = useContext(DefaultContext);
   const stylesInput = 'bg-white border-none shadow-sm py-3'
   useEffect(() => {
@@ -41,66 +43,79 @@ const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
     }
   })
   return (
-    <div hidden={hidden}>
-      <h1 className='text-black text-3xl font-bold text-center'>Perfil</h1>
-      <div className='flex flex-col gap-2'>
-        <InputStyled
-          edit={true}
-          styles={stylesInput}
-          id="cpf"
-          onChange={formik.handleChange}
-          value={masks.cpfMask(formik.values.cpf)}
-          label="CPF"
-          type="tel"
-          placeholder="000.000.000-00"
-          icon={<ArticleOutlinedIcon style={{ color: '#C90B0B' }} />}
-        />
-        <InputStyled
-          edit={true}
-          styles={stylesInput}
-          onChange={formik.handleChange}
-          value={formik.values.name}
-          id="name"
-          label="Nome"
-          type="text"
-          placeholder="Exemplo"
-          icon={<PersonOutlineOutlinedIcon style={{ color: '#C90B0B' }} />}
-        />
-        <InputStyled
-          edit={true}
-          styles={stylesInput}
-          id="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          label="E-mail"
-          type="text"
-          placeholder="exemplo@gmail.com"
-          icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
-        />
+    <div hidden={hidden} className='h-full'>
+      <div className='h-full pb-24 flex flex-col justify-between'>
+        <div className='flex flex-col gap-2 '>
+          <h1 className='text-black text-3xl font-bold text-center'>Perfil</h1>
+          <InputStyled
+            disabled
+            styles={stylesInput}
+            id="cpf"
+            onChange={formik.handleChange}
+            value={masks.cpfMask(formik.values.cpf)}
+            label="CPF"
+            type="tel"
+            placeholder="000.000.000-00"
+            icon={<ArticleOutlinedIcon style={{ color: '#C90B0B' }} />}
+          />
+          <InputStyled
+            disabled
+            styles={stylesInput}
+            onChange={formik.handleChange}
+            value={formik.values.name}
+            id="name"
+            label="Nome"
+            type="text"
+            placeholder="Exemplo"
+            icon={<PersonOutlineOutlinedIcon style={{ color: '#C90B0B' }} />}
+          />
+          <InputStyled
+            disabled
+            styles={stylesInput}
+            id="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            label="E-mail"
+            type="text"
+            placeholder="exemplo@gmail.com"
+            icon={<MailOutlineIcon style={{ color: '#C90B0B' }} />}
+          />
 
-        <InputStyled
-          edit={true}
-          styles={stylesInput}
-          onChange={formik.handleChange}
-          value={masks.phoneMask(formik.values.phone)}
-          id="phone"
-          label="Telefone"
-          type="text"
-          placeholder="(00) 00000-0000"
-          icon={<LocalPhoneOutlinedIcon style={{ color: '#C90B0B' }} />}
-        />
+          <InputStyled
+            disabled
+            styles={stylesInput}
+            onChange={formik.handleChange}
+            value={masks.phoneMask(formik.values.phone)}
+            id="phone"
+            label="Telefone"
+            type="text"
+            placeholder="(00) 00000-0000"
+            icon={<LocalPhoneOutlinedIcon style={{ color: '#C90B0B' }} />}
+          />
 
-        <InputStyled
-          edit={true}
-          id="birthDate"
-          styles={stylesInput}
-          value={formik.values.birthDate}
-          onChange={formik.handleChange}
-          label="Data de Nascimento"
-          type="tel"
-          placeholder="DD/MM/YYYY"
-          icon={<CalendarMonthOutlined style={{ color: '#C90B0B' }} />}
-        />
+          <InputStyled
+            disabled
+            id="birthDate"
+            styles={stylesInput}
+            value={formik.values.birthDate}
+            onChange={formik.handleChange}
+            label="Data de Nascimento"
+            type="tel"
+            placeholder="DD/MM/YYYY"
+            icon={<CalendarMonthOutlined style={{ color: '#C90B0B' }} />}
+          />
+
+
+
+        </div>
+        <div className='mb-24'>
+          <ButtonStyled
+            type="submit"
+            styles="w-full"
+            bgColor='bg-red'
+            title="Alterar dados"
+          />      
+        </div>
 
       </div>
 

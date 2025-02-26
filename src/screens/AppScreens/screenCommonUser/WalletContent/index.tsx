@@ -19,11 +19,11 @@ const WalletContent: React.FC<WalletContentProps> = ({ hidden }) => {
           <Loading text='Buscando dados...'/>
         </div>
       : 
-        <>
-        {data?.map((wallet) => (
-          <AppCardWalletContent wallet={wallet}/>
-        ))}
-        </>
+        <div className="max-h-screen overflow-y-auto p-2 pb-32 flex flex-col">
+          {data?.map((wallet) => (
+            <AppCardWalletContent wallet={wallet}/>
+          ))}
+        </div>
       }
 
     </div>
