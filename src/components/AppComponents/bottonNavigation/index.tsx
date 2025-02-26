@@ -63,17 +63,21 @@ const tabsAdminOrCashier = [
     icon: <MonetizationOnIcon style={styleIcons} />,
     value: TABS.LAUNCHERPOINTS,
   },
+  // {
+  //   name: 'Resgates',
+  //   icon: <EmojiEventsIcon style={styleIcons} />,
+  //   value: TABS.DELIVEREDREWARDS,
+  // },
   {
-    name: 'Resgates',
-    icon: <EmojiEventsIcon style={styleIcons} />,
-    value: TABS.DELIVEREDREWARDS,
-  },
-
-  {
-    name: 'Notificações',
+    name: 'Histórico',
     icon: <NotificationsIcon style={styleIcons} />,
     value: TABS.NOTIFICATIONS,
   },
+  {
+    name: 'Perfil',
+    icon: <PersonIcon style={styleIcons} />,
+    value: TABS.PROFILE,
+  }
 ];
 
 
