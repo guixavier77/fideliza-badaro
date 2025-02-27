@@ -2,18 +2,22 @@
 import ButtonStyled from "@/components/GlobalComponents/button";
 import InputStyled from "@/components/GlobalComponents/input";
 import Loading from "@/components/GlobalComponents/loading";
+import { DefaultContext } from "@/contexts/defaultContext";
+import api from "@/services/api";
+import { STATUS } from "@/utils/types/feedback";
 
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import PreFeedBack from "@/utils/feedbackStatus";
 
 
 export default function AccountRecovery() {
   const router = useRouter();
   const [loading, setloading] = useState(false);
+  const {onShowFeedBack} = useContext(DefaultContext)
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -21,20 +25,10 @@ export default function AccountRecovery() {
     onSubmit: async (values) => {
       setloading(true);
 
-      // console.log(values);
-      // try {
-      //   sendPasswordResetEmail(auth, values.email)
-      //     .then(() => console.log('kk'))
-      //     .catch(() => console.log('kk'))
-      //     .finally(() => setloading(false))
-
-
-
-      // } catch (error) {
-      //   console.error(error);
-      // }
-
-
+      api.post(`users/sendEmailResetPassword/${values.email}`)
+        .then(() => onShowFeedBack(PreFeedBack.success('E-mail enviado com sucesso!')))
+        .catch((e) => onShowFeedBack(PreFeedBack.error('')))
+        .finally(() => setloading(false));
     }
   })
   return (
