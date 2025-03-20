@@ -18,9 +18,10 @@ const Home = () => {
   const { tabSelected } = useTab()
   console.log(tabSelected)
   return (
-    <div className="bg-black flex flex-col h-screen overflow-hidden relative">
+    <div className="bg-black flex flex-col h-screen relative">
       <HeaderHome />
-      <div className="bg-light flex-1 overflow-auto pt-2 px-6 sm:pt-4 rounded-t-40">
+
+      <div className="bg-light flex-1 pt-2 px-6 sm:pt-4 rounded-t-40 overflow-auto pb-safe">
         <HomeContent hidden={tabSelected !== TABS.HOME} />
         <WalletContent hidden={tabSelected !== TABS.WALLET} />
         <QrCodeContent hidden={tabSelected !== TABS.QRCODE} />
@@ -34,7 +35,6 @@ const Home = () => {
         <AppHomeContent hidden={tabSelected !== TABS.HOMEADMIN} />
       </div>
 
-      {/* BottomNavigation na parte inferior */}
       <BottomNavigation />
     </div>
   )

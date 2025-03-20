@@ -41,8 +41,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
     onSubmit: (values) => {},
   })
   return (
-    <div hidden={hidden} className="h-full">
-      <div className="flex flex-col justify-between h-full">
+    <div hidden={hidden}>
+      <div className="flex flex-col justify-between h-full overflow-auto">
         <div className="flex flex-col gap-2 ">
           <h1 className="text-black text-3xl font-bold text-center">Perfil</h1>
           <InputStyled
