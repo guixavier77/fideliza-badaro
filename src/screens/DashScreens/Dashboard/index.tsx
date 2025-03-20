@@ -6,7 +6,7 @@ import GraphicDash from '@/components/DashComponents/GraphicDash';
 const DashboardContent = ({ hidden }: any) => {
   const CardDash = ({ icon, title, value }: any) => {
     return (
-      <div className='bg-black py-4 flex rounded-20 px-6 w-64'>
+      <div className='flex bg-black rounded-20 w-64 px-6 py-4'>
         {React.cloneElement(icon, {
           style: {
             fontSize: 74,
@@ -14,8 +14,8 @@ const DashboardContent = ({ hidden }: any) => {
           }
         })}
         <div className='pl-5'>
-          <p className='text-white font-bold text-4xl'>{value}</p>
-          <p className='text-white font-extralight text-2xl'>{title}</p>
+          <p className='text-4xl text-white font-bold'>{value}</p>
+          <p className='text-2xl text-white font-extralight'>{title}</p>
 
         </div>
 
