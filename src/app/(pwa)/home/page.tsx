@@ -18,7 +18,7 @@ const Home = () => {
   const { tabSelected } = useTab()
   console.log(tabSelected)
   return (
-    <div className="bg-black flex flex-col h-screen overflow-hidden">
+    <div className="bg-black flex flex-col h-screen overflow-hidden relative">
       <HeaderHome />
       <div className="bg-light flex-1 overflow-auto pt-2 px-6 sm:pt-4 rounded-t-40">
         <HomeContent hidden={tabSelected !== TABS.HOME} />

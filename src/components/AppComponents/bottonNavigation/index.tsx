@@ -81,7 +81,7 @@ const BottomNavigation = () => {
     [user],
   )
   return (
-    <div className="w-full bg-white z-10 shadow-lg">
+    <div className="w-full bg-white z-10 shadow-lg bottom-0">
       <div className="flex h-20 items-center justify-between px-4">
         {renderTabs.map((tab, index) => (
           <button
