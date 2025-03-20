@@ -1,26 +1,26 @@
-import ButtonStyled from '@/components/GlobalComponents/button';
-import InputStyled from '@/components/GlobalComponents/input';
-import { DefaultContext } from '@/contexts/defaultContext';
-import masks from '@/utils/masks/masks';
-import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
-import CalendarMonthOutlined from '@mui/icons-material/CalendarMonthOutlined';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import { useFormik } from 'formik';
-import { useSession } from 'next-auth/react';
-import React, { useContext, useEffect } from 'react';
+import ButtonStyled from '@/components/GlobalComponents/button'
+import InputStyled from '@/components/GlobalComponents/input'
+import { DefaultContext } from '@/contexts/defaultContext'
+import masks from '@/utils/masks/masks'
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
+import CalendarMonthOutlined from '@mui/icons-material/CalendarMonthOutlined'
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined'
+import MailOutlineIcon from '@mui/icons-material/MailOutline'
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
+import { useFormik } from 'formik'
+import { useSession } from 'next-auth/react'
+import React, { useContext, useEffect } from 'react'
 
 interface ProfileContentProps {
-  hidden: boolean;
+  hidden: boolean
 }
 
 const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
-  console.log(hidden);
-  const { user } = useContext(DefaultContext);
+  console.log(hidden)
+  const { user } = useContext(DefaultContext)
   const stylesInput = 'bg-white border-none shadow-sm py-3'
   useEffect(() => {
-    console.log(user);
+    console.log(user)
     formik.setValues({
       cpf: user ? user?.cpf : '',
       name: user ? user?.name : '',
@@ -38,15 +38,13 @@ const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
       phone: '',
       birthDate: '',
     },
-    onSubmit: (values) => {
-
-    }
+    onSubmit: (values) => {},
   })
   return (
-    <div hidden={hidden} className='h-full'>
-      <div className='h-full pb-24 flex flex-col justify-between'>
-        <div className='flex flex-col gap-2 '>
-          <h1 className='text-black text-3xl font-bold text-center'>Perfil</h1>
+    <div hidden={hidden} className="h-full">
+      <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col gap-2 ">
+          <h1 className="text-black text-3xl font-bold text-center">Perfil</h1>
           <InputStyled
             disabled
             styles={stylesInput}
@@ -104,21 +102,16 @@ const ProfileContent: React.FC<ProfileContentProps> = ({ hidden }) => {
             placeholder="DD/MM/YYYY"
             icon={<CalendarMonthOutlined style={{ color: '#C90B0B' }} />}
           />
-
-
-
         </div>
-        <div className='mb-24'>
+        <div className="my-4">
           <ButtonStyled
             type="submit"
             styles="w-full"
-            bgColor='bg-red'
+            bgColor="bg-red"
             title="Alterar dados"
-          />      
+          />
         </div>
-
       </div>
-
     </div>
   )
 }
