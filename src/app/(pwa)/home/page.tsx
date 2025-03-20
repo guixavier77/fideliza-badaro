@@ -15,27 +15,26 @@ import WalletContent from '@/screens/AppScreens/screenCommonUser/WalletContent'
 import { TABS } from '@/utils/types/tabs'
 
 const Home = () => {
-  const { tabSelected } = useTab();
-  console.log(tabSelected);
+  const { tabSelected } = useTab()
+  console.log(tabSelected)
   return (
-    <div className="bg-light " >
+    <div className="bg-black ">
       <HeaderHome />
-      <div className='bg-light h-screen rounded-t-40 absolute w-full top-20 pt-10 px-6 s:pt-4'>
+      <div className="bg-light rounded-t-40  w-full pt-10 px-6 s:pt-4 h-full">
         <HomeContent hidden={tabSelected !== TABS.HOME} />
         <WalletContent hidden={tabSelected !== TABS.WALLET} />
         <QrCodeContent hidden={tabSelected !== TABS.QRCODE} />
         <HistoryContent hidden={tabSelected !== TABS.HISTORY} />
         <ProfileContent hidden={tabSelected !== TABS.PROFILE} />
-        <AppLauncherPointsContent  hidden={tabSelected !== TABS.LAUNCHERPOINTS} />
-        <AppRewardsContent  hidden={tabSelected !== TABS.DELIVEREDREWARDS} />
-        <AppNotificationsContent  hidden={tabSelected !== TABS.NOTIFICATIONS} />
-        <AppHomeContent hidden={tabSelected !== TABS.HOMEADMIN}/>
-
+        <AppLauncherPointsContent
+          hidden={tabSelected !== TABS.LAUNCHERPOINTS}
+        />
+        <AppRewardsContent hidden={tabSelected !== TABS.DELIVEREDREWARDS} />
+        <AppNotificationsContent hidden={tabSelected !== TABS.NOTIFICATIONS} />
+        <AppHomeContent hidden={tabSelected !== TABS.HOMEADMIN} />
       </div>
 
       <BottomNavigation />
-
-
     </div>
   )
 }
