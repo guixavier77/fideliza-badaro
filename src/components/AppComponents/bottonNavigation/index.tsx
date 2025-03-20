@@ -81,16 +81,20 @@ const BottomNavigation = () => {
     [user],
   )
   return (
-    <div className="w-full bg-white z-10 shadow-lg">
-      <div className="flex h-20 items-center justify-between px-4">
+    <div className="fixed bottom-0 w-full bg-white z-20 shadow-lg">
+      <div className="flex justify-between px-4 py-2 items-center">
         {renderTabs.map((tab, index) => (
           <button
             key={index}
-            className={`${tabSelected === tab.value ? 'mb-4' : ''} flex items-center flex-col`}
+            className={`flex items-center flex-col`}
             onClick={() => setTabSelected(tab.value)}
           >
             <div
-              className={`${tabSelected === tab.value ? 'bg-red w-16 h-16 flex justify-center items-center' : ''} transition-colors duration-500 ease-in rounded-full`}
+              className={`${
+                tabSelected === tab.value
+                  ? 'bg-red w-16 h-16 flex justify-center items-center'
+                  : ''
+              } transition-colors duration-500 ease-in rounded-full`}
             >
               {React.cloneElement(tab.icon, {
                 style: {
@@ -100,7 +104,9 @@ const BottomNavigation = () => {
               })}
             </div>
             <p
-              className={`${tabSelected === tab.value ? 'text-red' : ''} text-black font-semibold`}
+              className={`${
+                tabSelected === tab.value ? 'text-red' : ''
+              } text-black font-semibold`}
             >
               {tab.name}
             </p>

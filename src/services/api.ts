@@ -2,8 +2,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const api = axios.create({
-  // baseURL: 'https://backfideliza.squareweb.app/'
-  baseURL: 'http://localhost:3333/'
+  baseURL: 'https://backfideliza.squareweb.app/'
+  //baseURL: 'http://localhost:3333/'
 });
 
 
