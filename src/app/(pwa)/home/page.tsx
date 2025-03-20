@@ -18,12 +18,9 @@ const Home = () => {
   const { tabSelected } = useTab()
   console.log(tabSelected)
   return (
-    <div className="bg-black flex flex-col min-h-screen">
-      {/* Header no topo */}
+    <div className="bg-black flex flex-col h-screen overflow-hidden">
       <HeaderHome />
-
-      {/* Conteúdo principal ocupando o restante da tela */}
-      <div className="bg-light flex-1 overflow-auto pt-10 px-6 sm:pt-4 rounded-t-40">
+      <div className="bg-light flex-1 overflow-auto pt-2 px-6 sm:pt-4 rounded-t-40">
         <HomeContent hidden={tabSelected !== TABS.HOME} />
         <WalletContent hidden={tabSelected !== TABS.WALLET} />
         <QrCodeContent hidden={tabSelected !== TABS.QRCODE} />
