@@ -81,9 +81,6 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
           <div className='text-center'>
             <p>{'Acesso à câmera negado.'}</p>
             <p className="mb-4">{'Clique abaixo para tentar novamente.'}</p>
-          </div>
-
-          <div className='mb-48'>
             <ButtonStyled
               type="button"
               onClick={requestCameraPermission}
@@ -93,6 +90,8 @@ const QrCodeContent: React.FC<QrCodeContentProps> = ({ hidden }) => {
 
             />
           </div>
+
+         
     
         </div>
       ) : (

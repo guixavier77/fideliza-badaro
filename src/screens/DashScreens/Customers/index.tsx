@@ -17,15 +17,9 @@ const CustomersContent = ({hidden}: any) => {
 
 
   return (
-    <div hidden={hidden} className='h-full relative w-full'>
-      <div className='bg-black rounded-40 w-full  shadow-xl'>
-        <div className='flex items-center justify-between py-4 px-10'>
-          
-
-        </div>
-      </div>
-
-      <div className='mt-10 absolute right-0 bottom-20'>
+    <div hidden={hidden} className='h-full w-full relative'>
+     
+      <div className='absolute bottom-20 mt-10 right-0'>
         <PaginationDash 
           count={numberPages}
           currentPage={currentPage}

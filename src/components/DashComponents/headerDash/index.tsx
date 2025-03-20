@@ -19,7 +19,7 @@ const HeaderDash = () => {
     Cookies.remove('token');
     router.push('/login')
   }
- 
+
   const options = useMemo(() => stores?.map(item => ({ value: item.id, text: item.name })), [stores])
 
 
@@ -27,9 +27,8 @@ const HeaderDash = () => {
     if(options?.length > 0)setstoreSelected(options[0].value)
   },[options])
   return (
-    <div className='bg-black  py-2 flex px-4 justify-between items-center relative'>
-      <h1 className='text-white font-bold text-2xl '>{TABS_DASH_PTBR[tabDashSelected]}</h1>
-      <div className='flex  justify-center items-center absolute right-10'>
+    <div className='flex bg-black justify-between items-center px-4 py-5 relative'>
+      <div className='flex justify-center absolute items-center right-10'>
         {user?.role !== ROLE.SUPERADMIN ? (
           <>
             <StoreOutlinedIcon style={{ color: '#FFFFFF' }} />
@@ -38,14 +37,14 @@ const HeaderDash = () => {
         ) :
           (
             <div className={`outline-none rounded-xl p-2 flex items-center justify-between`}>
-              <div className='flex items-center  w-full relative bg-none'>
+              <div className='flex bg-none w-full items-center relative'>
                 <StoreOutlinedIcon style={{ color: '#FFFFFF' }} />
-                <select name='storeSelected' value={Number(storeSelected)} onChange={(e) => setstoreSelected(Number(e.target.value))} className=" w-full text-white font-semibold appearance-none outline-none bg-transparent pl-2 pr-6 bg-black ">
+                <select name='storeSelected' value={Number(storeSelected)} onChange={(e) => setstoreSelected(Number(e.target.value))} className="bg-black bg-transparent text-white w-full appearance-none font-semibold outline-none pl-2 pr-6">
                   {options?.map((item: any) => (
                     <option value={item.value}>{item.text}</option>
                   ))}
                 </select>
-                <div className='absolute right-0 pointer-events-none'>
+                <div className='absolute pointer-events-none right-0'>
                   <KeyboardArrowDownIcon style={{ color: '#FFFFFF' }} />
                 </div>
               </div>
@@ -55,11 +54,6 @@ const HeaderDash = () => {
           )
         }
 
-        <button
-          onClick={handleLogout}
-          className='text-white bg-red px-4 py-1 rounded-20'>
-          <ExitToAppOutlinedIcon />
-        </button>
       </div>
     </div>
   )

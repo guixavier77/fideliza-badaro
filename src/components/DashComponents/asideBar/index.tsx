@@ -12,6 +12,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import StoreIcon from '@mui/icons-material/Store';
 import React, { useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+import ExitToAppOutlined from '@mui/icons-material/ExitToAppOutlined';
 
 const tabs = [
   {
@@ -52,43 +55,56 @@ const tabs = [
     icon: <EmojiEventsIcon />,
     value: TABS_DASH.REEWARDS
   },
-  // {
-  //   name: 'QR Code',
-  //   icon: <QrCodeIcon />,
-  //   value: TABS_DASH.QRCODE
-  // },
+  
 
 ]
 
 const AsideBar = () => {
   const { user } = useContext(DefaultContext)
   const { tabDashSelected, setTabDashSelected } = useTab();
+  const router = useRouter();
+
+
+  const handleLogout = () => {
+    Cookies.remove('token');
+    router.push('/login')
+  }
 
 
   return (
-    <div className='bg-black h-screen pt-7 flex flex-col justify-between shadow-xl w-64'>
+    <div className='flex flex-col bg-black h-screen justify-between shadow-xl w-64 pt-7'>
       <div>
-        <h1 className=' flex flex-col text-2xl font-bold text-center text-white  leading-5 '>
-          Fideliza<span className="text-red text-1xl ">Badaro</span>
+        <h1 className='flex flex-col text-2xl text-center text-white font-bold leading-5'>
+          Fideliza<span className="text-1xl text-red">Badaro</span>
         </h1>
-        <div className='flex px-4 justify-center flex-col py-2 mt-5'>
+        <div className='flex flex-col justify-center mt-5 px-4 py-2'>
           {tabs.map((tab) => (
             (tab.value !== TABS_DASH.STORE || user?.role === ROLE.SUPERADMIN) && (
               <button
                 key={tab.value}
-                className={`${tabDashSelected === tab.value ? 'bg-red' : 'bg-none'} py-2 rounded-40 pl-2 flex gap-5 items-center mb-2 transition-colors duration-500 ease-in`}
+                className={`${tabDashSelected === tab.value ? 'bg-red' : 'bg-none'} py-2 rounded-xl pl-2 flex gap-5 items-center mb-2 transition-colors duration-500 ease-in`}
                 onClick={() => setTabDashSelected(tab.value)}
               >
                 {React.cloneElement(tab.icon, {
                   style: {
-                    fontSize: 28,
+                    fontSize: 24,
                     color: '#FFFFFF',
                   }
                 })}
-                <p className='text-white font-bold'>{tab.name}</p>
+                <p className='text-lg text-white font-normal'>{tab.name}</p>
               </button>
             )
           ))}
+          <button
+            onClick={handleLogout}
+            className={`py-2 rounded-40 pl-2 flex gap-5 items-center mb-2 transition-colors duration-500 ease-in text-white`}
+
+            >
+            <ExitToAppOutlined style={{ fontSize: 24 }} />
+
+            <p className='text-lg text-white font-normal'>Logout</p>
+
+          </button>
 
         </div>
 
@@ -96,18 +112,18 @@ const AsideBar = () => {
 
 
       <div className=''>
-        <div className='p-3  flex flex-row items-center gap-2 self-start '>
-          <div className='bg-red w-12 h-12 rounded-full flex justify-center items-center'>
+        <div className='flex flex-row p-3 gap-2 items-center self-start'>
+          <div className='flex bg-white h-12 justify-center rounded-full w-12 items-center'>
 
             <PersonIcon style={{
               fontSize: 36,
-              color: '#FFFFFF',
+              color: '#C90B0B',
             }} />
           </div>
 
           <div>
-            <p className='text-white font-bold text-sm'>{user?.name?.substring(0, 17)}</p>
-            <p className='text-white font-light text-sm'>{ROLE_PTBR[user?.role || 0]}</p>
+            <p className='text-sm text-white font-bold'>{user?.name?.substring(0, 17)}</p>
+            <p className='text-sm text-white font-light'>{ROLE_PTBR[user?.role || 0]}</p>
           </div>
 
         </div>

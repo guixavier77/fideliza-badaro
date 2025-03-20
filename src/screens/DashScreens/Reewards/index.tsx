@@ -11,18 +11,8 @@ const ReewardsContent = ({ hidden }: any) => {;
 
 
   return (
-    <div hidden={hidden} className='h-full relative w-full'>
-
-      <div className='w-full flex justify-between gap-4' >
-        <div className='bg-black rounded-40 w-full  shadow-xl'>
-          <div className='flex items-center justify-between py-4 px-10'>
-            
-
-          </div>
-        </div>
-      </div>
-
-      <div className='mt-10 flex flex-col gap-4'>
+    <div hidden={hidden} className='h-full w-full relative'>
+      <div className='flex flex-col gap-4 mt-10'>
         {/* {usersFilter.map((user) =>
           <>
             <CardPromotion promotion={user} />
@@ -30,7 +20,7 @@ const ReewardsContent = ({ hidden }: any) => {;
         )} */}
       </div>
 
-      <div className='mt-10 absolute right-0 bottom-20'>
+      <div className='absolute bottom-20 mt-10 right-0'>
         <PaginationDash 
           count={numberPages}
           currentPage={currentPage}

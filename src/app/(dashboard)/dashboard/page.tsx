@@ -19,14 +19,14 @@ export default function Dashboard() {
   const {tabDashSelected} = useTab();
 
   return (
-    <main className="w-screen h-screen flex overflow-hidden">
+    <main className="flex h-screen w-screen overflow-hidden">
       <AsideBar />
 
-      <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col h-full w-full">
         <HeaderDash  />
 
-        <div className="flex-grow overflow-y-auto p-4 bg-gray-100">
-          <div className="flex justify-center w-full h-full">
+        <div className="flex-grow bg-gray-100 p-4 overflow-y-auto">
+          <div className="flex h-full justify-center w-full">
             <DashboardContent hidden={tabDashSelected !== TABS_DASH.DASH} />
             <StoresContent hidden={tabDashSelected !== TABS_DASH.STORE} />
             <UsersContent hidden={tabDashSelected !== TABS_DASH.USERS} />
