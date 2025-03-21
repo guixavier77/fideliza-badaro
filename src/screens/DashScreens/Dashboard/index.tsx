@@ -1,42 +1,34 @@
+import React from 'react'
 import TopDash from '@/components/DashComponents/topDash'
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import Group from '@mui/icons-material/Group'
 import PaidIcon from '@mui/icons-material/Paid'
-import React from 'react'
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined'
 import EmojiEvents from '@mui/icons-material/EmojiEvents'
 import useLoadDashboardTotals from '@/hooks/useLoadDashboardTotals'
 import CardDash from '@/components/DashComponents/cardDash'
 import { DataGrid } from '@mui/x-data-grid'
-
-const rows: any[] = [
-  {
-    id: 1,
-    name: 'João',
-    email: 'joao@example.com',
-    cpf: '123.456.789-01',
-    status: 'Ativo',
-  },
-  {
-    id: 2,
-    name: 'Maria',
-    email: 'maria@example.com',
-    cpf: '987.654.321-00',
-    status: 'Inativo',
-  },
+import { useTheme } from '@mui/material/styles'
+import TableDash from '@/components/DashComponents/tableDash'
+import GraphicPromotions from '@/components/DashComponents/graphicPromotions'
+import GraphicRewards from '@/components/DashComponents/graphicRewards'
+const rows = [
+  { id: 1, name: 'João', email: 'joao@example.com', cpf: '123.456.789-01', status: 'Ativo', points: 1200 },
+  { id: 2, name: 'Maria', email: 'maria@example.com', cpf: '987.654.321-00', status: 'Inativo', points: 900 },
+  { id: 3, name: 'Carlos', email: 'carlos@example.com', cpf: '112.233.445-66', status: 'Ativo', points: 1500 },
+  { id: 3, name: 'Carlos', email: 'carlos@example.com', cpf: '112.233.445-66', status: 'Ativo', points: 1500 },
+  { id: 3, name: 'Carlos', email: 'carlos@example.com', cpf: '112.233.445-66', status: 'Ativo', points: 1500 },
 ]
 
-const columns: any[] = [
-  { field: 'id', headerName: 'ID', width: 100 },
-  { field: 'name', headerName: 'Nome', width: 200 },
-  { field: 'email', headerName: 'Email', width: 250 },
-  { field: 'cpf', headerName: 'CPF', width: 200 },
-  { field: 'status', headerName: 'Status', width: 150 },
+const columns = [
+  { header: 'ID', field: 'id' },
+  { header: 'Nome', field: 'name' },
+  { header: 'Pontos', field: 'points' },
 ]
 
 const DashboardContent = ({ hidden }: any) => {
   const { data, loading } = useLoadDashboardTotals(hidden)
-
+  const theme = useTheme() 
   console.log(data)
   return (
     <div hidden={hidden} className="w-full">
@@ -46,7 +38,7 @@ const DashboardContent = ({ hidden }: any) => {
         icon={DashboardOutlinedIcon}
       />
 
-      <div className="grid grid-cols-4 gap-6 ">
+      <div className="grid grid-cols-4 gap-6">
         <CardDash
           icon={<Group />}
           title="Clientes"
@@ -68,6 +60,33 @@ const DashboardContent = ({ hidden }: any) => {
           value={12}
         />
       </div>
+
+      <div className="mt-6 grid grid-cols-12 gap-6">
+        <div className="col-span-9 flex flex-col gap-6"> 
+          <div className="w-full">
+            <GraphicPromotions />
+          </div>
+          <div className="w-full mt-2">
+            <GraphicRewards />
+          </div>
+        </div>
+
+        <div className="col-span-3 flex flex-col gap-6">
+          <div className="w-full">
+            <p className="text-black text-2xl font-bold uppercase mb-2">Top Clientes</p>
+            <TableDash columns={columns} data={rows} rowKey="id" />
+          </div>
+
+          <div className="w-full">
+            <p className="text-black text-2xl font-bold uppercase mb-2">Top Operadores</p>
+            <TableDash columns={columns} data={rows} rowKey="id" />
+          </div>
+        </div>
+      </div>
+
+
+
+
     </div>
   )
 }
