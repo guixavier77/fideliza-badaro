@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className}  bg-black flex flex-col h-full overflow-hidden relative`}
+        className={`${inter.className}  bg-white flex flex-col h-full overflow-hidden relative`}
       >
         <Providers>{children}</Providers>
       </body>

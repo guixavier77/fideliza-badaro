@@ -9,7 +9,8 @@ import PaginationDash from '@/components/DashComponents/PaginationDash'
 import ModalPromotions from '@/components/DashComponents/modals/ModalPromotions'
 import useLoadPromotions from '@/hooks/useLoadPromotions'
 import FilterDash from '@/components/DashComponents/filterDash'
-
+import TopDash from '@/components/DashComponents/topDash'
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined'
 let itemsPerPage = 4
 const PromotionsContent = ({ hidden }: any) => {
   const [tab, setTab] = useState('all')
@@ -54,6 +55,11 @@ const PromotionsContent = ({ hidden }: any) => {
   }, [])
   return (
     <div hidden={hidden} className="w-full relative">
+      <TopDash
+        title="Promoções"
+        description="Crie e gerencie promoções para seus clientes, com opções de resgate de prêmios."
+        icon={MonetizationOnOutlinedIcon}
+      />
       <FilterDash
         onPressItem={onPressItem}
         handleOpenModal={handleOpenUsers}

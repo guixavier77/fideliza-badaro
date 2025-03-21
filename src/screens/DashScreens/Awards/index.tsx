@@ -12,7 +12,8 @@ import { CircularProgress } from '@mui/material'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import useLoadAwards from '@/hooks/useLoadAwards'
 import FilterDash from '@/components/DashComponents/filterDash'
-
+import CardGiftcardOutlinedIcon from '@mui/icons-material/CardGiftcardOutlined'
+import TopDash from '@/components/DashComponents/topDash'
 let itemsPerPage = 7
 
 const AwardsContent = ({ hidden }: any) => {
@@ -54,6 +55,12 @@ const AwardsContent = ({ hidden }: any) => {
   }, [])
   return (
     <div hidden={hidden} className="w-full relative">
+      <TopDash
+        title="Prêmios"
+        description="Cadastre os prêmios disponíveis para as promoções."
+        icon={CardGiftcardOutlinedIcon}
+      />
+
       <FilterDash
         onPressItem={onPressItem}
         handleOpenModal={handleOpenModal}
