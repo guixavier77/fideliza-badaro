@@ -21,15 +21,15 @@ const rows = [
 ]
 
 const columns = [
-  { header: 'ID', field: 'id' },
+  { header: 'Rank', field: 'rank' },
   { header: 'Nome', field: 'name' },
-  { header: 'Pontos', field: 'points' },
+  { header: 'Pontos', field: 'totalPoints' },
 ]
 
-const DashboardContent = ({ hidden }: any) => {
+const DashboardContent = ({ hidden }: {hidden: boolean}) => {
   const { data, loading } = useLoadDashboardTotals(hidden)
   const theme = useTheme() 
-  console.log(data)
+  
   return (
     <div hidden={hidden} className="w-full">
       <TopDash
@@ -64,7 +64,7 @@ const DashboardContent = ({ hidden }: any) => {
       <div className="mt-6 grid grid-cols-12 gap-6">
         <div className="col-span-9 flex flex-col gap-6"> 
           <div className="w-full">
-            <GraphicPromotions />
+            <GraphicPromotions data={data?.topPromotions ?? []}/>
           </div>
           <div className="w-full mt-2">
             <GraphicRewards />
@@ -74,12 +74,12 @@ const DashboardContent = ({ hidden }: any) => {
         <div className="col-span-3 flex flex-col gap-6">
           <div className="w-full">
             <p className="text-black text-2xl font-bold uppercase mb-2">Top Clientes</p>
-            <TableDash columns={columns} data={rows} rowKey="id" />
+            <TableDash columns={columns} data={data?.topClients ?? []} rowKey="id" />
           </div>
 
           <div className="w-full">
             <p className="text-black text-2xl font-bold uppercase mb-2">Top Operadores</p>
-            <TableDash columns={columns} data={rows} rowKey="id" />
+            <TableDash columns={columns} data={data?.topOperators ?? []} rowKey="id" />
           </div>
         </div>
       </div>

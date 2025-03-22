@@ -18,6 +18,7 @@ const TableDash: React.FC<TableProps> = ({ columns, data, onRowClick, rowKey, sx
         ...sx,
         boxShadow: 3, 
         borderRadius: '8px',
+        height: 274
       }}
     >
       <MuiTable>
