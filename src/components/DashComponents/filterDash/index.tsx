@@ -2,7 +2,7 @@
 import { TABS_FILTER } from '@/utils/types/tabs'
 import Add from '@mui/icons-material/Add'
 
-const FilterDash = ({ onPressItem, tab, handleOpenModal }: any) => {
+const FilterDash = ({tabs, onPressItem, tab, handleOpenModal }: any) => {
   return (
     <div className="flex justify-center w-full gap-4">
       <div className="flex bg-black justify-center rounded-xl shadow-lg w-full">

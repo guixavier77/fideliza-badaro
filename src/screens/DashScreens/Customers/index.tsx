@@ -8,6 +8,7 @@ import CardCustomer from '@/components/DashComponents/cards/cardCustomer'
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined'
 import TopDash from '@/components/DashComponents/topDash'
 let itemsPerPage = 7
+
 const CustomersContent = ({ hidden }: any) => {
   const [currentPage, setCurrentPage] = useState(1)
   const { data, loading } = useLoadCustomers(hidden)

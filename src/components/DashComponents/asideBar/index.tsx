@@ -42,14 +42,14 @@ const tabs = [
     value: TABS_DASH.PROMOTIONS,
   },
   {
-    name: 'Clientes',
-    icon: <GroupIcon />,
-    value: TABS_DASH.CUSTOMERS,
-  },
-  {
     name: 'Solicitações',
     icon: <EmojiEventsIcon />,
     value: TABS_DASH.REEWARDS,
+  },
+  {
+    name: 'Clientes',
+    icon: <GroupIcon />,
+    value: TABS_DASH.CUSTOMERS,
   },
 ]
 
