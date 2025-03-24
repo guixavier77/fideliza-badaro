@@ -54,3 +54,5 @@ export const TABS_FILTER = [
     value: 'all'
   }
 ]
+
+

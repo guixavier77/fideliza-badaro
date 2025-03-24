@@ -18,7 +18,7 @@ const Home = () => {
   const { tabSelected } = useTab()
   console.log(tabSelected)
   return (
-    <div className="bg-black flex flex-col h-screen relative">
+    <div className="bg-black flex flex-col h-screen relative ">
       <HeaderHome />
 
       <div className="bg-light flex-1 pt-2 px-6 sm:pt-4 rounded-t-40 overflow-auto pb-safe">

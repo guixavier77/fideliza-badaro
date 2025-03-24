@@ -7,5 +7,8 @@ export default interface WalletCustomer {
   promotionName: string;
   storeName: string
   active: boolean
+  canRescue?: boolean
+  promotionId: number;
+  requestAward: boolean
 
 }

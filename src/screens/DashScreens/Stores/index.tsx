@@ -8,6 +8,8 @@ import CardStore from '@/components/DashComponents/cards/cardStore'
 import ModalStores from '@/components/DashComponents/modals/ModalStores'
 import api from '@/services/api'
 import FilterDash from '@/components/DashComponents/filterDash'
+import TopDash from '@/components/DashComponents/topDash'
+import StoreOutlined from '@mui/icons-material/StoreOutlined'
 
 const TABS = [
   {
@@ -62,6 +64,11 @@ const StoresContent = ({ hidden }: any) => {
   }, [])
   return (
     <div hidden={hidden} className="w-full relative">
+      <TopDash
+        title="Lojas"
+        description="Gerencie as lojas cadastradas no sistema."
+        icon={StoreOutlined}
+      />
       <FilterDash
         onPressItem={onPressItem}
         handleOpenModal={handleOpenUsers}

@@ -10,7 +10,8 @@ import { colors } from '@/utils/colors/colors'
 import Add from '@mui/icons-material/Add'
 import { CircularProgress } from '@mui/material'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
+import TopDash from '@/components/DashComponents/topDash'
 const TABS = [
   {
     name: 'Ativos',
@@ -69,6 +70,12 @@ const UsersContent = ({ hidden }: any) => {
   }, [])
   return (
     <div hidden={hidden} className="w-full relative">
+      <TopDash
+        title="Usuários"
+        description="Gerencie os usuários cadastrados no sistema."
+        icon={PersonOutlineOutlinedIcon}
+      />
+
       <FilterDash
         onPressItem={onPressItem}
         handleOpenModal={handleOpenUsers}

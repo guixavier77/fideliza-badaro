@@ -81,7 +81,7 @@ const BottomNavigation = () => {
     [user],
   )
   return (
-    <div className="fixed bottom-0 w-full bg-white z-20 shadow-lg">
+    <div className="fixed bottom-0 w-full bg-white z-20 shadow-lg ">
       <div className="flex justify-between px-4 py-2 items-center">
         {renderTabs.map((tab, index) => (
           <button
